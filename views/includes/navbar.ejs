@@ -1,0 +1,80 @@
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+
+    <!-- Icon + HospitalCare + Menu Links -->
+    <a class="navbar-brand d-flex align-items-center gap-2 me-4" href="/">
+      <i class="fa-solid fa-hand-holding-heart brand-icon"></i>
+      <span class="hospitalcare-title">HospitalCare</span>
+    </a>
+
+    <!-- Nav Links beside HospitalCare (visible on md and above) -->
+    <ul class="navbar-nav d-none d-md-flex flex-row gap-3 align-items-center">
+      <li class="nav-item"><a class="nav-link" href="/listings">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="/listings">Book a Room</a></li>
+      <li class="nav-item"><a class="nav-link" href="/buy">Buy Medicines</a></li>
+      <li class="nav-item"><a class="nav-link" href="/listings/new">Add Your Room</a></li>
+      <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+      <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+    </ul>
+
+    <!-- Toggler for small screens -->
+    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible Nav for mobile view + Auth Buttons (mobile & desktop) -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+
+        <!-- Mobile version of the menu (d-md-none) -->
+        <li class="nav-item d-md-none"><a class="nav-link" href="/listings">Home</a></li>
+        <li class="nav-item d-md-none"><a class="nav-link" href="/listings">Book a Room</a></li>
+        <li class="nav-item d-md-none"><a class="nav-link" href="/listings/new">Add Your Room</a></li>
+        <li class="nav-item d-md-none"><a class="nav-link" href="/buy">Buy Medicines</a></li>
+        <li class="nav-item d-md-none"><a class="nav-link" href="/about">About Us</a></li>
+        <li class="nav-item d-md-none"><a class="nav-link" href="/contact">Contact</a></li>
+
+        <!-- Auth Links -->
+        <% if (!currentUser) { %>
+          <li class="nav-item"><a class="nav-link" href="/signup">SignUp</a></li>
+          <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+        <% } else { %>
+          <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+        <% } %>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- 💄 CSS Styles -->
+<style>
+  .brand-icon {
+    font-size: 2rem;
+    color: #a00000; /* Dark red */
+  }
+
+  .hospitalcare-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(270deg, red, magenta, blue, cyan, lime, yellow, orange, red);
+    background-size: 1000% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-flow 5s linear infinite;
+    white-space: nowrap;
+  }
+
+  @keyframes rainbow-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  @media (max-width: 768px) {
+    .hospitalcare-title {
+      font-size: 1.4rem;
+    }
+  }
+</style>

@@ -1,0 +1,46 @@
+<% layout('layouts/boilerplate') -%> 
+
+<div class="row mt-4">
+    <h1 class="col-6 offset-3 text-center text-success mb-4">Login into HospitalCare</h1>
+    <div class="col-6 offset-3">
+        <form action="/login" method="POST" class="needs-validation border p-4 rounded shadow bg-light" novalidate>
+            <!-- Username -->
+            <div class="mb-3">
+                <label for="username" class="form-label fw-bold">Username</label>
+                <input name="username" id="username" type="text" class="form-control" required>
+               
+            </div>
+
+           
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label fw-bold">Password</label>
+                <input name="password" id="password" type="password" class="form-control" required minlength="6">
+                
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-success w-100">Login</button>
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap client-side validation script -->
+<script>
+    // Enable Bootstrap validation style on form submission
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+
+        Array.from(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>

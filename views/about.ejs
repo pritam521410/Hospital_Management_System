@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - Hospital Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Custom Styles */
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+  color: black;
+  font-size: 36px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+
+    .subheading {
+      color: black;
+      font-weight: bold;
+      font-size: 24px;
+      margin-top: 10px;
+    }
+
+    /* Profile Image Section */
+    .profile-img-container {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .profile-img {
+      border-radius: 50%;
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border: 6px solid #0d6efd;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+    .profile-img:hover {
+      transform: scale(1.1);
+    }
+
+    /* Technologies & Features Section */
+    .technologies, .features {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+
+    .technologies h3, .features h3 {
+      color: #0d6efd;
+      font-weight: bold;
+      font-size: 1.8rem;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin: 10px 0;
+      font-size: 1.2rem;
+    }
+
+    li a {
+      color: #0d6efd;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    li a:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+
+    /* Colored and Styled Text */
+    .highlight {
+      font-weight: bold;
+      color: #0d6efd;
+    }
+
+    .italic {
+      font-style: italic;
+      color: #6c757d;
+    }
+
+    .features ul {
+      font-size: 1.1rem;
+      color: #495057;
+    }
+
+    /* Responsive Styling */
+    @media (max-width: 768px) {
+      .row {
+        flex-direction: column;
+        align-items: center;
+      }
+      .column {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header text-center">
+      <h1>About Our Hospital Management System</h1>
+
+    <div class="row">
+      <!-- Profile Image Section -->
+      <div class="col-lg-4 col-md-6 text-center">
+        <div class="profile-img-container">
+          <!-- Profile image can be added here if needed -->
+        </div>
+        <h4 class="highlight">Pritam Kumar</h4>
+        <h5 class="italic">B.Tech CSE | Full Stack Developer</h5>
+      </div>
+
+      <!-- Info Section -->
+      <div class="col-lg-8 col-md-6">
+        <p>
+          <span class="highlight">Welcome</span> to our Hospital Management System! This project is designed to digitize hospital operations like managing <span class="highlight">Book Your Room</span>, <span class="highlight">Add your Room</span>, <span class="highlight">Buy Medicines</span>. It integrates various modern technologies to create an efficient and user-friendly healthcare management system.
+        </p>
+        <p>
+          I, <span class="highlight">Pritam Kumar</span>, developed this project as part of my web development journey using technologies like <span class="highlight">Node.js</span>, <span class="highlight">Express</span>, <span class="highlight">MongoDB</span>, and <span class="highlight">EJS</span>. The goal is to provide an accessible, secure, and intuitive solution for managing hospital operations.
+        </p>
+        <p>
+          This system is designed to streamline operations, improve patient care, and help hospital staff manage resources more effectively.
+        </p>
+      </div>
+    </div>
+
+    <!-- Technologies Used -->
+    <div class="technologies">
+      <h3>Technologies & Packages Used</h3>
+      <ul>
+        <li><span class="highlight">MongoDB</span></li>
+        <li><span class="highlight">Express.js</span></li>
+        <li><span class="highlight">Node.js</span></li>
+        <li><span class="highlight">Passport.js</span> for Authentication</li>
+        <li><span class="highlight">Cloudinary</span> for Image Storage</li>
+        <li><span class="highlight">Connect Flash</span> for Flash Messages</li>
+        <li><span class="highlight">Connect Mongo</span> for Session Storage</li>
+        <li><span class="highlight">Cookie Parser</span> for Parsing Cookies</li>
+        <li><span class="highlight">Dotenv</span> for Environment Variables</li>
+        <li><span class="highlight">EJS</span> for Template Rendering</li>
+        <li><span class="highlight">Express Session</span> for Session Handling</li>
+        <li><span class="highlight">Joi</span> for Data Validation</li>
+        <li><span class="highlight">Mongoose</span> for MongoDB Object Modeling</li>
+        <li><span class="highlight">Multer</span> for File Uploads</li>
+        <li><span class="highlight">Passport Local</span> for Local Authentication</li>
+        <li><span class="highlight">Passport Local Mongoose</span> for Mongoose-Specific Authentication</li>
+      </ul>
+    </div>
+
+    <!-- Key Features -->
+    <div class="features">
+      <h3>🌟 Key Features</h3>
+      <ul>
+        <li><span class="highlight">User Authentication</span>: Login, Logout, and User Profile Section</li>
+        <li><span class="highlight">CRUD Operations</span>: Add, Edit, and Delete Listings</li>
+        <li><span class="highlight">Review System</span>: Add and Delete Reviews</li>
+        <li><span class="highlight">Account Management</span>: Update User Account and Password</li>
+        <li><span class="highlight">User Data Security</span>: Password Hashing and Encryption</li>
+      </ul>
+    </div>
+
+    <!-- Connect with me -->
+    <div class="text-center mt-4">
+      <p class="italic">Connect with me on:</p>
+      <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://github.com/pritam521410" target="_blank">GitHub</a></li>
+        <li class="list-inline-item"><a href="https://www.linkedin.com/in/pritam52/" target="_blank">LinkedIn</a></li>
+        <li class="list-inline-item"><a href="https://www.instagram.com/___pritamkr__/" target="_blank">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+ body {
+    background-color: "plus jakarta sans", sans-serif;
+    
+} 
+
+.navbar{
+    height: 5 rem;
+    background-color:white;
+}
+
+.fa-solid.fa-hand-holding-heart {
+    color: red;
+    font-size: 40px;        /* optional: thoda bada karne ke liye */
+    transition: 0.3s ease;  /* smooth hover ke liye */
+}
+
+.fa-solid.fa-hand-holding-heart:hover {
+    color: darkred;
+    transform: scale(1.1);
+}
+
+.nav-link {
+    color: #000000 !important; /* pure black */
+}
+
+.card-img-top{
+    border-radius:1 rem !important;
+    width:100% !important;
+    object-fit:cover !important;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+.card-text p{
+    font-weight:400;
+}
+
+
+    .listing-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .listing-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
