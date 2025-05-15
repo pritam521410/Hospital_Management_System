@@ -94,17 +94,21 @@
     <% if (listing.roomTypes.length === 0) { %>
       <p class="text-muted">No room types listed.</p>
     <% } %>
-    <% listing.roomTypes.forEach(room => { %>
-      <div class="card mb-3 room-card p-3">
-        <h5><%= room.type %></h5>
-        <p><span class="detail-label">Price per Day:</span> ₹<%= room.pricePerDay %></p>
-        <p><span class="detail-label">Available:</span> <%= room.isAvailable ? "Yes" : "No" %></p>
-        <p><span class="detail-label">Facilities:</span> <%= room.facilities.join(", ") %></p>
-        <p><span class="detail-label">Bed Count:</span> <%= room.bedCount %></p>
-      </div>
-    <% }) %>
+    <div class="row">
+      <% listing.roomTypes.forEach(room => { %>
+        <div class="col-12 col-md-6 mb-3">
+          <div class="card room-card p-3 h-100">
+            <h5><%= room.type %></h5>
+            <p><span class="detail-label">Price per Day:</span> ₹<%= room.pricePerDay %></p>
+            <p><span class="detail-label">Available:</span> <%= room.isAvailable ? "Yes" : "No" %></p>
+            <p><span class="detail-label">Facilities:</span> <%= room.facilities.join(", ") %></p>
+            <p><span class="detail-label">Bed Count:</span> <%= room.bedCount %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
 
-    <div class="d-flex justify-content-between mt-4 gap-3">
+    <div class="d-flex flex-column flex-md-row justify-content-between mt-4 gap-3">
       <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary flex-fill">Edit this Listing</a>
       <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" onsubmit="return confirm('Are you sure you want to delete this listing?');" class="flex-fill">
         <button type="submit" class="btn btn-danger w-100">Delete This Listing</button>
@@ -151,29 +155,31 @@
     <% if (listing.reviews.length === 0) { %>
       <p class="text-muted">No reviews yet. Be the first to review!</p>
     <% } else { %>
-      <div class="list-group">
+      <div class="row">
         <% listing.reviews.forEach(review => { %>
-          <div class="list-group-item list-group-item-action flex-column align-items-start mb-2 shadow-sm rounded">
-            <div class="d-flex w-100 justify-content-between align-items-center">
-              <div class="d-flex align-items-center mb-2">
-                <img src="<%= review.author.profileImage || 'https://cdn-icons-png.flaticon.com/512/149/149071.png' %>" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                <h5 class="card-title fw-bold text-dark mb-0"><%= review.author.username %></h5>
-              </div>
-              <div class="d-flex align-items-center mb-2">
-                <% for (let i = 1; i <= 5; i++) { %>
-                  <% if (i <= review.rating) { %>
-                    <i class="fas fa-star text-warning"></i>
-                  <% } else { %>
-                    <i class="far fa-star text-secondary"></i>
+          <div class="col-12 col-md-6 mb-3">
+            <div class="list-group-item list-group-item-action flex-column align-items-start shadow-sm rounded h-100">
+              <div class="d-flex w-100 justify-content-between align-items-center">
+                <div class="d-flex align-items-center mb-2">
+                  <img src="<%= review.author.profileImage || 'https://cdn-icons-png.flaticon.com/512/149/149071.png' %>" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                  <h5 class="card-title fw-bold text-dark mb-0"><%= review.author.username %></h5>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                  <% for (let i = 1; i <= 5; i++) { %>
+                    <% if (i <= review.rating) { %>
+                      <i class="fas fa-star text-warning"></i>
+                    <% } else { %>
+                      <i class="far fa-star text-secondary"></i>
+                    <% } %>
                   <% } %>
-                <% } %>
-                <span class="ms-2 fw-semibold text-muted">(<%= review.rating %>/5)</span>
+                  <span class="ms-2 fw-semibold text-muted">(<%= review.rating %>/5)</span>
+                </div>
+                <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" onsubmit="return confirm('Delete this review?');">
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
               </div>
-              <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" onsubmit="return confirm('Delete this review?');">
-                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-              </form>
+              <p class="mb-1"><%= review.comment %></p>
             </div>
-            <p class="mb-1"><%= review.comment %></p>
           </div>
         <% }) %>
       </div>
