@@ -99,11 +99,10 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user;  // Current user ko view me pass karte hain
   next();
 });
-
-// // Root route ko 
-// app.get("/", (req, res) => {
-//   res.redirect("/listings");  // Root page pe /listings ko redirect karte hain
-// });
+ 
+ app.get("/", (req, res) => {
+   res.redirect("/listings");  // Root page pe /listings ko redirect karte hain
+ });
 
 // Review validation middleware - agar review galat hai to error throw hoga
 const validateReview = (req, res, next) => {
