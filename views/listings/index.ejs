@@ -1,40 +1,34 @@
 <%- layout('layouts/boilerplate') %>
 
 <body>
-    <div class="container">
-       
-        
-        <div class="row justify-content-center">
-            <% for(let i = 0; i < allListings.length; i++) { %>
-                <% if(i % 3 === 0 && i !== 0) { %>
-                    </div><div class="row justify-content-center mt-4">
-                <% } %>
-                
-                <div class="col-md-4 d-flex align-items-stretch mb-4">
-                    <a href="/listings/<%= allListings[i]._id %>" class="text-decoration-none text-dark w-100">
-                        <div class="card w-100 shadow-sm h-100 listing-card">
-                            <img src="<%= allListings[i].image.url %>" class="card-img-top" alt="listing_image" style="height: 16rem; object-fit: cover;">
-                            <div class="card-body">
-                                <h5 class="card-title"><%= allListings[i].name %></h5>
-                                <p class="card-text">
-                                    <strong>Location:</strong> <%= allListings[i].location %>, <%= allListings[i].city %><br>
-                                    <strong>Contact:</strong> <%= allListings[i].contactNumber %><br>
-                                    <strong>Room Types:</strong><br>
-                                    <% if (allListings[i].roomTypes && allListings[i].roomTypes.length > 0) { %>
-                                        <ul class="mb-0 ps-3">
-                                            <% allListings[i].roomTypes.forEach(room => { %>
-                                                <li><%= room.type %> - ₹<%= room.pricePerDay %>/day</li>
-                                            <% }) %>
-                                        </ul>
-                                    <% } else { %>
-                                        Not Available
-                                    <% } %>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            <% } %>
+  <div class="container mt-4">
+    <div class="row">
+      <% allListings.forEach(listing => { %>
+        <div class="col-12 col-sm-6 col-md-4 mb-4 d-flex align-items-stretch">
+          <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark w-100">
+            <div class="card w-100 shadow-sm h-100 listing-card">
+              <img src="<%= listing.image.url %>" class="card-img-top" alt="listing image" style="height: 16rem; object-fit: cover;">
+              <div class="card-body">
+                <h5 class="card-title"><%= listing.name %></h5>
+                <p class="card-text">
+                  <strong>Location:</strong> <%= listing.location %>, <%= listing.city %><br>
+                  <strong>Contact:</strong> <%= listing.contactNumber %><br>
+                  <strong>Room Types:</strong><br>
+                  <% if (listing.roomTypes && listing.roomTypes.length > 0) { %>
+                    <ul class="mb-0 ps-3">
+                      <% listing.roomTypes.forEach(room => { %>
+                        <li><%= room.type %> - ₹<%= room.pricePerDay %>/day</li>
+                      <% }) %>
+                    </ul>
+                  <% } else { %>
+                    Not Available
+                  <% } %>
+                </p>
+              </div>
+            </div>
+          </a>
         </div>
+      <% }) %>
     </div>
+  </div>
 </body>
