@@ -1,0 +1,402 @@
+<%- layout('layouts/boilerplate') %>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+
+  .booking-container {
+    max-width: 900px;
+    margin: 40px auto;
+  }
+
+  .booking-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px;
+    border-radius: 20px 20px 0 0;
+    color: white;
+    text-align: center;
+  }
+
+  .booking-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .booking-card {
+    background: white;
+    border-radius: 0 0 20px 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  }
+
+  .hospital-info-summary {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    border: 2px solid #667eea30;
+  }
+
+  .hospital-info-summary h3 {
+    color: #667eea;
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: #4a5568;
+  }
+
+  .info-item i {
+    color: #667eea;
+    width: 25px;
+  }
+
+  .form-section {
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title i {
+    color: #667eea;
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 8px;
+  }
+
+  .form-control, .form-select {
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  .price-summary {
+    background: linear-gradient(135deg, #43e97b15 0%, #38f9d715 100%);
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 30px;
+    border: 2px solid #43e97b30;
+  }
+
+  .price-summary h4 {
+    color: #2d3748;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 1rem;
+  }
+
+  .price-row.total {
+    border-top: 2px solid #43e97b50;
+    padding-top: 15px;
+    margin-top: 15px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(67, 233, 123, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .booking-header h1 {
+      font-size: 2rem;
+    }
+
+    .booking-card {
+      padding: 25px;
+    }
+  }
+</style>
+
+<body>
+  <div class="booking-container">
+    <div class="booking-header">
+      <h1>
+        <i class="fas fa-calendar-check me-3"></i>
+        Book Your Room
+      </h1>
+      <p class="mb-0">Complete the form below to confirm your booking</p>
+    </div>
+
+    <div class="booking-card">
+      <!-- Hospital Info Summary -->
+      <div class="hospital-info-summary">
+        <h3>
+          <i class="fas fa-hospital me-2"></i>
+          <%= listing.name %>
+        </h3>
+        <div class="info-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span><%= listing.location %>, <%= listing.city %></span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-bed"></i>
+          <span>Room Type: <strong><%= roomType %></strong></span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-rupee-sign"></i>
+          <span>Price: <strong>₹<%= price %>/day</strong></span>
+        </div>
+      </div>
+
+      <!-- Booking Form -->
+      <form action="/bookings" method="POST" class="needs-validation" novalidate id="bookingForm">
+        <!-- Hidden Fields -->
+        <input type="hidden" name="booking[hospital]" value="<%= listing._id %>">
+        <input type="hidden" name="booking[roomType]" value="<%= roomType %>">
+        <input type="hidden" name="booking[pricePerDay]" value="<%= price %>">
+
+        <!-- Check-in/Check-out Dates -->
+        <div class="form-section">
+          <h4 class="section-title">
+            <i class="fas fa-calendar-alt"></i>
+            Stay Duration
+          </h4>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="checkInDate" class="form-label">Check-in Date *</label>
+              <input
+                type="date"
+                class="form-control"
+                id="checkInDate"
+                name="booking[checkInDate]"
+                required
+                min="<%= new Date().toISOString().split('T')[0] %>"
+                onchange="calculateDays()"
+              >
+              <div class="invalid-feedback">Please select check-in date</div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="checkOutDate" class="form-label">Check-out Date *</label>
+              <input
+                type="date"
+                class="form-control"
+                id="checkOutDate"
+                name="booking[checkOutDate]"
+                required
+                onchange="calculateDays()"
+              >
+              <div class="invalid-feedback">Please select check-out date</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Patient Information -->
+        <div class="form-section">
+          <h4 class="section-title">
+            <i class="fas fa-user-injured"></i>
+            Patient Information
+          </h4>
+          <div class="row">
+            <div class="col-md-8 mb-3">
+              <label for="patientName" class="form-label">Patient Name *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="patientName"
+                name="booking[patientName]"
+                required
+                placeholder="Enter patient's full name"
+              >
+              <div class="invalid-feedback">Please enter patient name</div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="patientAge" class="form-label">Age *</label>
+              <input
+                type="number"
+                class="form-control"
+                id="patientAge"
+                name="booking[patientAge]"
+                required
+                min="1"
+                max="150"
+                placeholder="Age"
+              >
+              <div class="invalid-feedback">Enter valid age</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="patientGender" class="form-label">Gender *</label>
+            <select class="form-select" id="patientGender" name="booking[patientGender]" required>
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+            <div class="invalid-feedback">Please select gender</div>
+          </div>
+          <div class="mb-3">
+            <label for="medicalCondition" class="form-label">Medical Condition (Optional)</label>
+            <textarea
+              class="form-control"
+              id="medicalCondition"
+              name="booking[medicalCondition]"
+              rows="3"
+              placeholder="Describe the medical condition or reason for admission..."
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="form-section">
+          <h4 class="section-title">
+            <i class="fas fa-phone"></i>
+            Contact Information
+          </h4>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="contactNumber" class="form-label">Contact Number *</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="contactNumber"
+                name="booking[contactNumber]"
+                required
+                pattern="[0-9]{10}"
+                placeholder="10-digit mobile number"
+              >
+              <div class="invalid-feedback">Enter valid 10-digit number</div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="emergencyContact" class="form-label">Emergency Contact *</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="emergencyContact"
+                name="booking[emergencyContact]"
+                required
+                pattern="[0-9]{10}"
+                placeholder="10-digit mobile number"
+              >
+              <div class="invalid-feedback">Enter valid 10-digit number</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Price Summary -->
+        <div class="price-summary">
+          <h4>
+            <i class="fas fa-receipt me-2"></i>
+            Booking Summary
+          </h4>
+          <div class="price-row">
+            <span>Price per day:</span>
+            <span>₹<%= price %></span>
+          </div>
+          <div class="price-row">
+            <span>Number of days:</span>
+            <span id="numberOfDays">1</span>
+          </div>
+          <div class="price-row total">
+            <span>Total Amount:</span>
+            <span id="totalAmount">₹<%= price %></span>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-arrow-right me-2"></i>
+          Proceed to Payment
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const pricePerDay = <%= price %>;
+
+    function calculateDays() {
+      const checkIn = document.getElementById('checkInDate').value;
+      const checkOut = document.getElementById('checkOutDate').value;
+
+      if (checkIn && checkOut) {
+        const date1 = new Date(checkIn);
+        const date2 = new Date(checkOut);
+        
+        const diffTime = Math.abs(date2 - date1);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays > 0) {
+          document.getElementById('numberOfDays').textContent = diffDays;
+          document.getElementById('totalAmount').textContent = '₹' + (diffDays * pricePerDay);
+        } else {
+          document.getElementById('numberOfDays').textContent = '1';
+          document.getElementById('totalAmount').textContent = '₹' + pricePerDay;
+        }
+      }
+    }
+
+    // Set minimum checkout date based on checkin
+    document.getElementById('checkInDate').addEventListener('change', function() {
+      const checkInDate = this.value;
+      const checkOutInput = document.getElementById('checkOutDate');
+      checkOutInput.min = checkInDate;
+      
+      // If checkout is before checkin, reset it
+      if (checkOutInput.value && checkOutInput.value <= checkInDate) {
+        checkOutInput.value = '';
+      }
+    });
+
+    // Form validation
+    (function () {
+      'use strict';
+      const forms = document.querySelectorAll('.needs-validation');
+      Array.from(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();
+  </script>
+</body>
+

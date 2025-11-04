@@ -1,80 +1,1220 @@
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+<nav class="modern-navbar sticky-top">
   <div class="container-fluid">
+    <div class="navbar-content">
+      <!-- Brand Section -->
+      <a class="brand-section" href="/listings">
+        <div class="brand-icon-wrapper">
+          <i class="fa-solid fa-hand-holding-heart brand-icon"></i>
+          <div class="heartbeat-pulse"></div>
+          <div class="verified-badge">
+            <i class="fas fa-check"></i>
+          </div>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title-wrapper">
+            <span class="hospitalcare-title">HospitalCare</span>
+            <span class="trust-badge">
+              <i class="fas fa-shield-alt"></i>
+              Trusted
+            </span>
+          </div>
+          <span class="brand-tagline">Your Health, Our Priority</span>
+        </div>
+      </a>
 
-    <!-- Icon + HospitalCare + Menu Links -->
-    <a class="navbar-brand d-flex align-items-center gap-2 me-4" href="/">
-      <i class="fa-solid fa-hand-holding-heart brand-icon"></i>
-      <span class="hospitalcare-title">HospitalCare</span>
-    </a>
-
-    <!-- Nav Links beside HospitalCare (visible on md and above) -->
-    <ul class="navbar-nav d-none d-md-flex flex-row gap-3 align-items-center">
-      <li class="nav-item"><a class="nav-link" href="/listings">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="/listings">Book a Room</a></li>
-      <li class="nav-item"><a class="nav-link" href="/buy">Buy Medicines</a></li>
-      <li class="nav-item"><a class="nav-link" href="/listings/new">Add Your Room</a></li>
-      <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
-      <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-    </ul>
-
-    <!-- Toggler for small screens -->
-    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- Collapsible Nav for mobile view + Auth Buttons (mobile & desktop) -->
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-
-        <!-- Mobile version of the menu (d-md-none) -->
-        <li class="nav-item d-md-none"><a class="nav-link" href="/listings">Home</a></li>
-        <li class="nav-item d-md-none"><a class="nav-link" href="/listings">Book a Room</a></li>
-        <li class="nav-item d-md-none"><a class="nav-link" href="/listings/new">Add Your Room</a></li>
-        <li class="nav-item d-md-none"><a class="nav-link" href="/buy">Buy Medicines</a></li>
-        <li class="nav-item d-md-none"><a class="nav-link" href="/about">About Us</a></li>
-        <li class="nav-item d-md-none"><a class="nav-link" href="/contact">Contact</a></li>
-
-        <!-- Auth Links -->
-        <% if (!currentUser) { %>
-          <li class="nav-item"><a class="nav-link" href="/signup">SignUp</a></li>
-          <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-        <% } else { %>
-          <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-        <% } %>
-
+      <!-- Desktop Navigation -->
+      <ul class="nav-links desktop-nav">
+        <li class="nav-item">
+          <a
+            class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>"
+            href="/listings"
+          >
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'book' ? 'active' : '' %>"
+            href="/rooms"
+          >
+            <i class="fas fa-bed"></i>
+            <span>Rooms</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'medicines' ? 'active' : '' %>"
+            href="/buy"
+          >
+            <i class="fas fa-pills"></i>
+            <span>Medicines</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'add' ? 'active' : '' %>"
+            href="/listings/new"
+          >
+            <i class="fas fa-plus-circle"></i>
+            <span>Add</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'about' ? 'active' : '' %>"
+            href="/about"
+          >
+            <i class="fas fa-info-circle"></i>
+            <span>About</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'contact' ? 'active' : '' %>"
+            href="/contact"
+          >
+            <i class="fas fa-phone"></i>
+            <span>Contact</span>
+          </a>
+        </li>
       </ul>
+
+      <!-- Auth Buttons -->
+      <div class="auth-section desktop-auth">
+        <!-- Cart Icon -->
+        <a href="/cart" class="cart-icon-link">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-badge" id="cartCount">0</span>
+        </a>
+
+        <% if (!currentUser) { %>
+        <a href="/signup" class="auth-btn signup-btn">
+          <i class="fas fa-user-plus me-2"></i>Sign Up
+        </a>
+        <a href="/login" class="auth-btn login-btn">
+          <i class="fas fa-sign-in-alt me-2"></i>Login
+        </a>
+        <% } else { %>
+        <div class="user-profile-dropdown">
+          <button class="profile-btn" onclick="toggleDropdown()">
+            <div class="profile-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <span class="username"><%= currentUser.username %></span>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+          </button>
+          <div class="profile-dropdown-menu" id="profileDropdown">
+            <a href="/my-bookings" class="dropdown-item">
+              <i class="fas fa-calendar-check"></i>
+              My Bookings
+            </a>
+            <a href="/profile" class="dropdown-item profile-item">
+              <i class="fas fa-user-circle"></i>
+              My Profile
+            </a>
+            <a href="/settings" class="dropdown-item">
+              <i class="fas fa-cog"></i>
+              Settings
+            </a>
+            <hr class="dropdown-divider" />
+            <a href="/logout" class="dropdown-item logout-item">
+              <i class="fas fa-sign-out-alt"></i>
+              Logout
+            </a>
+          </div>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button
+        class="mobile-menu-toggle"
+        onclick="toggleMobileMenu()"
+        aria-label="Toggle Menu"
+      >
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-content">
+        <ul class="mobile-nav-links">
+          <li>
+            <a href="/listings" class="mobile-nav-link"
+              ><i class="fas fa-home"></i>Home</a
+            >
+          </li>
+          <li>
+            <a href="/rooms" class="mobile-nav-link"
+              ><i class="fas fa-bed"></i>Rooms</a
+            >
+          </li>
+          <li>
+            <a href="/buy" class="mobile-nav-link"
+              ><i class="fas fa-pills"></i>Medicines</a
+            >
+          </li>
+          <li>
+            <a href="/cart" class="mobile-nav-link" style="position: relative">
+              <i class="fas fa-shopping-cart"></i>
+              Cart
+              <span class="mobile-cart-badge" id="mobileCartCount">0</span>
+            </a>
+          </li>
+          <% if (currentUser) { %>
+          <li>
+            <a href="/my-bookings" class="mobile-nav-link"
+              ><i class="fas fa-calendar-check"></i>My Bookings</a
+            >
+          </li>
+          <% } %>
+          <li>
+            <a href="/listings/new" class="mobile-nav-link"
+              ><i class="fas fa-plus-circle"></i>Add</a
+            >
+          </li>
+          <li>
+            <a href="/about" class="mobile-nav-link"
+              ><i class="fas fa-info-circle"></i>About</a
+            >
+          </li>
+          <li>
+            <a href="/contact" class="mobile-nav-link"
+              ><i class="fas fa-phone"></i>Contact</a
+            >
+          </li>
+        </ul>
+        <div class="mobile-auth">
+          <% if (!currentUser) { %>
+          <a href="/signup" class="mobile-auth-btn signup">
+            <i class="fas fa-user-plus me-2"></i>Sign Up
+          </a>
+          <a href="/login" class="mobile-auth-btn login">
+            <i class="fas fa-sign-in-alt me-2"></i>Login
+          </a>
+          <% } else { %>
+          <div class="mobile-user-info">
+            <div class="mobile-user-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <span class="mobile-username"><%= currentUser.username %></span>
+          </div>
+          <a href="/logout" class="mobile-auth-btn logout">
+            <i class="fas fa-sign-out-alt me-2"></i>Logout
+          </a>
+          <% } %>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
 
-<!-- 💄 CSS Styles -->
 <style>
+  /* Modern Navbar Styles */
+  .modern-navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 4px 24px rgba(102, 126, 234, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 15px 0;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 1px solid rgba(102, 126, 234, 0.08);
+    position: relative;
+  }
+
+  .modern-navbar::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(102, 126, 234, 0.4) 25%,
+      rgba(118, 75, 162, 0.4) 50%,
+      rgba(240, 147, 251, 0.4) 75%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .modern-navbar.scrolled {
+    padding: 10px 0;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 6px 32px rgba(102, 126, 234, 0.12),
+      0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  .modern-navbar.scrolled::after {
+    opacity: 1;
+  }
+
+  .navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  /* Brand Section */
+  .brand-section {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 8px 20px 8px 8px;
+    border-radius: 50px;
+    position: relative;
+    overflow: visible;
+  }
+
+  .brand-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(102, 126, 234, 0.05) 0%,
+      rgba(118, 75, 162, 0.05) 100%
+    );
+    border-radius: 50px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 0;
+  }
+
+  .brand-section:hover::before {
+    opacity: 1;
+  }
+
+  .brand-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+  }
+
+  .brand-icon-wrapper {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.15);
+    transition: all 0.4s ease;
+    z-index: 1;
+  }
+
+  .brand-section:hover .brand-icon-wrapper {
+    transform: rotate(10deg) scale(1.1);
+    box-shadow: 0 8px 30px rgba(220, 53, 69, 0.3);
+  }
+
+  .verified-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(67, 233, 123, 0.4);
+    z-index: 3;
+    animation: verifiedPop 2s ease-in-out infinite;
+  }
+
+  .verified-badge i {
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+
+  @keyframes verifiedPop {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .brand-section:hover .verified-badge {
+    animation: verifiedPop 0.6s ease-in-out infinite, rotateBadge 1s ease-in-out;
+  }
+
+  @keyframes rotateBadge {
+    0%,
+    100% {
+      transform: rotate(0deg) scale(1);
+    }
+    50% {
+      transform: rotate(360deg) scale(1.15);
+    }
+  }
+
   .brand-icon {
     font-size: 2rem;
-    color: #a00000; /* Dark red */
+    color: #dc3545;
+    position: relative;
+    z-index: 2;
+    animation: heartbeat 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 2px 4px rgba(220, 53, 69, 0.3));
+  }
+
+  @keyframes heartbeat {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    10%,
+    30% {
+      transform: scale(1.15);
+    }
+    20%,
+    40% {
+      transform: scale(1);
+    }
+  }
+
+  .heartbeat-pulse {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(220, 53, 69, 0.4) 0%,
+      transparent 70%
+    );
+    animation: pulse 2s ease-out infinite;
+    z-index: 0;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.7);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .brand-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   .hospitalcare-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(270deg, red, magenta, blue, cyan, lime, yellow, orange, red);
-    background-size: 1000% 100%;
+    font-size: 1.9rem;
+    font-weight: 800;
+    background: linear-gradient(
+      135deg,
+      #667eea 0%,
+      #764ba2 40%,
+      #f093fb 70%,
+      #fc6767 100%
+    );
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: rainbow-flow 5s linear infinite;
+    background-clip: text;
+    letter-spacing: -0.8px;
+    animation: shimmer 3s ease-in-out infinite;
+    text-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
+  }
+
+  @keyframes shimmer {
+    0%,
+    100% {
+      background-position: 0% center;
+    }
+    50% {
+      background-position: 100% center;
+    }
+  }
+
+  .trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    animation: trustGlow 2s ease-in-out infinite;
+  }
+
+  .trust-badge i {
+    font-size: 0.7rem;
+  }
+
+  @keyframes trustGlow {
+    0%,
+    100% {
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+      box-shadow: 0 2px 15px rgba(102, 126, 234, 0.5),
+        0 0 20px rgba(102, 126, 234, 0.2);
+    }
+  }
+
+  .brand-section:hover .trust-badge {
+    animation: trustGlow 1s ease-in-out infinite, trustBounce 0.6s ease-in-out;
+  }
+
+  @keyframes trustBounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+
+  .brand-tagline {
+    font-size: 0.72rem;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    position: relative;
+    padding-left: 12px;
+  }
+
+  .brand-tagline::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+  }
+
+  /* Hover effect for brand icon sparkle */
+  .brand-section:hover .brand-icon {
+    animation: heartbeat 0.8s ease-in-out infinite, sparkle 1.5s ease-in-out;
+  }
+
+  @keyframes sparkle {
+    0%,
+    100% {
+      filter: drop-shadow(0 2px 4px rgba(220, 53, 69, 0.3));
+    }
+    50% {
+      filter: drop-shadow(0 0 15px rgba(220, 53, 69, 0.8))
+        drop-shadow(0 0 30px rgba(220, 53, 69, 0.5));
+    }
+  }
+
+  /* Desktop Navigation */
+  .desktop-nav {
+    display: flex;
+    list-style: none;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    color: #4a5568;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    position: relative;
     white-space: nowrap;
   }
 
-  @keyframes rainbow-flow {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
+  .nav-link i {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
   }
 
-  @media (max-width: 768px) {
+  .nav-link:hover {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    color: #667eea;
+    transform: translateY(-2px);
+  }
+
+  .nav-link:hover i {
+    transform: scale(1.1);
+  }
+
+  .nav-link.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+
+  .nav-link.active i {
+    animation: bounce 0.6s ease;
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  /* Cart Icon */
+  .cart-icon-link {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid #667eea30;
+  }
+
+  .cart-icon-link i {
+    color: #667eea;
+    font-size: 1.3rem;
+  }
+
+  .cart-icon-link:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+  }
+
+  .cart-icon-link:hover i {
+    color: white;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    animation: cartBounce 0.5s ease;
+  }
+
+  @keyframes cartBounce {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.3);
+    }
+  }
+
+  /* Auth Section */
+  .auth-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .auth-btn {
+    padding: 10px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+  }
+
+  .signup-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+
+  .signup-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+    color: white;
+  }
+
+  .login-btn {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+  }
+
+  .login-btn:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* User Profile Dropdown */
+  .user-profile-dropdown {
+    position: relative;
+  }
+
+  .profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border: 1.5px solid #667eea30;
+    border-radius: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #667eea;
+  }
+
+  .profile-btn:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+
+  .profile-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 11px;
+  }
+
+  .dropdown-icon {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+  }
+
+  .profile-btn:hover .dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  .profile-btn:hover .profile-avatar {
+    background: white;
+    color: #667eea;
+  }
+
+  .profile-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    min-width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 10000;
+  }
+
+  .profile-dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #2d3748;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .dropdown-item:hover {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    color: #667eea;
+    transform: translateX(5px);
+  }
+
+  .dropdown-item i {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+  }
+
+  .dropdown-item:first-child {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 14px;
+    margin-bottom: 4px;
+  }
+
+  .dropdown-item:first-child:hover {
+    background: linear-gradient(135deg, #48bb7815 0%, #38a16915 100%);
+    color: #38a169;
+  }
+
+  .profile-item:hover,
+  .profile-item:active,
+  .profile-item:focus {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  }
+
+  .profile-item:hover i,
+  .profile-item:active i,
+  .profile-item:focus i {
+    color: white !important;
+  }
+
+  .dropdown-divider {
+    margin: 8px 0;
+    border: none;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .logout-item {
+    color: #dc3545;
+  }
+
+  .logout-item:hover {
+    background: #dc354515;
+    color: #dc3545;
+  }
+
+  /* Mobile Menu Toggle */
+  .mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .hamburger-line {
+    width: 25px;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+  }
+
+  .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+
+  /* Mobile Menu */
+  .mobile-menu {
+    display: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .mobile-menu.show {
+    max-height: 600px;
+    margin-top: 15px;
+  }
+
+  .mobile-menu-content {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 20px;
+    padding: 20px;
+  }
+
+  .mobile-nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    color: #4a5568;
+    text-decoration: none;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-nav-link:hover {
+    background: white;
+    color: #667eea;
+    transform: translateX(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .mobile-nav-link i {
+    width: 25px;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  .mobile-auth {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 2px solid #dee2e6;
+  }
+
+  .mobile-user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 10px;
+  }
+
+  .mobile-user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+  }
+
+  .mobile-username {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 1.1rem;
+  }
+
+  .mobile-auth-btn {
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-auth-btn.signup {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .mobile-auth-btn.login {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+  }
+
+  .mobile-auth-btn.logout {
+    background: #dc3545;
+    color: white;
+  }
+
+  .mobile-auth-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .mobile-cart-badge {
+    position: absolute;
+    top: 8px;
+    right: 15px;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .desktop-nav,
+    .desktop-auth {
+      display: none;
+    }
+
+    .mobile-menu-toggle {
+      display: flex;
+    }
+
+    .mobile-menu {
+      display: block;
+    }
+
+    .brand-section {
+      padding: 6px 15px 6px 6px;
+    }
+
+    .hospitalcare-title {
+      font-size: 1.6rem;
+    }
+
+    .brand-tagline {
+      font-size: 0.68rem;
+      letter-spacing: 0.6px;
+    }
+
+    .brand-icon-wrapper {
+      width: 50px;
+      height: 50px;
+    }
+
+    .brand-icon {
+      font-size: 1.7rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .brand-section {
+      gap: 12px;
+      padding: 5px 12px 5px 5px;
+    }
+
     .hospitalcare-title {
       font-size: 1.4rem;
+      letter-spacing: -0.5px;
+    }
+
+    .trust-badge {
+      font-size: 0.58rem;
+      padding: 2px 6px;
+      gap: 3px;
+    }
+
+    .trust-badge i {
+      font-size: 0.6rem;
+    }
+
+    .brand-tagline {
+      font-size: 0.6rem;
+      letter-spacing: 0.5px;
+      padding-left: 10px;
+    }
+
+    .brand-tagline::before {
+      width: 6px;
+    }
+
+    .brand-icon-wrapper {
+      width: 45px;
+      height: 45px;
+    }
+
+    .brand-icon {
+      font-size: 1.5rem;
+    }
+
+    .verified-badge {
+      width: 18px;
+      height: 18px;
+      border-width: 2px;
+    }
+
+    .verified-badge i {
+      font-size: 0.6rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .trust-badge {
+      display: none;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .brand-tagline {
+      display: none;
+    }
+
+    .hospitalcare-title {
+      font-size: 1.25rem;
+    }
+
+    .brand-section {
+      padding: 4px 10px 4px 4px;
+    }
+
+    .verified-badge {
+      width: 16px;
+      height: 16px;
     }
   }
 </style>
+
+<script>
+  // Toggle Mobile Menu
+  function toggleMobileMenu() {
+    const mobileMenu = document.getElementById("mobileMenu");
+    const toggleBtn = document.querySelector(".mobile-menu-toggle");
+
+    mobileMenu.classList.toggle("show");
+    toggleBtn.classList.toggle("active");
+  }
+
+  // Toggle Profile Dropdown
+  function toggleDropdown() {
+    const dropdown = document.getElementById("profileDropdown");
+    dropdown.classList.toggle("show");
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", function (event) {
+    const dropdown = document.getElementById("profileDropdown");
+    const profileBtn = document.querySelector(".profile-btn");
+
+    if (dropdown && profileBtn && !profileBtn.contains(event.target)) {
+      dropdown.classList.remove("show");
+    }
+  });
+
+  // Navbar scroll effect
+  window.addEventListener("scroll", function () {
+    const navbar = document.querySelector(".modern-navbar");
+    if (window.scrollY > 50) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+  });
+
+  // Close mobile menu when clicking on a link
+  document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+    link.addEventListener("click", function () {
+      toggleMobileMenu();
+    });
+  });
+
+  // Update cart count from localStorage
+  function updateCartCountFromStorage() {
+    const cart = JSON.parse(localStorage.getItem("medicineCart")) || [];
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    // Update desktop cart badge
+    const cartBadge = document.getElementById("cartCount");
+    if (cartBadge) {
+      cartBadge.textContent = totalItems;
+      if (totalItems > 0) {
+        cartBadge.style.display = "flex";
+      } else {
+        cartBadge.style.display = "none";
+      }
+    }
+
+    // Update mobile cart badge
+    const mobileCartBadge = document.getElementById("mobileCartCount");
+    if (mobileCartBadge) {
+      mobileCartBadge.textContent = totalItems;
+      if (totalItems > 0) {
+        mobileCartBadge.style.display = "flex";
+      } else {
+        mobileCartBadge.style.display = "none";
+      }
+    }
+  }
+
+  // Update cart count on page load
+  document.addEventListener("DOMContentLoaded", updateCartCountFromStorage);
+
+  // Listen for storage changes (when cart is updated on another page)
+  window.addEventListener("storage", function (e) {
+    if (e.key === "medicineCart") {
+      updateCartCountFromStorage();
+    }
+  });
+</script>

@@ -1,40 +1,1186 @@
 <%- layout('layouts/boilerplate') %>
 
-<body>
-    <div class="container">
-       
-        
-        <div class="row justify-content-center">
-            <% for(let i = 0; i < allListings.length; i++) { %>
-                <% if(i % 3 === 0 && i !== 0) { %>
-                    </div><div class="row justify-content-center mt-4">
-                <% } %>
-                
-                <div class="col-md-4 d-flex align-items-stretch mb-4">
-                    <a href="/listings/<%= allListings[i]._id %>" class="text-decoration-none text-dark w-100">
-                        <div class="card w-100 shadow-sm h-100 listing-card">
-                            <img src="<%= allListings[i].image.url %>" class="card-img-top" alt="listing_image" style="height: 16rem; object-fit: cover;">
-                            <div class="card-body">
-                                <h5 class="card-title"><%= allListings[i].name %></h5>
-                                <p class="card-text">
-                                    <strong>Location:</strong> <%= allListings[i].location %>, <%= allListings[i].city %><br>
-                                    <strong>Contact:</strong> <%= allListings[i].contactNumber %><br>
-                                    <strong>Room Types:</strong><br>
-                                    <% if (allListings[i].roomTypes && allListings[i].roomTypes.length > 0) { %>
-                                        <ul class="mb-0 ps-3">
-                                            <% allListings[i].roomTypes.forEach(room => { %>
-                                                <li><%= room.type %> - ₹<%= room.pricePerDay %>/day</li>
-                                            <% }) %>
-                                        </ul>
-                                    <% } else { %>
-                                        Not Available
-                                    <% } %>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            <% } %>
+<style>
+  body {
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+    min-height: 100vh;
+  }
+
+  /* Hero Section Styles */
+  .hero-section {
+    background: transparent;
+    padding: 80px 0;
+    margin-bottom: 60px;
+    border-radius: 0;
+    box-shadow: none;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+  }
+
+  .hero-section::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 200%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 70%
+    );
+    animation: pulse 15s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-title {
+    color: #2d3748;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: none;
+    animation: fadeInDown 1s ease;
+  }
+
+  .hero-subtitle {
+    color: #4a5568;
+    font-size: 1rem;
+    margin-bottom: 25px;
+    animation: fadeInUp 1s ease;
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Search Box Styles */
+  .search-container {
+    max-width: 700px;
+    margin: 0 auto;
+    animation: fadeIn 1.2s ease;
+  }
+
+  .search-box {
+    background: white;
+    border-radius: 50px;
+    padding: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+  }
+
+  .search-box input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 15px 25px;
+    font-size: 1rem;
+    border-radius: 50px;
+  }
+
+  .search-box button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 15px 35px;
+    border-radius: 50px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .search-box button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+  }
+
+  /* Stats Section */
+  .stats-section {
+    margin: 30px auto 0;
+    max-width: 650px;
+    animation: fadeIn 1.5s ease;
+  }
+
+  .stat-card {
+    background: white;
+    padding: 12px 15px;
+    border-radius: 12px;
+    color: #2d3748;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  .stat-number i {
+    font-size: 1.2rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    opacity: 0.9;
+  }
+
+  /* Section Title */
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 60px 0 40px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Enhanced Card Styles */
+  .hospital-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    border: 1px solid #f0f4ff;
+  }
+
+  .hospital-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.12);
+  }
+
+  .hospital-card .card-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 280px;
+  }
+
+  .hospital-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .hospital-card:hover img {
+    transform: scale(1.05);
+  }
+
+  .hospital-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #667eea;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+  }
+
+  .hospital-card .card-body {
+    padding: 25px !important;
+  }
+
+  .hospital-card .card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #2d3748;
+  }
+
+  .info-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #4a5568;
+  }
+
+  .info-row i {
+    width: 30px;
+    color: #667eea;
+    font-size: 1.1rem;
+  }
+
+  .room-types-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #f7fafc;
+  }
+
+  .room-type-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    color: #667eea;
+    padding: 8px 15px;
+    border-radius: 10px;
+    margin: 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 2px solid #667eea30;
+  }
+
+  .view-details-btn {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .view-details-btn:hover {
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  /* Map Section */
+  .map-section {
+    margin: 80px 0 60px 0;
+    padding: 40px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .map-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2d3748;
+  }
+
+  .map-wrapper {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .gmap_iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .fade-in {
+    animation: fadeIn 1s ease;
+  }
+
+  /* Features Section */
+  .features-section {
+    margin: 30px 0 60px 0;
+  }
+
+  .feature-card {
+    background: white;
+    border-radius: 20px;
+    padding: 35px 25px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid #f0f4ff;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+    border-color: #e0e7ff;
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 25px auto;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #667eea;
+    font-size: 2rem;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover .feature-icon {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .feature-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 15px;
+  }
+
+  .feature-card p {
+    color: #718096;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Filters Section */
+  .filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    padding: 30px 40px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .filter-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    min-width: 200px;
+  }
+
+  .filter-item:first-child {
+    flex: 0 0 auto;
+  }
+
+  .filter-item label {
+    font-weight: 600;
+    color: #2d3748;
+    white-space: nowrap;
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .filter-select {
+    padding: 16px 24px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    color: #4a5568;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    width: 100%;
+  }
+
+  .filter-select:hover {
+    border-color: #667eea;
+  }
+
+  .filter-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  .reset-filters-btn {
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+
+  .reset-filters-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  /* Testimonials Section */
+  .testimonials-section {
+    margin: 80px 0 60px 0;
+    padding: 60px 40px;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    border-radius: 30px;
+  }
+
+  .testimonials-slider {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+  }
+
+  .testimonial-card {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 1px solid #f0f4ff;
+  }
+
+  .testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    font-size: 5rem;
+    color: #e0e7ff;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.08);
+  }
+
+  .testimonial-stars {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .testimonial-stars i {
+    color: #fbbf24;
+    font-size: 1.1rem;
+  }
+
+  .testimonial-text {
+    color: #4a5568;
+    line-height: 1.8;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+    font-style: italic;
+    position: relative;
+    z-index: 2;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 2px solid #f7fafc;
+  }
+
+  .author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #667eea;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    border: 2px solid #f0f4ff;
+  }
+
+  .author-info h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2d3748;
+  }
+
+  .author-info span {
+    color: #718096;
+    font-size: 0.85rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 1.2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.9rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .stat-number {
+      font-size: 1.3rem;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+    }
+
+    .stats-section .row {
+      gap: 0.5rem;
+    }
+
+    .filters-container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .filter-item {
+      width: 100%;
+    }
+
+    .filter-item:first-child {
+      flex: 1;
+    }
+
+    .filter-select {
+      width: 100%;
+    }
+
+    .reset-filters-btn {
+      width: 100%;
+    }
+
+    .testimonials-slider {
+      grid-template-columns: 1fr;
+    }
+
+    .testimonials-section {
+      padding: 40px 20px;
+    }
+  }
+
+  /* Remove top margin from container */
+  .container.mt-4 {
+    margin-top: 0 !important;
+    background: transparent !important;
+  }
+
+  .container {
+    background: transparent !important;
+  }
+</style>
+
+<!-- Hero Section -->
+<div class="container-fluid px-0" style="margin-top: -1.5rem">
+  <div class="hero-section">
+    <div class="hero-content text-center">
+      <h1 class="hero-title">Find The Best Healthcare</h1>
+      <p class="hero-subtitle">
+        Discover top-rated hospitals and medical facilities near you
+      </p>
+
+      <div class="search-container">
+        <div class="search-box">
+          <input
+            type="text"
+            placeholder="Search hospitals, location, or specialization..."
+            id="searchInput"
+          />
+          <button onclick="searchHospitals()">
+            <i class="fas fa-search me-2"></i>Search
+          </button>
         </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="stats-section">
+        <div class="row g-2">
+          <div class="col-md-4">
+            <div class="stat-card">
+              <div class="stat-number">
+                <i class="fas fa-hospital me-2"></i>
+                <%= allListings.length %>+
+              </div>
+              <div class="stat-label">Registered Hospitals</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card">
+              <div class="stat-number">
+                <i class="fas fa-user-md me-2"></i>
+                500+
+              </div>
+              <div class="stat-label">Verified Doctors</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card">
+              <div class="stat-number">
+                <i class="fas fa-users me-2"></i>
+                10K+
+              </div>
+              <div class="stat-label">Happy Patients</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
+  </div>
+</div>
+
+<!-- Features Section -->
+<div class="container features-section">
+  <h2 class="section-title">Why Choose HospitalCare?</h2>
+  <div class="row g-4">
+    <div class="col-lg-3 col-md-6">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3>Verified Hospitals</h3>
+        <p>
+          All hospitals are thoroughly verified and certified by medical
+          authorities
+        </p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <h3>24/7 Support</h3>
+        <p>Round-the-clock customer support for all your healthcare needs</p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-tags"></i>
+        </div>
+        <h3>Best Prices</h3>
+        <p>
+          Competitive pricing with transparent billing and no hidden charges
+        </p>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>Easy Booking</h3>
+        <p>Simple and quick online booking process with instant confirmation</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+  <h2 class="section-title">
+    <i class="fas fa-building me-3"></i>
+    Available Hospitals & Medical Facilities
+  </h2>
+
+  <!-- Filters Section -->
+  <div class="filters-container">
+    <div class="filter-item">
+      <label><i class="fas fa-filter me-2"></i>Filter by:</label>
+    </div>
+    <div class="filter-item">
+      <select id="cityFilter" onchange="applyFilters()" class="filter-select">
+        <option value="">All Cities</option>
+        <option value="patna">Patna</option>
+        <option value="banka">Banka</option>
+        <option value="bhagalpur">Bhagalpur</option>
+        <option value="munger">Munger</option>
+      </select>
+    </div>
+    <div class="filter-item">
+      <select id="priceFilter" onchange="applyFilters()" class="filter-select">
+        <option value="">Price Range</option>
+        <option value="0-500">₹0 - ₹500</option>
+        <option value="500-1000">₹500 - ₹1000</option>
+        <option value="1000-2000">₹1000 - ₹2000</option>
+        <option value="2000+">₹2000+</option>
+      </select>
+    </div>
+    <div class="filter-item">
+      <select id="sortFilter" onchange="applyFilters()" class="filter-select">
+        <option value="">Sort By</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="name">Name: A to Z</option>
+      </select>
+    </div>
+    <div class="filter-item">
+      <button class="reset-filters-btn" onclick="resetFilters()">
+        <i class="fas fa-redo me-2"></i>Reset Filters
+      </button>
+    </div>
+  </div>
+
+  <div class="row g-4" id="hospitalsList">
+    <% allListings.forEach(function(listing) { %>
+    <div class="col-lg-4 col-md-6 hospital-item fade-in">
+      <a href="/listings/<%= listing._id %>" class="text-decoration-none">
+        <div class="hospital-card">
+          <div class="card-img-wrapper">
+            <img
+              src="<%= listing.image.url %>"
+              class="card-img-top"
+              alt="<%= listing.name %>"
+            />
+            <div class="hospital-badge">
+              <i class="fas fa-star me-1"></i>
+              Featured
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">
+              <i class="fas fa-hospital-symbol me-2" style="color: #667eea"></i>
+              <%= listing.name %>
+            </h5>
+
+            <div class="info-row">
+              <i class="fas fa-map-marker-alt"></i>
+              <span><%= listing.location %>, <%= listing.city %></span>
+            </div>
+
+            <div class="info-row">
+              <i class="fas fa-phone-alt"></i>
+              <span><%= listing.contactNumber %></span>
+            </div>
+
+            <% if (listing.roomTypes && listing.roomTypes.length > 0) { %>
+            <div class="room-types-section">
+              <div class="info-row mb-3">
+                <i class="fas fa-bed"></i>
+                <span style="font-weight: 600">Available Room Types</span>
+              </div>
+              <div>
+                <% listing.roomTypes.slice(0, 3).forEach(room => { %>
+                <span class="room-type-badge">
+                  <%= room.type %> - ₹<%= room.pricePerDay %>/day
+                </span>
+                <% }) %> <% if (listing.roomTypes.length > 3) { %>
+                <span class="room-type-badge">
+                  +<%= listing.roomTypes.length - 3 %> more
+                </span>
+                <% } %>
+              </div>
+            </div>
+            <% } else { %>
+            <div class="room-types-section">
+              <div class="info-row">
+                <i class="fas fa-info-circle"></i>
+                <span style="color: #a0aec0"
+                  >Room details available on request</span
+                >
+              </div>
+            </div>
+            <% } %>
+
+            <span class="view-details-btn">
+              <i class="fas fa-arrow-right me-2"></i>
+              View Details
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <% }) %>
+  </div>
+
+  <!-- Testimonials Section -->
+  <div class="testimonials-section">
+    <h2 class="section-title">What Our Patients Say</h2>
+    <div class="testimonials-slider">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <p class="testimonial-text">
+          "Excellent service and very caring staff. The room booking process was
+          seamless and the facilities were top-notch. Highly recommended!"
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="author-info">
+            <h4>Rajesh Kumar</h4>
+            <span>Patient - General Ward</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <p class="testimonial-text">
+          "The best healthcare management system I've used. Easy to navigate,
+          transparent pricing, and excellent customer support available 24/7."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="author-info">
+            <h4>Priya Sharma</h4>
+            <span>Patient - Private Room</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+        </div>
+        <p class="testimonial-text">
+          "Great platform for finding quality healthcare facilities. The online
+          booking saved me so much time and hassle. Very satisfied with the
+          service."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="author-info">
+            <h4>Amit Singh</h4>
+            <span>Patient - ICU</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map Section -->
+  <div class="map-section">
+    <h3 class="map-title">
+      <i class="fas fa-map-marked-alt me-3"></i>
+      Find Us On Map
+    </h3>
+    <div class="map-wrapper">
+      <iframe
+        class="gmap_iframe"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=punsia basti banka bihar&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+      >
+      </iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Search Functionality
+  function searchHospitals() {
+    const searchInput = document
+      .getElementById("searchInput")
+      .value.toLowerCase();
+    const hospitalItems = document.querySelectorAll(".hospital-item");
+
+    hospitalItems.forEach((item) => {
+      const text = item.textContent.toLowerCase();
+      if (text.includes(searchInput)) {
+        item.style.display = "block";
+        item.classList.add("fade-in");
+      } else {
+        item.style.display = "none";
+      }
+    });
+  }
+
+  // Enter key support for search
+  document
+    .getElementById("searchInput")
+    .addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        searchHospitals();
+      }
+    });
+
+  // Filter Functionality
+  function applyFilters() {
+    const cityFilter = document
+      .getElementById("cityFilter")
+      .value.toLowerCase();
+    const priceFilter = document.getElementById("priceFilter").value;
+    const sortFilter = document.getElementById("sortFilter").value;
+    const hospitalItems = Array.from(
+      document.querySelectorAll(".hospital-item")
+    );
+
+    // Filter by city
+    hospitalItems.forEach((item) => {
+      const text = item.textContent.toLowerCase();
+      let showItem = true;
+
+      if (cityFilter && !text.includes(cityFilter)) {
+        showItem = false;
+      }
+
+      // Filter by price (simplified - checks if price range text is in card)
+      if (priceFilter && showItem) {
+        const priceText = item.textContent;
+        if (priceFilter === "0-500") {
+          showItem = priceText.match(/₹[0-4]\d{2}/) !== null;
+        } else if (priceFilter === "500-1000") {
+          showItem = priceText.match(/₹[5-9]\d{2}/) !== null;
+        } else if (priceFilter === "1000-2000") {
+          showItem = priceText.match(/₹1\d{3}/) !== null;
+        } else if (priceFilter === "2000+") {
+          showItem = priceText.match(/₹[2-9]\d{3}/) !== null;
+        }
+      }
+
+      item.style.display = showItem ? "block" : "none";
+    });
+
+    // Sort functionality
+    if (sortFilter) {
+      const hospitalsList = document.getElementById("hospitalsList");
+      const visibleItems = hospitalItems.filter(
+        (item) => item.style.display !== "none"
+      );
+
+      if (sortFilter === "name") {
+        visibleItems.sort((a, b) => {
+          const nameA = a
+            .querySelector(".card-title")
+            .textContent.toLowerCase();
+          const nameB = b
+            .querySelector(".card-title")
+            .textContent.toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
+      } else if (sortFilter === "price-low" || sortFilter === "price-high") {
+        visibleItems.sort((a, b) => {
+          const priceA = parseInt(a.textContent.match(/₹(\d+)/)?.[1] || "0");
+          const priceB = parseInt(b.textContent.match(/₹(\d+)/)?.[1] || "0");
+          return sortFilter === "price-low" ? priceA - priceB : priceB - priceA;
+        });
+      }
+
+      // Re-append sorted items
+      visibleItems.forEach((item) => hospitalsList.appendChild(item));
+    }
+
+    // Show animation for visible items
+    setTimeout(() => {
+      hospitalItems.forEach((item) => {
+        if (item.style.display !== "none") {
+          item.classList.add("fade-in");
+        }
+      });
+    }, 100);
+  }
+
+  // Reset Filters
+  function resetFilters() {
+    document.getElementById("cityFilter").value = "";
+    document.getElementById("priceFilter").value = "";
+    document.getElementById("sortFilter").value = "";
+    document.getElementById("searchInput").value = "";
+
+    const hospitalItems = document.querySelectorAll(".hospital-item");
+    hospitalItems.forEach((item) => {
+      item.style.display = "block";
+      item.classList.add("fade-in");
+    });
+  }
+
+  // Smooth scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -100px 0px",
+  };
+
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll(".hospital-item").forEach((item) => {
+    item.style.opacity = "0";
+    item.style.transform = "translateY(50px)";
+    item.style.transition = "all 0.6s ease";
+    observer.observe(item);
+  });
+
+  // Animate feature cards
+  document.querySelectorAll(".feature-card").forEach((card, index) => {
+    card.style.opacity = "0";
+    card.style.transform = "translateY(30px)";
+    card.style.transition = "all 0.6s ease";
+    card.style.transitionDelay = `${index * 0.1}s`;
+    observer.observe(card);
+  });
+
+  // Animate testimonial cards
+  document.querySelectorAll(".testimonial-card").forEach((card, index) => {
+    card.style.opacity = "0";
+    card.style.transform = "translateY(30px)";
+    card.style.transition = "all 0.6s ease";
+    card.style.transitionDelay = `${index * 0.15}s`;
+    observer.observe(card);
+  });
+
+  // Animate stat cards
+  document.querySelectorAll(".stat-card").forEach((card, index) => {
+    card.style.opacity = "0";
+    card.style.transform = "scale(0.9)";
+    card.style.transition = "all 0.5s ease";
+    card.style.transitionDelay = `${index * 0.1}s`;
+    observer.observe(card);
+  });
+
+  // Counter animation for stats
+  function animateCounter(element, target, duration = 2000) {
+    let start = 0;
+    const increment = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) {
+        element.textContent = target + "+";
+        clearInterval(timer);
+      } else {
+        element.textContent = Math.floor(start) + "+";
+      }
+    }, 16);
+  }
+
+  // Observe stat numbers for counter animation
+  const statObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (
+          entry.isIntersecting &&
+          !entry.target.classList.contains("counted")
+        ) {
+          entry.target.classList.add("counted");
+          const text = entry.target.textContent;
+          const number = parseInt(text.match(/\d+/)?.[0] || 0);
+          if (number > 0) {
+            entry.target.textContent = "0+";
+            animateCounter(entry.target, number);
+          }
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  document.querySelectorAll(".stat-number").forEach((stat) => {
+    statObserver.observe(stat);
+  });
+
+  // Show success message for newsletter
+  const newsletterIndicator = document.createElement("div");
+  newsletterIndicator.style.cssText = `
+       position: fixed;
+       top: 100px;
+       right: 30px;
+       padding: 20px 30px;
+       background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+       color: white;
+       border-radius: 15px;
+       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+       font-weight: 600;
+       opacity: 0;
+       transform: translateX(400px);
+       transition: all 0.5s ease;
+       z-index: 9999;
+     `;
+  document.body.appendChild(newsletterIndicator);
+
+  // Show notification function
+  window.showNotification = function (message) {
+    newsletterIndicator.textContent = message;
+    newsletterIndicator.style.opacity = "1";
+    newsletterIndicator.style.transform = "translateX(0)";
+
+    setTimeout(() => {
+      newsletterIndicator.style.opacity = "0";
+      newsletterIndicator.style.transform = "translateX(400px)";
+    }, 3000);
+  };
+</script>

@@ -1,0 +1,666 @@
+<%- layout('layouts/boilerplate') %>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+
+  .cart-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .cart-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .cart-title {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+
+  .cart-subtitle {
+    color: #718096;
+    font-size: 1.1rem;
+  }
+
+  .cart-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+  }
+
+  .cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cart-item {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .cart-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+  }
+
+  .item-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .item-details {
+    flex: 1;
+  }
+
+  .item-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 8px;
+  }
+
+  .item-price {
+    color: #667eea;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .item-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .qty-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border: 2px solid #667eea;
+    color: #667eea;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qty-btn:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: scale(1.1);
+  }
+
+  .qty-display {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2d3748;
+    min-width: 30px;
+    text-align: center;
+  }
+
+  .remove-btn {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+  }
+
+  .remove-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+  }
+
+  .cart-summary {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    sticky: top;
+    position: sticky;
+    top: 100px;
+  }
+
+  .summary-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f7fafc;
+  }
+
+  .summary-row.total {
+    border-top: 2px solid #667eea;
+    border-bottom: none;
+    padding-top: 20px;
+    margin-top: 15px;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .summary-label {
+    color: #4a5568;
+    font-weight: 600;
+  }
+
+  .summary-value {
+    color: #2d3748;
+    font-weight: 700;
+  }
+
+  .checkout-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .checkout-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(67, 233, 123, 0.4);
+  }
+
+  .continue-shopping {
+    width: 100%;
+    padding: 15px;
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+  }
+
+  .continue-shopping:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .clear-cart-btn {
+    padding: 10px 20px;
+    background: transparent;
+    color: #f5576c;
+    border: 2px solid #f5576c;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
+
+  .clear-cart-btn:hover {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    border-color: transparent;
+    transform: scale(1.05);
+  }
+
+  .empty-cart {
+    background: white;
+    border-radius: 20px;
+    padding: 80px 40px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .empty-icon {
+    font-size: 5rem;
+    color: #cbd5e0;
+    margin-bottom: 25px;
+  }
+
+  .empty-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 15px;
+  }
+
+  .empty-message {
+    color: #718096;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+
+  .shop-btn {
+    padding: 15px 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .shop-btn:hover {
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+  }
+
+  @media (max-width: 992px) {
+    .cart-content {
+      grid-template-columns: 1fr;
+    }
+
+    .cart-summary {
+      position: static;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cart-title {
+      font-size: 2.2rem;
+    }
+
+    .cart-item {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .item-image {
+      width: 100%;
+      height: 200px;
+    }
+  }
+</style>
+
+<body>
+  <div class="cart-container">
+    <div class="cart-header">
+      <h1 class="cart-title">
+        <i class="fas fa-shopping-cart me-3"></i>
+        Shopping Cart
+      </h1>
+      <p class="cart-subtitle">Review your items before checkout</p>
+    </div>
+
+    <div id="cartContent"></div>
+  </div>
+
+  <script>
+    // Load cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('medicineCart')) || [];
+
+    // Medicine details (would normally come from database)
+    const medicineDetails = {
+      '1': { name: 'Paracetamol 500mg', price: 20, image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600' },
+      '2': { name: 'Amoxicillin 250mg', price: 50, image: 'https://plus.unsplash.com/premium_photo-1668487826871-2f2cac23ad56?w=1000' },
+      '3': { name: 'Cough Syrup 100ml', price: 70, image: 'https://images.unsplash.com/photo-1583088580067-16d1109aeacb?w=500' },
+      '4': { name: 'Azithromycin 500mg', price: 75, image: 'https://images.unsplash.com/photo-1522335579687-9c718c5184d7?q=80&w=1171' },
+      '5': { name: 'Ibuprofen 400mg', price: 30, image: 'https://plus.unsplash.com/premium_photo-1668605108427-695ef1c16256?w=500' },
+      '6': { name: 'Dolo 650mg', price: 25, image: 'https://plus.unsplash.com/premium_photo-1670981099419-405dd33f3b7a?w=600' },
+      '7': { name: 'Cetirizine 10mg', price: 15, image: 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600' },
+      '8': { name: 'Vitamin D3 Capsules', price: 45, image: 'https://images.unsplash.com/photo-1550572017-edd951aa8f72?w=600' },
+      '9': { name: 'Omeprazole 20mg', price: 35, image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=600' }
+    };
+
+    function renderCart() {
+      const cartContent = document.getElementById('cartContent');
+      
+      if (cart.length === 0) {
+        cartContent.innerHTML = `
+          <div class="empty-cart">
+            <i class="fas fa-shopping-cart empty-icon"></i>
+            <h2 class="empty-title">Your Cart is Empty</h2>
+            <p class="empty-message">Add some medicines to your cart to get started!</p>
+            <a href="/buy" class="shop-btn">
+              <i class="fas fa-pills"></i>
+              Browse Medicines
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      let itemsHTML = '<div class="cart-content"><div class="cart-items">';
+      
+      cart.forEach((item, index) => {
+        const details = medicineDetails[item.id];
+        if (details) {
+          itemsHTML += `
+            <div class="cart-item">
+              <img src="${details.image}" alt="${details.name}" class="item-image">
+              <div class="item-details">
+                <h3 class="item-name">${details.name}</h3>
+                <div class="item-price">₹${details.price} per unit</div>
+              </div>
+              <div class="item-controls">
+                <div class="qty-controls">
+                  <button class="qty-btn" onclick="decreaseCartQty(${index})">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <span class="qty-display">${item.quantity}</span>
+                  <button class="qty-btn" onclick="increaseCartQty(${index})">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                <div class="item-price" style="font-size: 1.3rem; color: #2d3748;">
+                  ₹${item.price * item.quantity}
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${index})">
+                  <i class="fas fa-trash-alt me-1"></i>Remove
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      itemsHTML += '</div>';
+
+      // Cart Summary
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const discount = subtotal > 1000 ? Math.floor(subtotal * 0.1) : 0; // 10% discount if > ₹1000
+      const shipping = subtotal > 500 ? 0 : 50;
+      const total = subtotal - discount + shipping;
+
+      itemsHTML += `
+        <div class="cart-summary">
+          <h3 class="summary-title">
+            <i class="fas fa-receipt"></i>
+            Order Summary
+          </h3>
+          
+          <div class="summary-row">
+            <span class="summary-label">
+              <i class="fas fa-box me-2" style="color: #667eea;"></i>
+              Subtotal (${cart.reduce((sum, item) => sum + item.quantity, 0)} items)
+            </span>
+            <span class="summary-value">₹${subtotal}</span>
+          </div>
+          
+          ${discount > 0 ? `
+          <div class="summary-row" style="color: #43e97b;">
+            <span class="summary-label">
+              <i class="fas fa-tags me-2"></i>
+              Discount (10%)
+            </span>
+            <span class="summary-value">- ₹${discount}</span>
+          </div>` : ''}
+          
+          <div class="summary-row">
+            <span class="summary-label">
+              <i class="fas fa-truck me-2" style="color: ${shipping === 0 ? '#43e97b' : '#667eea'};"></i>
+              Shipping
+            </span>
+            <span class="summary-value" style="color: ${shipping === 0 ? '#43e97b' : '#2d3748'};">
+              ${shipping === 0 ? 'FREE ✅' : '₹' + shipping}
+            </span>
+          </div>
+          
+          ${shipping > 0 && subtotal < 500 ? `
+          <div style="background: linear-gradient(135deg, #43e97b15 0%, #38f9d715 100%); padding: 12px; border-radius: 10px; margin: 15px 0; border: 2px solid #43e97b30;">
+            <small style="color: #43e97b; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+              <i class="fas fa-shipping-fast"></i>
+              Add ₹${500 - subtotal} more for FREE shipping!
+            </small>
+          </div>` : ''}
+
+          ${subtotal > 500 && subtotal < 1000 ? `
+          <div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 12px; border-radius: 10px; margin: 15px 0; border: 2px solid #667eea30;">
+            <small style="color: #667eea; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+              <i class="fas fa-gift"></i>
+              Add ₹${1000 - subtotal} more to get 10% discount!
+            </small>
+          </div>` : ''}
+          
+          ${discount > 0 ? `
+          <div style="background: linear-gradient(135deg, #43e97b15 0%, #38f9d715 100%); padding: 12px; border-radius: 10px; margin: 15px 0; border: 2px solid #43e97b30;">
+            <small style="color: #43e97b; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+              <i class="fas fa-check-circle"></i>
+              You saved ₹${discount} on this order! 🎉
+            </small>
+          </div>` : ''}
+          
+          <div class="summary-row total">
+            <span class="summary-label">
+              <i class="fas fa-rupee-sign me-2"></i>
+              Total Amount
+            </span>
+            <span class="summary-value" style="color: #43e97b;">₹${total}</span>
+          </div>
+
+          <button class="checkout-btn" onclick="proceedToCheckout(${total})">
+            <i class="fas fa-bolt me-2"></i>
+            Buy Now - Pay ₹${total}
+          </button>
+
+          <a href="/buy" class="continue-shopping">
+            <i class="fas fa-arrow-left me-2"></i>
+            Continue Shopping
+          </a>
+
+          <div style="text-align: center; margin-top: 15px;">
+            <button class="clear-cart-btn" onclick="clearCart()">
+              <i class="fas fa-trash-alt me-2"></i>
+              Clear Cart
+            </button>
+          </div>
+        </div>
+      `;
+
+      itemsHTML += '</div>';
+      cartContent.innerHTML = itemsHTML;
+    }
+
+    function increaseCartQty(index) {
+      if (cart[index].quantity < 10) {
+        cart[index].quantity++;
+        localStorage.setItem('medicineCart', JSON.stringify(cart));
+        renderCart();
+        updateNavbarCart();
+      }
+    }
+
+    function decreaseCartQty(index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity--;
+        localStorage.setItem('medicineCart', JSON.stringify(cart));
+        renderCart();
+        updateNavbarCart();
+      }
+    }
+
+    function removeFromCart(index) {
+      if (confirm('Remove this item from cart?')) {
+        cart.splice(index, 1);
+        localStorage.setItem('medicineCart', JSON.stringify(cart));
+        renderCart();
+        updateNavbarCart();
+        showNotification('Item removed from cart');
+      }
+    }
+
+    function updateNavbarCart() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const cartBadge = document.getElementById('cartCount');
+      if (cartBadge) {
+        cartBadge.textContent = totalItems;
+        if (totalItems > 0) {
+          cartBadge.style.display = 'flex';
+        } else {
+          cartBadge.style.display = 'none';
+        }
+      }
+    }
+
+    async function proceedToCheckout(finalAmount) {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+
+      try {
+        // Create Razorpay order
+        const response = await fetch('/create-order', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: finalAmount
+          })
+        });
+
+        const order = await response.json();
+
+        // Create item list for description
+        const itemsList = cart.map(item => `${item.name} (Qty: ${item.quantity})`).join(', ');
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        // Razorpay options
+        const options = {
+          key: order.rzrpay_key,
+          amount: order.amount,
+          currency: "INR",
+          name: "HospitalCare Pharmacy",
+          description: `${totalItems} items - ${itemsList.substring(0, 100)}`,
+          image: "https://cdn-icons-png.flaticon.com/512/2965/2965226.png",
+          order_id: order.orderId,
+          handler: function (response) {
+            // Payment successful
+            const itemsDetail = cart.map(item => `  • ${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}`).join('\n');
+            
+            alert(`✅ Order Placed Successfully!\n\n📦 Items Ordered:\n${itemsDetail}\n\n💰 Total Paid: ₹${finalAmount}\n\n🚚 Estimated Delivery: 2-3 Business Days\n\n📧 Order confirmation sent to your email.`);
+            
+            // Clear cart after successful payment
+            cart = [];
+            localStorage.setItem('medicineCart', JSON.stringify(cart));
+            renderCart();
+            updateNavbarCart();
+            
+            // Show success notification
+            showNotification('🎉 Order placed! Check your email for details.');
+          },
+          prefill: {
+            name: "<%= currentUser ? currentUser.username : 'Guest' %>",
+          },
+          theme: {
+            color: "#667eea"
+          },
+          modal: {
+            ondismiss: function() {
+              console.log('Payment cancelled by user');
+            }
+          }
+        };
+
+        const rzp = new Razorpay(options);
+        
+        rzp.on('payment.failed', function (response) {
+          alert('❌ Payment Failed!\n\nReason: ' + (response.error.description || 'Unknown error') + '\n\nPlease try again or contact support.');
+          console.error('Payment Error:', response.error);
+        });
+
+        rzp.open();
+
+      } catch (error) {
+        console.error('Checkout Error:', error);
+        alert('⚠️ Error processing payment. Please check your internet connection and try again.');
+      }
+    }
+
+    function clearCart() {
+      if (cart.length === 0) {
+        showNotification('Cart is already empty!');
+        return;
+      }
+
+      if (confirm('⚠️ Are you sure you want to clear all items from cart?')) {
+        cart = [];
+        localStorage.setItem('medicineCart', JSON.stringify(cart));
+        renderCart();
+        updateNavbarCart();
+        showNotification('🗑️ Cart cleared successfully!');
+      }
+    }
+
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 30px;
+        padding: 20px 30px;
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        color: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        font-weight: 600;
+        z-index: 9999;
+      `;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    }
+
+    // Initial render
+    renderCart();
+    updateNavbarCart();
+  </script>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</body>
+

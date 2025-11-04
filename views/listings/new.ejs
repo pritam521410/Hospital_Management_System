@@ -1,120 +1,515 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Add New Hospital</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-  <div class="container mt-5">
-    <h2 class="text-center mb-4">Add New Hospital</h2>
-    <form method="POST" action="/listings" class="bg-white p-5 rounded shadow needs-validation" style="max-width: 800px; margin: auto;" id="hospitalForm" novalidate class="needs-validation" 
-    enctype="multipart/form-data">
+<%- layout('layouts/boilerplate') %>
 
-      <!-- Hospital Basic Info --> 
-      <div class="mb-3">
-        <label class="form-label">Hospital Name</label>
-        <input type="text" class="form-control" name="listing[name]" placeholder="Enter hospital name" required>
-        <div class="invalid-feedback">Hospital name is required.</div>
+<style>
+  body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+
+  .add-hospital-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 60px 0;
+    margin-bottom: 50px;
+    border-radius: 0 0 50px 50px;
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .add-hospital-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: heroFloat 12s ease-in-out infinite;
+  }
+
+  @keyframes heroFloat {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-30px, 30px) rotate(180deg); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-shadow: 2px 4px 8px rgba(0,0,0,0.2);
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.95;
+  }
+
+  .form-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 25px;
+    padding: 45px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  }
+
+  .form-section {
+    margin-bottom: 40px;
+    padding-bottom: 35px;
+    border-bottom: 2px solid #f7fafc;
+  }
+
+  .form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .section-header {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #667eea;
+  }
+
+  .section-header i {
+    color: #667eea;
+    font-size: 1.8rem;
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .form-label i {
+    color: #667eea;
+    font-size: 1rem;
+  }
+
+  .form-control, .form-select {
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .room-type-card {
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    border: 2px solid #667eea30;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 25px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .room-type-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+  }
+
+  .room-type-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px 0 0 20px;
+  }
+
+  .room-type-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .room-type-title {
+    font-weight: 700;
+    color: #2d3748;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .room-type-title i {
+    color: #667eea;
+  }
+
+  .remove-room-btn {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+  }
+
+  .remove-room-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+  }
+
+  .add-room-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: 2px dashed #667eea;
+    border-radius: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .add-room-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    border-style: solid;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 30px;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(67, 233, 123, 0.4);
+  }
+
+  .file-upload-wrapper {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border: 2px dashed #667eea;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .file-upload-wrapper:hover {
+    border-color: #764ba2;
+    background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+  }
+
+  .file-upload-wrapper input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .file-upload-icon {
+    font-size: 3rem;
+    color: #667eea;
+    margin-bottom: 15px;
+  }
+
+  .file-upload-text {
+    color: #4a5568;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .file-name-display {
+    margin-top: 15px;
+    padding: 12px;
+    background: white;
+    border-radius: 10px;
+    color: #43e97b;
+    font-weight: 600;
+    display: none;
+  }
+
+  .form-check-input:checked {
+    background-color: #43e97b;
+    border-color: #43e97b;
+  }
+
+  @media (max-width: 768px) {
+    .form-container {
+      padding: 30px 20px;
+    }
+
+    .hero-title {
+      font-size: 2.2rem;
+    }
+
+    .room-type-card {
+      padding: 20px;
+    }
+  }
+</style>
+
+<body>
+  <div class="add-hospital-hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <i class="fas fa-plus-circle me-3"></i>
+          Add Your Hospital
+        </h1>
+        <p class="hero-subtitle">
+          List your hospital and rooms on HospitalCare platform
+        </p>
       </div>
+    </div>
+  </div>
 
-      <div class="mb-3">
-        <label class="form-label">Description</label>
-        <textarea class="form-control" name="listing[description]" placeholder="Description" rows="3" required></textarea>
-        <div class="invalid-feedback">Description is required.</div>
-      </div>
+  <div class="container mb-5">
+    <form method="POST" action="/listings" class="form-container needs-validation" id="hospitalForm" novalidate enctype="multipart/form-data">
 
-      
-  <!-- change in image-->
-      <div class="mb-3">
-        <label class="form-label">Upload  Your Room Image</label>
-        <input 
-        type="file" 
-        class="form-control"
-         name="listing[image]" 
-         required
-         >
-      </div>
+      <!-- Section 1: Basic Information -->
+      <div class="form-section">
+        <h3 class="section-header">
+          <i class="fas fa-hospital"></i>
+          Basic Information
+        </h3>
 
-      <!-- Address Info -->
-      <div class="mb-3">
-        <label class="form-label">Full Address</label>
-        <input type="text" class="form-control" name="listing[location]" placeholder="e.g., MI Road, Jaipur" required>
-        <div class="invalid-feedback">Full address is required.</div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <label class="form-label">City</label>
-          <input type="text" class="form-control" name="listing[city]" placeholder="e.g., Jaipur" required>
-          <div class="invalid-feedback">City is required.</div>
+        <div class="mb-4">
+          <label class="form-label">
+            <i class="fas fa-building"></i>
+            Hospital Name *
+          </label>
+          <input type="text" class="form-control" name="listing[name]" placeholder="Enter your hospital name" required>
+          <div class="invalid-feedback">Hospital name is required.</div>
         </div>
-        <div class="col-md-4 mb-3">
-          <label class="form-label">State</label>
-          <input type="text" class="form-control" name="listing[state]" placeholder="e.g., Rajasthan" required>
-          <div class="invalid-feedback">State is required.</div>
+
+        <div class="mb-4">
+          <label class="form-label">
+            <i class="fas fa-align-left"></i>
+            Description *
+          </label>
+          <textarea class="form-control" name="listing[description]" placeholder="Describe your hospital, facilities, and services..." rows="4" required></textarea>
+          <div class="invalid-feedback">Description is required.</div>
         </div>
-        <div class="col-md-4 mb-3">
-          <label class="form-label">Country</label>
-          <input type="text" class="form-control" name="listing[country]" placeholder="e.g., India" required>
-          <div class="invalid-feedback">Country is required.</div>
-        </div>
-      </div>
 
-      <!-- Contact Info -->
-      <div class="mb-3">
-        <label class="form-label">Contact Number</label>
-        <input type="number" class="form-control" name="listing[contactNumber]" placeholder="e.g., +91 9876543210" required>
-        <div class="invalid-feedback">Contact number is required.</div>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Email Address</label>
-        <input type="email" class="form-control" name="listing[email]" placeholder="e.g., contact@hospital.com" required>
-        <div class="invalid-feedback">Valid email is required.</div>
-      </div>
-
-      <hr class="my-4">
-
-      <!-- Room Type Info -->
-      <h5 class="mb-3">Room Types</h5>
-      <div id="roomTypesContainer">
-        <div class="room-type border rounded p-3 mb-4" data-index="0">
-          <div class="mb-3">
-            <label class="form-label">Type</label>
-            <input type="text" class="form-control" name="listing[roomTypes][0][type]" placeholder="e.g., ICU, General Ward" required>
-            <div class="invalid-feedback">Room type is required.</div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Price per Day</label>
-              <input type="number" class="form-control" name="listing[roomTypes][0][pricePerDay]" placeholder="e.g., 1200" required>
-              <div class="invalid-feedback">Price per day is required.</div>
+        <div class="mb-4">
+          <label class="form-label mb-3">
+            <i class="fas fa-image"></i>
+            Hospital Image *
+          </label>
+          <div class="file-upload-wrapper">
+            <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+            <div class="file-upload-text">
+              Click to upload or drag & drop
+              <br>
+              <small style="color: #718096;">Supported: JPG, PNG, JPEG (Max 5MB)</small>
             </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Bed Count</label>
-              <input type="number" class="form-control" name="listing[roomTypes][0][bedCount]" placeholder="e.g., 2" required>
-              <div class="invalid-feedback">Bed count is required.</div>
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label">Facilities (comma separated)</label>
-            <input type="text" class="form-control" name="listing[roomTypes][0][facilities]" placeholder="e.g., AC, TV, Bed" required>
-            <div class="invalid-feedback">Please list facilities.</div>
-          </div>
-
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="listing[roomTypes][0][isAvailable]" value="true" checked>
-            <label class="form-check-label">Available</label>
+            <input type="file" name="listing[image]" accept="image/*" required onchange="showFileName(this)">
+            <div class="file-name-display" id="fileNameDisplay"></div>
           </div>
         </div>
       </div>
 
-      <button type="button" class="btn btn-outline-primary mb-4" onclick="addRoomType()">+ Add Room Type</button>
+      <!-- Section 2: Location Details -->
+      <div class="form-section">
+        <h3 class="section-header">
+          <i class="fas fa-map-marker-alt"></i>
+          Location Details
+        </h3>
 
-      <button type="submit" class="btn btn-danger w-100">Add Hospital</button>
+        <div class="mb-4">
+          <label class="form-label">
+            <i class="fas fa-map-pin"></i>
+            Full Address *
+          </label>
+          <input type="text" class="form-control" name="listing[location]" placeholder="Street address, landmark" required>
+          <div class="invalid-feedback">Full address is required.</div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <label class="form-label">
+              <i class="fas fa-city"></i>
+              City *
+            </label>
+            <input type="text" class="form-control" name="listing[city]" placeholder="e.g., Patna" required>
+            <div class="invalid-feedback">City is required.</div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <label class="form-label">
+              <i class="fas fa-flag"></i>
+              State *
+            </label>
+            <input type="text" class="form-control" name="listing[state]" placeholder="e.g., Bihar" required>
+            <div class="invalid-feedback">State is required.</div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <label class="form-label">
+              <i class="fas fa-globe"></i>
+              Country *
+            </label>
+            <input type="text" class="form-control" name="listing[country]" placeholder="e.g., India" required>
+            <div class="invalid-feedback">Country is required.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Contact Information -->
+      <div class="form-section">
+        <h3 class="section-header">
+          <i class="fas fa-phone"></i>
+          Contact Information
+        </h3>
+
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <label class="form-label">
+              <i class="fas fa-phone-alt"></i>
+              Contact Number *
+            </label>
+            <input type="tel" class="form-control" name="listing[contactNumber]" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+            <div class="invalid-feedback">Enter valid 10-digit number.</div>
+          </div>
+
+          <div class="col-md-6 mb-4">
+            <label class="form-label">
+              <i class="fas fa-envelope"></i>
+              Email Address *
+            </label>
+            <input type="email" class="form-control" name="listing[email]" placeholder="contact@hospital.com" required>
+            <div class="invalid-feedback">Valid email is required.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Room Types -->
+      <div class="form-section">
+        <h3 class="section-header">
+          <i class="fas fa-bed"></i>
+          Room Types & Pricing
+        </h3>
+
+        <div id="roomTypesContainer">
+          <div class="room-type-card" data-index="0">
+            <div class="room-type-header">
+              <h4 class="room-type-title">
+                <i class="fas fa-door-open"></i>
+                Room Type #1
+              </h4>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">
+                <i class="fas fa-bed"></i>
+                Room Type *
+              </label>
+              <select class="form-select" name="listing[roomTypes][0][type]" required>
+                <option value="">Select room type</option>
+                <option value="General Ward">General Ward</option>
+                <option value="Private Room">Private Room</option>
+                <option value="ICU">ICU (Intensive Care Unit)</option>
+                <option value="NICU">NICU (Neonatal ICU)</option>
+                <option value="Emergency Room">Emergency Room</option>
+                <option value="Deluxe Room">Deluxe Room</option>
+                <option value="Suite">Suite</option>
+              </select>
+              <div class="invalid-feedback">Please select room type.</div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label class="form-label">
+                  <i class="fas fa-rupee-sign"></i>
+                  Price per Day (₹) *
+                </label>
+                <input type="number" class="form-control" name="listing[roomTypes][0][pricePerDay]" placeholder="e.g., 1200" min="0" required>
+                <div class="invalid-feedback">Price per day is required.</div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <label class="form-label">
+                  <i class="fas fa-bed"></i>
+                  Bed Count *
+                </label>
+                <input type="number" class="form-control" name="listing[roomTypes][0][bedCount]" placeholder="e.g., 2" min="1" required>
+                <div class="invalid-feedback">Bed count is required.</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">
+                <i class="fas fa-check-circle"></i>
+                Facilities (comma separated) *
+              </label>
+              <input type="text" class="form-control" name="listing[roomTypes][0][facilities]" placeholder="e.g., AC, TV, Attached Bathroom, Wifi" required>
+              <small class="text-muted">Enter facilities separated by commas</small>
+              <div class="invalid-feedback">Please list facilities.</div>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="listing[roomTypes][0][isAvailable]" value="true" checked id="available0">
+              <label class="form-check-label" for="available0" style="font-weight: 600; color: #43e97b;">
+                <i class="fas fa-check-circle me-1"></i>
+                Room is Available
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="add-room-btn" onclick="addRoomType()">
+          <i class="fas fa-plus-circle"></i>
+          Add Another Room Type
+        </button>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        <i class="fas fa-paper-plane me-2"></i>
+        Submit & List Hospital
+      </button>
     </form>
   </div>
 
@@ -132,49 +527,127 @@
       }, false);
     })();
 
+    // Show file name when selected
+    function showFileName(input) {
+      const fileDisplay = document.getElementById('fileNameDisplay');
+      if (input.files && input.files[0]) {
+        const fileName = input.files[0].name;
+        fileDisplay.textContent = `✓ Selected: ${fileName}`;
+        fileDisplay.style.display = 'block';
+      }
+    }
+
     // Room type addition logic
     let roomIndex = 1;
 
     function addRoomType() {
       const container = document.getElementById("roomTypesContainer");
       const roomDiv = document.createElement("div");
-      roomDiv.className = "room-type border rounded p-3 mb-4";
+      roomDiv.className = "room-type-card";
+      roomDiv.setAttribute('data-index', roomIndex);
       roomDiv.innerHTML = `
-        <div class="mb-3">
-          <label class="form-label">Type</label>
-          <input type="text" class="form-control" name="listing[roomTypes][${roomIndex}][type]" placeholder="e.g., ICU, General Ward" required>
-          <div class="invalid-feedback">Room type is required.</div>
+        <div class="room-type-header">
+          <h4 class="room-type-title">
+            <i class="fas fa-door-open"></i>
+            Room Type #${roomIndex + 1}
+          </h4>
+          <button type="button" class="remove-room-btn" onclick="removeRoomType(this)">
+            <i class="fas fa-trash-alt me-1"></i>
+            Remove
+          </button>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">
+            <i class="fas fa-bed"></i>
+            Room Type *
+          </label>
+          <select class="form-select" name="listing[roomTypes][${roomIndex}][type]" required>
+            <option value="">Select room type</option>
+            <option value="General Ward">General Ward</option>
+            <option value="Private Room">Private Room</option>
+            <option value="ICU">ICU (Intensive Care Unit)</option>
+            <option value="NICU">NICU (Neonatal ICU)</option>
+            <option value="Emergency Room">Emergency Room</option>
+            <option value="Deluxe Room">Deluxe Room</option>
+            <option value="Suite">Suite</option>
+          </select>
+          <div class="invalid-feedback">Please select room type.</div>
         </div>
 
         <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Price per Day</label>
-            <input type="number" class="form-control" name="listing[roomTypes][${roomIndex}][pricePerDay]" placeholder="e.g., 1200" required>
+          <div class="col-md-6 mb-4">
+            <label class="form-label">
+              <i class="fas fa-rupee-sign"></i>
+              Price per Day (₹) *
+            </label>
+            <input type="number" class="form-control" name="listing[roomTypes][${roomIndex}][pricePerDay]" placeholder="e.g., 1200" min="0" required>
             <div class="invalid-feedback">Price per day is required.</div>
           </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Bed Count</label>
-            <input type="number" class="form-control" name="listing[roomTypes][${roomIndex}][bedCount]" placeholder="e.g., 2" required>
+          <div class="col-md-6 mb-4">
+            <label class="form-label">
+              <i class="fas fa-bed"></i>
+              Bed Count *
+            </label>
+            <input type="number" class="form-control" name="listing[roomTypes][${roomIndex}][bedCount]" placeholder="e.g., 2" min="1" required>
             <div class="invalid-feedback">Bed count is required.</div>
           </div>
         </div>
 
-        <div class="mb-3">
-          <label class="form-label">Facilities (comma separated)</label>
-          <input type="text" class="form-control" name="listing[roomTypes][${roomIndex}][facilities]" placeholder="e.g., AC, TV, Bed" required>
+        <div class="mb-4">
+          <label class="form-label">
+            <i class="fas fa-check-circle"></i>
+            Facilities (comma separated) *
+          </label>
+          <input type="text" class="form-control" name="listing[roomTypes][${roomIndex}][facilities]" placeholder="e.g., AC, TV, Attached Bathroom, Wifi" required>
+          <small class="text-muted">Enter facilities separated by commas</small>
           <div class="invalid-feedback">Please list facilities.</div>
         </div>
 
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" name="listing[roomTypes][${roomIndex}][isAvailable]" value="true" checked>
-          <label class="form-check-label">Available</label>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="listing[roomTypes][${roomIndex}][isAvailable]" value="true" checked id="available${roomIndex}">
+          <label class="form-check-label" for="available${roomIndex}" style="font-weight: 600; color: #43e97b;">
+            <i class="fas fa-check-circle me-1"></i>
+            Room is Available
+          </label>
         </div>
       `;
       container.appendChild(roomDiv);
       roomIndex++;
+      
+      // Scroll to new room type
+      roomDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function removeRoomType(button) {
+      if (confirm('⚠️ Are you sure you want to remove this room type?')) {
+        const roomCard = button.closest('.room-type-card');
+        roomCard.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+          roomCard.remove();
+          updateRoomNumbers();
+        }, 300);
+      }
+    }
+
+    function updateRoomNumbers() {
+      const roomCards = document.querySelectorAll('.room-type-card');
+      roomCards.forEach((card, index) => {
+        const title = card.querySelector('.room-type-title');
+        if (title) {
+          title.innerHTML = `
+            <i class="fas fa-door-open"></i>
+            Room Type #${index + 1}
+          `;
+        }
+      });
     }
   </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateX(0); }
+      to { opacity: 0; transform: translateX(-50px); }
+    }
+  </style>
 </body>
-</html>

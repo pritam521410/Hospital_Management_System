@@ -1,198 +1,669 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Us - Hospital Management</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    /* Custom Styles */
-    body {
-      background-color: #f8f9fa;
-      color: #333;
-    }
-    .container {
-      max-width: 1100px;
-      margin: 50px auto;
-      padding: 30px;
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
+<%- layout('layouts/boilerplate') %>
 
-    .header h1 {
-  color: black;
-  font-size: 36px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
+<style>
+  body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
 
+  /* Hero Section */
+  .about-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 80px 0;
+    margin-bottom: 60px;
+    border-radius: 0 0 50px 50px;
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
 
-    .subheading {
-      color: black;
-      font-weight: bold;
-      font-size: 24px;
-      margin-top: 10px;
-    }
+  .about-hero::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 15s ease-in-out infinite;
+  }
 
-    /* Profile Image Section */
-    .profile-img-container {
+  @keyframes pulse {
+    0%, 100% { transform: scale(1) translate(0, 0); }
+    50% { transform: scale(1.2) translate(-50px, 50px); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-shadow: 2px 4px 8px rgba(0,0,0,0.2);
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+    opacity: 0.95;
+  }
+
+  /* Developer Section */
+  .developer-section {
+    background: white;
+    border-radius: 25px;
+    padding: 50px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .developer-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .developer-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .profile-section {
+    text-align: center;
+  }
+
+  .profile-wrapper {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 25px auto;
+  }
+
+  .profile-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid #667eea;
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+    transition: all 0.4s ease;
+  }
+
+  .profile-img:hover {
+    transform: scale(1.05) rotate(5deg);
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.5);
+  }
+
+  .profile-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 5rem;
+    border: 6px solid #667eea;
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+  }
+
+  .developer-name {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  .developer-role {
+    color: #718096;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .social-link {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+  }
+
+  .social-link.github {
+    background: #333;
+    color: white;
+  }
+
+  .social-link.linkedin {
+    background: #0077b5;
+    color: white;
+  }
+
+  .social-link.instagram {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+  }
+
+  .social-link:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  .developer-bio {
+    flex: 1;
+  }
+
+  .bio-text {
+    color: #4a5568;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 20px;
+  }
+
+  .highlight {
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Stats Section */
+  .stats-section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-bottom: 40px;
+  }
+
+  .stat-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 50px rgba(102, 126, 234, 0.2);
+  }
+
+  .stat-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px auto;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+
+  .stat-label {
+    color: #718096;
+    font-weight: 600;
+  }
+
+  /* Features Section */
+  .features-section {
+    background: white;
+    border-radius: 25px;
+    padding: 45px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+  }
+
+  .section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 35px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .section-title i {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+
+  .feature-item {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .feature-item:hover {
+    border-color: #667eea;
+    transform: translateX(5px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.15);
+  }
+
+  .feature-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .feature-text h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 5px;
+  }
+
+  .feature-text p {
+    color: #718096;
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  /* Tech Stack */
+  .tech-section {
+    background: white;
+    border-radius: 25px;
+    padding: 45px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+  }
+
+  .tech-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border: 2px solid #667eea30;
+    border-radius: 12px;
+    color: #667eea;
+    font-weight: 700;
+    transition: all 0.3s ease;
+  }
+
+  .tech-badge:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+  }
+
+  .tech-badge i {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 992px) {
+    .developer-content {
+      grid-template-columns: 1fr;
       text-align: center;
-      margin-bottom: 30px;
-    }
-    .profile-img {
-      border-radius: 50%;
-      width: 220px;
-      height: 220px;
-      object-fit: cover;
-      border: 6px solid #0d6efd;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease-in-out;
-    }
-    .profile-img:hover {
-      transform: scale(1.1);
     }
 
-    /* Technologies & Features Section */
-    .technologies, .features {
-      background-color: #f9f9f9;
-      padding: 20px;
-      border-radius: 8px;
-      margin-top: 30px;
+    .stats-section {
+      grid-template-columns: repeat(2, 1fr);
     }
 
-    .technologies h3, .features h3 {
-      color: #0d6efd;
-      font-weight: bold;
-      font-size: 1.8rem;
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
     }
 
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    li {
-      margin: 10px 0;
-      font-size: 1.2rem;
-    }
-
-    li a {
-      color: #0d6efd;
-      text-decoration: none;
+    .hero-subtitle {
       font-size: 1.1rem;
-      font-weight: bold;
-      transition: color 0.3s;
-    }
-    li a:hover {
-      color: #0056b3;
-      text-decoration: underline;
     }
 
-    /* Colored and Styled Text */
-    .highlight {
-      font-weight: bold;
-      color: #0d6efd;
+    .developer-section {
+      padding: 30px 25px;
     }
 
-    .italic {
-      font-style: italic;
-      color: #6c757d;
+    .stats-section {
+      grid-template-columns: 1fr;
     }
 
-    .features ul {
-      font-size: 1.1rem;
-      color: #495057;
+    .tech-grid {
+      grid-template-columns: 1fr;
     }
+  }
+</style>
 
-    /* Responsive Styling */
-    @media (max-width: 768px) {
-      .row {
-        flex-direction: column;
-        align-items: center;
-      }
-      .column {
-        width: 100%;
-      }
-    }
-  </style>
-</head>
 <body>
-
-  <div class="container">
-    <div class="header text-center">
-      <h1>About Our Hospital Management System</h1>
-
-    <div class="row">
-      <!-- Profile Image Section -->
-      <div class="col-lg-4 col-md-6 text-center">
-        <div class="profile-img-container">
-          <!-- Profile image can be added here if needed -->
-        </div>
-        <h4 class="highlight">Pritam Kumar</h4>
-        <h5 class="italic">B.Tech CSE | Full Stack Developer</h5>
-      </div>
-
-      <!-- Info Section -->
-      <div class="col-lg-8 col-md-6">
-        <p>
-          <span class="highlight">Welcome</span> to our Hospital Management System! This project is designed to digitize hospital operations like managing <span class="highlight">Book Your Room</span>, <span class="highlight">Add your Room</span>, <span class="highlight">Buy Medicines</span>. It integrates various modern technologies to create an efficient and user-friendly healthcare management system.
-        </p>
-        <p>
-          I, <span class="highlight">Pritam Kumar</span>, developed this project as part of my web development journey using technologies like <span class="highlight">Node.js</span>, <span class="highlight">Express</span>, <span class="highlight">MongoDB</span>, and <span class="highlight">EJS</span>. The goal is to provide an accessible, secure, and intuitive solution for managing hospital operations.
-        </p>
-        <p>
-          This system is designed to streamline operations, improve patient care, and help hospital staff manage resources more effectively.
+  <!-- Hero Section -->
+  <div class="about-hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <i class="fas fa-info-circle me-3"></i>
+          About HospitalCare
+        </h1>
+        <p class="hero-subtitle">
+          Your Trusted Healthcare Management Partner
         </p>
       </div>
-    </div>
-
-    <!-- Technologies Used -->
-    <div class="technologies">
-      <h3>Technologies & Packages Used</h3>
-      <ul>
-        <li><span class="highlight">MongoDB</span></li>
-        <li><span class="highlight">Express.js</span></li>
-        <li><span class="highlight">Node.js</span></li>
-        <li><span class="highlight">Passport.js</span> for Authentication</li>
-        <li><span class="highlight">Cloudinary</span> for Image Storage</li>
-        <li><span class="highlight">Connect Flash</span> for Flash Messages</li>
-        <li><span class="highlight">Connect Mongo</span> for Session Storage</li>
-        <li><span class="highlight">Cookie Parser</span> for Parsing Cookies</li>
-        <li><span class="highlight">Dotenv</span> for Environment Variables</li>
-        <li><span class="highlight">EJS</span> for Template Rendering</li>
-        <li><span class="highlight">Express Session</span> for Session Handling</li>
-        <li><span class="highlight">Joi</span> for Data Validation</li>
-        <li><span class="highlight">Mongoose</span> for MongoDB Object Modeling</li>
-        <li><span class="highlight">Multer</span> for File Uploads</li>
-        <li><span class="highlight">Passport Local</span> for Local Authentication</li>
-        <li><span class="highlight">Passport Local Mongoose</span> for Mongoose-Specific Authentication</li>
-      </ul>
-    </div>
-
-    <!-- Key Features -->
-    <div class="features">
-      <h3>🌟 Key Features</h3>
-      <ul>
-        <li><span class="highlight">User Authentication</span>: Login, Logout, and User Profile Section</li>
-        <li><span class="highlight">CRUD Operations</span>: Add, Edit, and Delete Listings</li>
-        <li><span class="highlight">Review System</span>: Add and Delete Reviews</li>
-        <li><span class="highlight">Account Management</span>: Update User Account and Password</li>
-        <li><span class="highlight">User Data Security</span>: Password Hashing and Encryption</li>
-      </ul>
-    </div>
-
-    <!-- Connect with me -->
-    <div class="text-center mt-4">
-      <p class="italic">Connect with me on:</p>
-      <ul class="list-inline">
-        <li class="list-inline-item"><a href="https://github.com/pritam521410" target="_blank">GitHub</a></li>
-        <li class="list-inline-item"><a href="https://www.linkedin.com/in/pritam52/" target="_blank">LinkedIn</a></li>
-        <li class="list-inline-item"><a href="https://www.instagram.com/___pritamkr__/" target="_blank">Instagram</a></li>
-      </ul>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <div class="container">
+    <!-- Stats Section -->
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-hospital"></i>
+        </div>
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Hospitals Listed</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-user-md"></i>
+        </div>
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Verified Doctors</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-number">10K+</div>
+        <div class="stat-label">Happy Patients</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-bed"></i>
+        </div>
+        <div class="stat-number">1000+</div>
+        <div class="stat-label">Rooms Available</div>
+      </div>
+    </div>
+
+    <!-- Developer Section -->
+    <div class="developer-section">
+      <div class="developer-content">
+        <div class="profile-section">
+          <div class="profile-wrapper">
+            <div class="profile-placeholder">
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+          <h2 class="developer-name">Pritam Kumar</h2>
+          <p class="developer-role">
+            <i class="fas fa-code me-2"></i>
+            B.Tech CSE | Full Stack Developer
+          </p>
+          <div class="social-links">
+            <a href="https://github.com/pritam521410" target="_blank" class="social-link github" title="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/pritam52/" target="_blank" class="social-link linkedin" title="LinkedIn">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://www.instagram.com/___pritamkr__/" target="_blank" class="social-link instagram" title="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="developer-bio">
+          <p class="bio-text">
+            <span class="highlight">Welcome</span> to HospitalCare! This comprehensive hospital management system is designed to revolutionize healthcare operations by digitizing essential services like <span class="highlight">room booking</span>, <span class="highlight">hospital listing</span>, and <span class="highlight">online medicine purchases</span>.
+          </p>
+          <p class="bio-text">
+            Developed by <span class="highlight">Pritam Kumar</span>, this project showcases modern web development practices using the MERN stack and various cutting-edge technologies. The system aims to provide an accessible, secure, and intuitive solution for managing hospital operations efficiently.
+          </p>
+          <p class="bio-text">
+            Our mission is to streamline healthcare operations, improve patient care, and help medical facilities manage their resources more effectively through technology.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Features -->
+    <div class="features-section">
+      <h2 class="section-title">
+        <i class="fas fa-star"></i>
+        Key Features
+      </h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <div class="feature-text">
+            <h4>User Authentication</h4>
+            <p>Secure login, signup, and profile management with Passport.js</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-hospital-alt"></i>
+          </div>
+          <div class="feature-text">
+            <h4>Hospital Management</h4>
+            <p>Add, edit, and delete hospital listings with full CRUD operations</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-bed"></i>
+          </div>
+          <div class="feature-text">
+            <h4>Room Booking System</h4>
+            <p>Book hospital rooms online with integrated payment gateway</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-pills"></i>
+          </div>
+          <div class="feature-text">
+            <h4>Medicine Store</h4>
+            <p>Buy medicines online with cart functionality and instant checkout</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-star-half-alt"></i>
+          </div>
+          <div class="feature-text">
+            <h4>Review System</h4>
+            <p>Patients can add and manage reviews for hospitals</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <div class="feature-text">
+            <h4>Payment Gateway</h4>
+            <p>Secure payments via Razorpay for bookings and medicines</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-cloud-upload-alt"></i>
+          </div>
+          <div class="feature-text">
+            <h4>Cloud Storage</h4>
+            <p>Images stored securely on Cloudinary CDN</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <div class="feature-text">
+            <h4>Data Security</h4>
+            <p>Password hashing, encryption, and secure session management</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Technologies Section -->
+    <div class="tech-section">
+      <h2 class="section-title">
+        <i class="fas fa-code"></i>
+        Technologies & Tools Used
+      </h2>
+      <div class="tech-grid">
+        <div class="tech-badge">
+          <i class="fab fa-node-js"></i>
+          <span>Node.js</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-server"></i>
+          <span>Express.js</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-database"></i>
+          <span>MongoDB</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-leaf"></i>
+          <span>Mongoose</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-file-code"></i>
+          <span>EJS Templates</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fab fa-bootstrap"></i>
+          <span>Bootstrap 5</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-key"></i>
+          <span>Passport.js</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-cloud"></i>
+          <span>Cloudinary</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-credit-card"></i>
+          <span>Razorpay</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-upload"></i>
+          <span>Multer</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-shield-alt"></i>
+          <span>Express Session</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-check-circle"></i>
+          <span>Joi Validation</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-cookie"></i>
+          <span>Cookie Parser</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-bolt"></i>
+          <span>Flash Messages</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-cog"></i>
+          <span>Dotenv</span>
+        </div>
+        <div class="tech-badge">
+          <i class="fas fa-paint-brush"></i>
+          <span>Custom CSS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mission Section -->
+    <div class="features-section" style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border: 2px solid #667eea30;">
+      <h2 class="section-title">
+        <i class="fas fa-bullseye"></i>
+        Our Mission
+      </h2>
+      <div class="bio-text" style="text-align: center; font-size: 1.15rem;">
+        To bridge the gap between healthcare providers and patients through innovative technology,
+        making quality healthcare accessible, affordable, and efficient for everyone.
+        We believe in leveraging digital solutions to create a healthier tomorrow.
+      </div>
+    </div>
+  </div>
 </body>
-</html>

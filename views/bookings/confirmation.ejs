@@ -1,0 +1,361 @@
+<%- layout('layouts/boilerplate') %>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+
+  .confirmation-container {
+    max-width: 800px;
+    margin: 40px auto;
+  }
+
+  .success-animation {
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .success-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px auto;
+    animation: scaleIn 0.5s ease;
+  }
+
+  .success-icon i {
+    font-size: 3rem;
+    color: white;
+  }
+
+  @keyframes scaleIn {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .success-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2d3748;
+    margin-bottom: 10px;
+  }
+
+  .success-message {
+    color: #718096;
+    font-size: 1.1rem;
+  }
+
+  .booking-details-card {
+    background: white;
+    border-radius: 0 0 20px 20px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .detail-section {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #f7fafc;
+  }
+
+  .detail-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title i {
+    color: #667eea;
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background: #f7fafc;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  .detail-label {
+    color: #4a5568;
+    font-weight: 600;
+  }
+
+  .detail-value {
+    color: #2d3748;
+    font-weight: 600;
+  }
+
+  .booking-id {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    padding: 15px 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 25px;
+    border: 2px solid #667eea30;
+  }
+
+  .booking-id-label {
+    color: #667eea;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+
+  .booking-id-value {
+    color: #2d3748;
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+  }
+
+  .action-btn {
+    flex: 1;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .primary-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+
+  .primary-btn:hover {
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  .secondary-btn {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+  }
+
+  .secondary-btn:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-3px);
+  }
+
+  .payment-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .success-title {
+      font-size: 2rem;
+    }
+
+    .booking-details-card {
+      padding: 25px;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<body>
+  <div class="confirmation-container">
+    <div class="success-animation">
+      <div class="success-icon">
+        <i class="fas fa-check"></i>
+      </div>
+      <h1 class="success-title">Booking Confirmed!</h1>
+      <p class="success-message">
+        Your room has been successfully booked. We've sent confirmation details to your contact number.
+      </p>
+    </div>
+
+    <div class="booking-details-card">
+      <!-- Booking ID -->
+      <div class="booking-id">
+        <div class="booking-id-label">BOOKING ID</div>
+        <div class="booking-id-value"><%= booking._id %></div>
+      </div>
+
+      <!-- Hospital Information -->
+      <div class="detail-section">
+        <h3 class="section-title">
+          <i class="fas fa-hospital"></i>
+          Hospital Details
+        </h3>
+        <% if (booking.hospital) { %>
+          <div class="detail-row">
+            <span class="detail-label">Hospital Name</span>
+            <span class="detail-value"><%= booking.hospital.name %></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Location</span>
+            <span class="detail-value"><%= booking.hospital.location %>, <%= booking.hospital.city %></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Contact</span>
+            <span class="detail-value"><%= booking.hospital.contactNumber %></span>
+          </div>
+        <% } else { %>
+          <div class="detail-row">
+            <span class="detail-label" style="color: #e53e3e;">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              Hospital Not Available
+            </span>
+            <span class="detail-value" style="color: #718096;">This hospital has been removed from the system</span>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- Room Details -->
+      <div class="detail-section">
+        <h3 class="section-title">
+          <i class="fas fa-bed"></i>
+          Room Details
+        </h3>
+        <div class="detail-row">
+          <span class="detail-label">Room Type</span>
+          <span class="detail-value"><%= booking.roomType %></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Check-in Date</span>
+          <span class="detail-value"><%= new Date(booking.checkInDate).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Check-out Date</span>
+          <span class="detail-value"><%= new Date(booking.checkOutDate).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Duration</span>
+          <span class="detail-value"><%= booking.numberOfDays %> days</span>
+        </div>
+      </div>
+
+      <!-- Patient Information -->
+      <div class="detail-section">
+        <h3 class="section-title">
+          <i class="fas fa-user-injured"></i>
+          Patient Information
+        </h3>
+        <div class="detail-row">
+          <span class="detail-label">Patient Name</span>
+          <span class="detail-value"><%= booking.patientName %></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Age / Gender</span>
+          <span class="detail-value"><%= booking.patientAge %> years / <%= booking.patientGender %></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Contact Number</span>
+          <span class="detail-value"><%= booking.contactNumber %></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Emergency Contact</span>
+          <span class="detail-value"><%= booking.emergencyContact %></span>
+        </div>
+        <% if(booking.medicalCondition) { %>
+        <div class="detail-row">
+          <span class="detail-label">Medical Condition</span>
+          <span class="detail-value"><%= booking.medicalCondition %></span>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- Payment Information -->
+      <div class="detail-section">
+        <h3 class="section-title">
+          <i class="fas fa-credit-card"></i>
+          Payment Details
+        </h3>
+        <div class="detail-row">
+          <span class="detail-label">Amount Paid</span>
+          <span class="detail-value" style="color: #43e97b; font-size: 1.3rem;">₹<%= booking.totalAmount %></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Payment Status</span>
+          <span class="detail-value">
+            <span class="payment-badge">
+              <i class="fas fa-check-circle"></i>
+              <%= booking.paymentStatus %>
+            </span>
+          </span>
+        </div>
+        <% if(booking.paymentId) { %>
+        <div class="detail-row">
+          <span class="detail-label">Payment ID</span>
+          <span class="detail-value" style="font-family: 'Courier New', monospace;"><%= booking.paymentId %></span>
+        </div>
+        <% } %>
+        <div class="detail-row">
+          <span class="detail-label">Booking Date</span>
+          <span class="detail-value"><%= new Date(booking.createdAt).toLocaleString('en-IN') %></span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <a href="/my-bookings" class="action-btn primary-btn">
+          <i class="fas fa-list"></i>
+          View All Bookings
+        </a>
+        <a href="/listings" class="action-btn secondary-btn">
+          <i class="fas fa-home"></i>
+          Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Show success animation
+    window.onload = function() {
+      document.querySelector('.success-icon').style.animation = 'scaleIn 0.5s ease';
+    };
+  </script>
+</body>
+

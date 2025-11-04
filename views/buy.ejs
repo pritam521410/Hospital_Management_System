@@ -1,88 +1,494 @@
 <%- layout('layouts/boilerplate') %>
 
+<style>
+  .medicines-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 80px 0;
+    margin-bottom: 50px;
+    border-radius: 0 0 50px 50px;
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    text-align: center;
+    color: white;
+    opacity: 0.95;
+  }
+
+  .medicine-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+
+  .medicine-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+  }
+
+  .medicine-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .medicine-body {
+    padding: 25px;
+  }
+
+  .medicine-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 15px;
+  }
+
+  .price-tag {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 15px 0;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .cart-btn {
+    flex: 1;
+    padding: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  }
+
+  .buy-btn {
+    flex: 1;
+    padding: 12px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .buy-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4);
+  }
+
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+  }
+
+  .qty-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border: 2px solid #667eea;
+    color: #667eea;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qty-btn:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: scale(1.1);
+  }
+
+  .qty-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .toast-notification {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    padding: 15px 25px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+  }
+</style>
+
 <body>
-  <div class="container">
-    <h1 class="text-center my-4">Buy Medicines</h1>
+  <div class="medicines-hero">
+    <div class="container">
+      <h1 class="hero-title">
+        <i class="fas fa-pills me-3"></i>
+        Buy Medicines Online
+      </h1>
+      <p class="hero-subtitle">
+        Order quality medicines from trusted manufacturers
+      </p>
+    </div>
+  </div>
 
-    <div class="row justify-content-center">
-      <% const allMedicines = [
-        {
-          _id: '1',
-          name: 'Paracetamol 500mg',
-          image: { url: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVkaWNpbmV8ZW58MHx8MHx8fDA%3D' },
-          uses: 'Reduces fever and relieves pain.',
-          composition: 'Paracetamol 500mg',
-          price: 20,
-          manufacturer: 'Cipla'
-        },
-        {
-          _id: '2',
-          name: 'Amoxicillin 250mg',
-          image: { url: 'https://plus.unsplash.com/premium_photo-1668487826871-2f2cac23ad56?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVkaWNpbmV8ZW58MHx8MHx8fDA%3D' },
-          uses: 'Treats bacterial infections.',
-          composition: 'Amoxicillin 250mg',
-          price: 50,
-          manufacturer: 'Sun Pharma'
-        },
-        {
-          _id: '3',
-          name: 'Cough Syrup 100ml',
-          image: { url: 'https://images.unsplash.com/photo-1583088580067-16d1109aeacb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDI3fHx8ZW58MHx8fHx8' },
-          uses: 'Relieves cough and cold symptoms.',
-          composition: 'Ambroxol, Guaiphenesin, Levosalbutamol',
-          price: 70,
-          manufacturer: 'GSK'
-        },
-        {
-          _id: '4',
-          name: 'Azithromycin 500mg',
-          image: { url: 'https://images.unsplash.com/photo-1522335579687-9c718c5184d7?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-          uses: 'Treats respiratory and skin infections.',
-          composition: 'Azithromycin 500mg',
-          price: 75,
-          manufacturer: 'Alembic'
-        },
-        {
-          _id: '5',
-          name: 'Ibuprofen 400mg',
-          image: { url: 'https://plus.unsplash.com/premium_photo-1668605108427-695ef1c16256?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDI0fHx8ZW58MHx8fHx8' },
-          uses: 'Relieves pain, inflammation, and fever.',
-          composition: 'Ibuprofen 400mg',
-          price: 30,
-          manufacturer: 'Abbott'
-        },
-        {
-          _id: '6',
-          name: 'Dolo 650mg',
-          image: { url: 'https://plus.unsplash.com/premium_photo-1670981099419-405dd33f3b7a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDY5fHx8ZW58MHx8fHx8' },
-          uses: 'Reduces high fever and pain.',
-          composition: 'Paracetamol 650mg',
-          price: 25,
-          manufacturer: 'Micro Labs'
-        }
-      ]; %>
+  <div class="container mb-5">
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="medicine-card">
+          <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600" class="medicine-img" alt="Paracetamol">
+          <div class="medicine-body">
+            <h3 class="medicine-name">Paracetamol 500mg</h3>
+            <p><strong>Uses:</strong> Reduces fever and relieves pain</p>
+            <p><strong>Manufacturer:</strong> Cipla</p>
+            <div class="price-tag">Rs 20</div>
+            
+            <div class="quantity-selector">
+              <button class="qty-btn" onclick="decreaseQty('1')">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="qty-value" id="qty-1">1</span>
+              <button class="qty-btn" onclick="increaseQty('1')">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
 
-      <% for(let i = 0; i < allMedicines.length; i++) { %>
-        <% if(i % 3 === 0 && i !== 0) { %>
-          </div><div class="row justify-content-center mt-4">
-        <% } %>
-
-        <div class="col-md-4 d-flex align-items-stretch mb-4">
-          <div class="card w-100 shadow-sm h-100">
-            <img src="<%= allMedicines[i].image.url %>" class="card-img-top" alt="<%= allMedicines[i].name %>" style="height: 16rem; object-fit: cover;">
-            <div class="card-body">
-              <h5 class="card-title"><%= allMedicines[i].name %></h5>
-              <p class="card-text">
-                <strong>Uses:</strong> <%= allMedicines[i].uses %><br>
-                <strong>Composition:</strong> <%= allMedicines[i].composition %><br>
-                <strong>Price:</strong> ₹<%= allMedicines[i].price %><br>
-                <strong>Manufacturer:</strong> <%= allMedicines[i].manufacturer %>
-              </p>
-              <a href="/buy/<%= allMedicines[i]._id %>" class="btn btn-success w-100">Buy Now</a>
+            <div class="button-group">
+              <button class="cart-btn" onclick="addToCart('1', 'Paracetamol 500mg', 20)">
+                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+              </button>
+              <button class="buy-btn" onclick="buyNow('1', 'Paracetamol 500mg', 20)">
+                <i class="fas fa-bolt me-2"></i>Buy Now
+              </button>
             </div>
           </div>
         </div>
-      <% } %>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="medicine-card">
+          <img src="https://plus.unsplash.com/premium_photo-1668487826871-2f2cac23ad56?w=600" class="medicine-img" alt="Amoxicillin">
+          <div class="medicine-body">
+            <h3 class="medicine-name">Amoxicillin 250mg</h3>
+            <p><strong>Uses:</strong> Treats bacterial infections</p>
+            <p><strong>Manufacturer:</strong> Sun Pharma</p>
+            <div class="price-tag">Rs 50</div>
+            
+            <div class="quantity-selector">
+              <button class="qty-btn" onclick="decreaseQty('2')">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="qty-value" id="qty-2">1</span>
+              <button class="qty-btn" onclick="increaseQty('2')">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+
+            <div class="button-group">
+              <button class="cart-btn" onclick="addToCart('2', 'Amoxicillin 250mg', 50)">
+                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+              </button>
+              <button class="buy-btn" onclick="buyNow('2', 'Amoxicillin 250mg', 50)">
+                <i class="fas fa-bolt me-2"></i>Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="medicine-card">
+          <img src="https://images.unsplash.com/photo-1583088580067-16d1109aeacb?w=600" class="medicine-img" alt="Cough Syrup">
+          <div class="medicine-body">
+            <h3 class="medicine-name">Cough Syrup 100ml</h3>
+            <p><strong>Uses:</strong> Relieves cough and cold</p>
+            <p><strong>Manufacturer:</strong> GSK</p>
+            <div class="price-tag">Rs 70</div>
+            
+            <div class="quantity-selector">
+              <button class="qty-btn" onclick="decreaseQty('3')">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="qty-value" id="qty-3">1</span>
+              <button class="qty-btn" onclick="increaseQty('3')">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+
+            <div class="button-group">
+              <button class="cart-btn" onclick="addToCart('3', 'Cough Syrup', 70)">
+                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+              </button>
+              <button class="buy-btn" onclick="buyNow('3', 'Cough Syrup', 70)">
+                <i class="fas fa-bolt me-2"></i>Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="medicine-card">
+          <img src="https://images.unsplash.com/photo-1522335579687-9c718c5184d7?w=600" class="medicine-img" alt="Azithromycin">
+          <div class="medicine-body">
+            <h3 class="medicine-name">Azithromycin 500mg</h3>
+            <p><strong>Uses:</strong> Treats respiratory infections</p>
+            <p><strong>Manufacturer:</strong> Alembic</p>
+            <div class="price-tag">Rs 75</div>
+            
+            <div class="quantity-selector">
+              <button class="qty-btn" onclick="decreaseQty('4')">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="qty-value" id="qty-4">1</span>
+              <button class="qty-btn" onclick="increaseQty('4')">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+
+            <div class="button-group">
+              <button class="cart-btn" onclick="addToCart('4', 'Azithromycin 500mg', 75)">
+                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+              </button>
+              <button class="buy-btn" onclick="buyNow('4', 'Azithromycin 500mg', 75)">
+                <i class="fas fa-bolt me-2"></i>Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="medicine-card">
+          <img src="https://plus.unsplash.com/premium_photo-1668605108427-695ef1c16256?w=600" class="medicine-img" alt="Ibuprofen">
+          <div class="medicine-body">
+            <h3 class="medicine-name">Ibuprofen 400mg</h3>
+            <p><strong>Uses:</strong> Relieves pain and inflammation</p>
+            <p><strong>Manufacturer:</strong> Abbott</p>
+            <div class="price-tag">Rs 30</div>
+            
+            <div class="quantity-selector">
+              <button class="qty-btn" onclick="decreaseQty('5')">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="qty-value" id="qty-5">1</span>
+              <button class="qty-btn" onclick="increaseQty('5')">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+
+            <div class="button-group">
+              <button class="cart-btn" onclick="addToCart('5', 'Ibuprofen 400mg', 30)">
+                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+              </button>
+              <button class="buy-btn" onclick="buyNow('5', 'Ibuprofen 400mg', 30)">
+                <i class="fas fa-bolt me-2"></i>Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="medicine-card">
+          <img src="https://plus.unsplash.com/premium_photo-1670981099419-405dd33f3b7a?w=600" class="medicine-img" alt="Dolo">
+          <div class="medicine-body">
+            <h3 class="medicine-name">Dolo 650mg</h3>
+            <p><strong>Uses:</strong> Reduces fever and pain</p>
+            <p><strong>Manufacturer:</strong> Micro Labs</p>
+            <div class="price-tag">Rs 25</div>
+            
+            <div class="quantity-selector">
+              <button class="qty-btn" onclick="decreaseQty('6')">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="qty-value" id="qty-6">1</span>
+              <button class="qty-btn" onclick="increaseQty('6')">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+
+            <div class="button-group">
+              <button class="cart-btn" onclick="addToCart('6', 'Dolo 650mg', 25)">
+                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+              </button>
+              <button class="buy-btn" onclick="buyNow('6', 'Dolo 650mg', 25)">
+                <i class="fas fa-bolt me-2"></i>Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem("medicineCart")) || [];
+    const quantities = {};
+
+    function increaseQty(id) {
+      const qtyElement = document.getElementById("qty-" + id);
+      let currentQty = parseInt(qtyElement.textContent);
+      if (currentQty < 10) {
+        qtyElement.textContent = currentQty + 1;
+        quantities[id] = currentQty + 1;
+      }
+    }
+
+    function decreaseQty(id) {
+      const qtyElement = document.getElementById("qty-" + id);
+      let currentQty = parseInt(qtyElement.textContent);
+      if (currentQty > 1) {
+        qtyElement.textContent = currentQty - 1;
+        quantities[id] = currentQty - 1;
+      }
+    }
+
+    function addToCart(id, name, price) {
+      const quantity = quantities[id] || 1;
+      
+      const existingIndex = cart.findIndex(item => item.id === id);
+      
+      if (existingIndex !== -1) {
+        cart[existingIndex].quantity += quantity;
+      } else {
+        cart.push({ id: id, name: name, price: price, quantity: quantity });
+      }
+      
+      localStorage.setItem("medicineCart", JSON.stringify(cart));
+      updateCartBadge();
+      
+      document.getElementById("qty-" + id).textContent = "1";
+      quantities[id] = 1;
+      
+      showToast(name + " added to cart!");
+    }
+
+    function showToast(message) {
+      const toast = document.createElement("div");
+      toast.className = "toast-notification";
+      toast.innerHTML = '<i class="fas fa-check-circle"></i><span>' + message + '</span>';
+      document.body.appendChild(toast);
+
+      setTimeout(function() {
+        toast.style.animation = "slideOut 0.3s ease";
+        setTimeout(function() {
+          toast.remove();
+        }, 300);
+      }, 2000);
+    }
+
+    function buyNow(id, name, price) {
+      const quantity = quantities[id] || 1;
+      const total = price * quantity;
+      createOrder(name, total);
+    }
+
+    function updateCartBadge() {
+      const badge = document.getElementById("cartCount");
+      if (badge) {
+        const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+        badge.textContent = total;
+        badge.style.display = total > 0 ? "flex" : "none";
+      }
+    }
+
+    async function createOrder(name, price) {
+      try {
+        const response = await fetch("/create-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: price })
+        });
+
+        const order = await response.json();
+
+        const options = {
+          key: order.rzrpay_key,
+          amount: order.amount,
+          currency: "INR",
+          name: "HospitalCare Pharmacy",
+          description: name,
+          order_id: order.orderId,
+          handler: function(response) {
+            alert("Payment Successful! Order will be delivered in 2-3 days.");
+          },
+          theme: { color: "#667eea" }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    }
+
+    updateCartBadge();
+  </script>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
+

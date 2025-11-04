@@ -1,0 +1,612 @@
+<%- layout('layouts/boilerplate') %>
+
+<style>
+  /* Page Styles */
+  body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+  }
+
+  /* Hero Section */
+  .rooms-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 80px 0 60px 0;
+    margin-bottom: 50px;
+    border-radius: 0 0 50px 50px;
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .rooms-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: heroFloat 15s ease-in-out infinite;
+  }
+
+  @keyframes heroFloat {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-50px, 50px) rotate(180deg); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-shadow: 2px 4px 8px rgba(0,0,0,0.2);
+    animation: fadeInDown 0.8s ease;
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    animation: fadeInUp 0.8s ease;
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Filters Section */
+  .filters-wrapper {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+  }
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-weight: 700;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .filter-select, .filter-input {
+    padding: 12px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    color: #4a5568;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    min-width: 180px;
+  }
+
+  .filter-select:hover, .filter-input:hover {
+    border-color: #667eea;
+  }
+
+  .filter-select:focus, .filter-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  .filter-btn {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: auto;
+  }
+
+  .filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  /* Room Cards */
+  .room-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid transparent;
+  }
+
+  .room-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+    border-color: #667eea;
+  }
+
+  .room-card-header {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .room-card-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .room-card:hover .room-card-header img {
+    transform: scale(1.1);
+  }
+
+  .room-type-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+  }
+
+  .availability-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 6px 15px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    z-index: 10;
+  }
+
+  .available {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+  }
+
+  .not-available {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: white;
+  }
+
+  .room-card-body {
+    padding: 25px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hospital-info {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f7fafc;
+  }
+
+  .hospital-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hospital-name i {
+    color: #667eea;
+  }
+
+  .hospital-location {
+    color: #718096;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+  }
+
+  .hospital-location i {
+    color: #667eea;
+  }
+
+  .room-details {
+    flex: 1;
+  }
+
+  .detail-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    color: #4a5568;
+  }
+
+  .detail-row i {
+    width: 25px;
+    color: #667eea;
+    font-size: 1.1rem;
+  }
+
+  .price-section {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    padding: 15px;
+    border-radius: 12px;
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  .price-label {
+    font-size: 0.9rem;
+    color: #718096;
+    margin-bottom: 5px;
+  }
+
+  .price-value {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .facilities-section {
+    margin-top: 15px;
+  }
+
+  .facilities-title {
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+  }
+
+  .facilities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .facility-tag {
+    background: white;
+    border: 2px solid #667eea30;
+    color: #667eea;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .book-btn {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: auto;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .book-btn:hover {
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  /* No Rooms Message */
+  .no-rooms-message {
+    text-align: center;
+    padding: 80px 20px;
+    color: #718096;
+  }
+
+  .no-rooms-message i {
+    font-size: 5rem;
+    color: #cbd5e0;
+    margin-bottom: 20px;
+  }
+
+  .no-rooms-message h3 {
+    font-size: 2rem;
+    color: #2d3748;
+    margin-bottom: 10px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+    }
+
+    .filter-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .filter-select, .filter-input {
+      width: 100%;
+    }
+
+    .filter-btn {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    .price-value {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<body>
+  <!-- Hero Section -->
+  <div class="rooms-hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <i class="fas fa-bed me-3"></i>
+          Book Your Room
+        </h1>
+        <p class="hero-subtitle">
+          Find the perfect room for your medical needs from our verified hospitals
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Filters -->
+    <div class="filters-wrapper">
+      <div class="filter-row">
+        <span class="filter-label">
+          <i class="fas fa-filter"></i>
+          Filter Rooms:
+        </span>
+        
+        <select id="cityFilter" class="filter-select" onchange="applyFilters()">
+          <option value="">All Cities</option>
+        </select>
+
+        <select id="roomTypeFilter" class="filter-select" onchange="applyFilters()">
+          <option value="">All Room Types</option>
+        </select>
+
+        <select id="priceFilter" class="filter-select" onchange="applyFilters()">
+          <option value="">All Prices</option>
+          <option value="0-500">₹0 - ₹500</option>
+          <option value="500-1000">₹500 - ₹1000</option>
+          <option value="1000-2000">₹1000 - ₹2000</option>
+          <option value="2000+">₹2000+</option>
+        </select>
+
+        <select id="availabilityFilter" class="filter-select" onchange="applyFilters()">
+          <option value="">All Availability</option>
+          <option value="true">Available Only</option>
+          <option value="false">Not Available</option>
+        </select>
+
+        <button class="filter-btn" onclick="resetFilters()">
+          <i class="fas fa-redo me-2"></i>Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- Rooms Grid -->
+    <% if (allRooms.length === 0) { %>
+      <div class="no-rooms-message">
+        <i class="fas fa-bed"></i>
+        <h3>No Rooms Available</h3>
+        <p>Currently, there are no rooms listed. Please check back later.</p>
+      </div>
+    <% } else { %>
+      <div class="row g-4" id="roomsContainer">
+        <% allRooms.forEach(function(room) { %>
+          <div class="col-lg-4 col-md-6 room-item" 
+               data-city="<%= room.hospitalCity %>"
+               data-roomtype="<%= room.roomType %>"
+               data-price="<%= room.pricePerDay %>"
+               data-available="<%= room.isAvailable %>">
+            <div class="room-card">
+              <div class="room-card-header">
+                <img src="<%= room.hospitalImage.url %>" alt="<%= room.hospitalName %>">
+                <div class="room-type-badge">
+                  <i class="fas fa-bed me-2"></i>
+                  <%= room.roomType %>
+                </div>
+                <div class="availability-badge <%= room.isAvailable ? 'available' : 'not-available' %>">
+                  <i class="fas fa-<%= room.isAvailable ? 'check' : 'times' %>-circle me-1"></i>
+                  <%= room.isAvailable ? 'Available' : 'Not Available' %>
+                </div>
+              </div>
+
+              <div class="room-card-body">
+                <div class="hospital-info">
+                  <div class="hospital-name">
+                    <i class="fas fa-hospital"></i>
+                    <%= room.hospitalName %>
+                  </div>
+                  <div class="hospital-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <%= room.hospitalLocation %>, <%= room.hospitalCity %>
+                  </div>
+                </div>
+
+                <div class="room-details">
+                  <div class="detail-row">
+                    <i class="fas fa-bed"></i>
+                    <span><strong>Beds:</strong> <%= room.bedCount %></span>
+                  </div>
+                  <div class="detail-row">
+                    <i class="fas fa-phone"></i>
+                    <span><strong>Contact:</strong> <%= room.hospitalContact %></span>
+                  </div>
+                </div>
+
+                <div class="price-section">
+                  <div class="price-label">Price Per Day</div>
+                  <div class="price-value">₹<%= room.pricePerDay %></div>
+                </div>
+
+                <% if (room.facilities && room.facilities.length > 0) { %>
+                  <div class="facilities-section">
+                    <div class="facilities-title">
+                      <i class="fas fa-check-circle me-2" style="color: #667eea;"></i>
+                      Facilities
+                    </div>
+                    <div class="facilities-list">
+                      <% room.facilities.forEach(function(facility) { %>
+                        <span class="facility-tag">
+                          <i class="fas fa-check me-1"></i>
+                          <%= facility %>
+                        </span>
+                      <% }) %>
+                    </div>
+                  </div>
+                <% } %>
+
+                <a href="/listings/<%= room.hospitalId %>" class="book-btn">
+                  <i class="fas fa-calendar-check me-2"></i>
+                  View Hospital & Book
+                </a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+
+  <script>
+    // Populate dynamic filters on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      populateFilters();
+    });
+
+    function populateFilters() {
+      const roomItems = document.querySelectorAll('.room-item');
+      const cities = new Set();
+      const roomTypes = new Set();
+
+      roomItems.forEach(item => {
+        const city = item.dataset.city;
+        const roomType = item.dataset.roomtype;
+        if (city) cities.add(city);
+        if (roomType) roomTypes.add(roomType);
+      });
+
+      // Populate city filter
+      const cityFilter = document.getElementById('cityFilter');
+      cities.forEach(city => {
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        cityFilter.appendChild(option);
+      });
+
+      // Populate room type filter
+      const roomTypeFilter = document.getElementById('roomTypeFilter');
+      roomTypes.forEach(type => {
+        const option = document.createElement('option');
+        option.value = type;
+        option.textContent = type;
+        roomTypeFilter.appendChild(option);
+      });
+    }
+
+    function applyFilters() {
+      const cityFilter = document.getElementById('cityFilter').value.toLowerCase();
+      const roomTypeFilter = document.getElementById('roomTypeFilter').value.toLowerCase();
+      const priceFilter = document.getElementById('priceFilter').value;
+      const availabilityFilter = document.getElementById('availabilityFilter').value;
+      const roomItems = document.querySelectorAll('.room-item');
+
+      roomItems.forEach(item => {
+        let show = true;
+
+        // City filter
+        if (cityFilter && item.dataset.city.toLowerCase() !== cityFilter) {
+          show = false;
+        }
+
+        // Room type filter
+        if (roomTypeFilter && item.dataset.roomtype.toLowerCase() !== roomTypeFilter) {
+          show = false;
+        }
+
+        // Price filter
+        if (priceFilter && show) {
+          const price = parseInt(item.dataset.price);
+          if (priceFilter === '0-500' && (price < 0 || price > 500)) {
+            show = false;
+          } else if (priceFilter === '500-1000' && (price < 500 || price > 1000)) {
+            show = false;
+          } else if (priceFilter === '1000-2000' && (price < 1000 || price > 2000)) {
+            show = false;
+          } else if (priceFilter === '2000+' && price < 2000) {
+            show = false;
+          }
+        }
+
+        // Availability filter
+        if (availabilityFilter && item.dataset.available !== availabilityFilter) {
+          show = false;
+        }
+
+        item.style.display = show ? 'block' : 'none';
+      });
+    }
+
+    function resetFilters() {
+      document.getElementById('cityFilter').value = '';
+      document.getElementById('roomTypeFilter').value = '';
+      document.getElementById('priceFilter').value = '';
+      document.getElementById('availabilityFilter').value = '';
+      
+      const roomItems = document.querySelectorAll('.room-item');
+      roomItems.forEach(item => {
+        item.style.display = 'block';
+      });
+    }
+  </script>
+</body>
+

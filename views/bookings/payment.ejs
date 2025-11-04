@@ -1,0 +1,265 @@
+<%- layout('layouts/boilerplate') %>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+
+  .payment-container {
+    max-width: 700px;
+    margin: 40px auto;
+  }
+
+  .payment-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+  }
+
+  .payment-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px;
+    color: white;
+    text-align: center;
+  }
+
+  .payment-header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .payment-body {
+    padding: 40px;
+  }
+
+  .booking-summary {
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .summary-row:last-child {
+    border-bottom: none;
+    padding-top: 20px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+  }
+
+  .summary-label {
+    color: #4a5568;
+    font-weight: 600;
+  }
+
+  .summary-value {
+    color: #2d3748;
+    font-weight: 600;
+  }
+
+  .pay-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .pay-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(67, 233, 123, 0.4);
+  }
+
+  .security-note {
+    text-align: center;
+    color: #718096;
+    font-size: 0.9rem;
+    margin-top: 20px;
+  }
+
+  .security-note i {
+    color: #43e97b;
+  }
+
+  @media (max-width: 768px) {
+    .payment-header h1 {
+      font-size: 1.8rem;
+    }
+
+    .payment-body {
+      padding: 25px;
+    }
+  }
+</style>
+
+<body>
+  <div class="payment-container">
+    <div class="payment-card">
+      <div class="payment-header">
+        <h1>
+          <i class="fas fa-credit-card me-3"></i>
+          Payment
+        </h1>
+        <p class="mb-0">Secure payment gateway powered by Razorpay</p>
+      </div>
+
+      <div class="payment-body">
+        <div class="booking-summary">
+          <h4 class="mb-4" style="color: #2d3748; font-weight: 700;">
+            <i class="fas fa-file-invoice me-2"></i>
+            Booking Details
+          </h4>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              <i class="fas fa-hospital me-2" style="color: #667eea;"></i>
+              Hospital
+            </span>
+            <span class="summary-value"><%= booking.hospital.name %></span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              <i class="fas fa-bed me-2" style="color: #667eea;"></i>
+              Room Type
+            </span>
+            <span class="summary-value"><%= booking.roomType %></span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              <i class="fas fa-user-injured me-2" style="color: #667eea;"></i>
+              Patient
+            </span>
+            <span class="summary-value"><%= booking.patientName %></span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              <i class="fas fa-calendar-check me-2" style="color: #667eea;"></i>
+              Check-in
+            </span>
+            <span class="summary-value"><%= new Date(booking.checkInDate).toLocaleDateString('en-IN') %></span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              <i class="fas fa-calendar-times me-2" style="color: #667eea;"></i>
+              Check-out
+            </span>
+            <span class="summary-value"><%= new Date(booking.checkOutDate).toLocaleDateString('en-IN') %></span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              <i class="fas fa-clock me-2" style="color: #667eea;"></i>
+              Duration
+            </span>
+            <span class="summary-value"><%= booking.numberOfDays %> days</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              <i class="fas fa-rupee-sign me-2" style="color: #43e97b;"></i>
+              Total Amount
+            </span>
+            <span class="summary-value" style="color: #43e97b; font-size: 1.5rem;">
+              ₹<%= booking.totalAmount %>
+            </span>
+          </div>
+        </div>
+
+        <button class="pay-btn" id="rzp-button">
+          <i class="fas fa-lock me-2"></i>
+          Pay ₹<%= booking.totalAmount %>
+        </button>
+
+        <p class="security-note">
+          <i class="fas fa-shield-alt me-2"></i>
+          Your payment is secured with 256-bit SSL encryption
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    document.getElementById('rzp-button').onclick = async function (e) {
+      e.preventDefault();
+
+      // Create order on server
+      const response = await fetch('/create-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: <%= booking.totalAmount %>
+        })
+      });
+
+      const order = await response.json();
+
+      const options = {
+        key: order.rzrpay_key,
+        amount: order.amount,
+        currency: "INR",
+        name: "HospitalCare",
+        description: "Room Booking Payment",
+        image: "https://cdn-icons-png.flaticon.com/512/2965/2965226.png",
+        order_id: order.orderId,
+        handler: async function (response) {
+          // Payment successful
+          const paymentData = {
+            paymentId: response.razorpay_payment_id,
+            orderId: response.razorpay_order_id
+          };
+
+          // Send to server
+          const result = await fetch('/bookings/<%= booking._id %>/payment-success', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(paymentData)
+          });
+
+          if (result.ok) {
+            window.location.href = '/bookings/<%= booking._id %>/confirmation';
+          }
+        },
+        prefill: {
+          name: "<%= booking.patientName %>",
+          contact: "<%= booking.contactNumber %>"
+        },
+        theme: {
+          color: "#667eea"
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.on('payment.failed', function (response) {
+        alert('Payment Failed! Please try again.');
+        console.error(response.error);
+      });
+
+      rzp.open();
+    }
+  </script>
+</body>
+

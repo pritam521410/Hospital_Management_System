@@ -1,30 +1,691 @@
-<footer>
-    <div class="f-info" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background-color: #f8f9fa; color: #333; font-family: 'Segoe UI', sans-serif; flex-wrap: wrap; gap: 10px;">
-      
-      <!-- Social Links -->
-      <div class="f-info-socials" style="font-size: 1.5rem;">
-        <a href="https://www.instagram.com/___pritamkr__/" target="_blank" style="margin-right: 15px; color: inherit;">
-          <i class="fa-brands fa-square-instagram"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/pritam52/" target="_blank" style="margin-right: 15px; color: inherit;">
-          <i class="fa-brands fa-linkedin"></i>
-        </a>
-        <a href="https://github.com/pritam521410" target="_blank" style="color: inherit;">
-          <i class="fa-brands fa-square-github"></i>
-        </a>
+<footer class="modern-footer">
+  <div class="footer-container">
+    <!-- Footer Top Section -->
+    <div class="footer-top">
+      <!-- About Section -->
+      <div class="footer-column">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+            <span class="footer-brand-name">HospitalCare</span>
+          </div>
+          <p class="footer-description">
+            Your trusted partner in healthcare management. Providing quality medical services and room booking facilities to ensure your comfort and well-being.
+          </p>
+          <div class="footer-stats">
+            <div class="footer-stat">
+              <i class="fas fa-users"></i>
+              <span>10K+ Patients</span>
+            </div>
+            <div class="footer-stat">
+              <i class="fas fa-hospital"></i>
+              <span>50+ Hospitals</span>
+            </div>
+            <div class="footer-stat">
+              <i class="fas fa-award"></i>
+              <span>ISO Certified</span>
+            </div>
+          </div>
+        </div>
       </div>
-  
-      <!-- Brand Info -->
-      <div class="f-info-brand" style="font-size: 1rem;">
-        &copy; HospitalCare Systems Pvt. Ltd.
+
+      <!-- Quick Links -->
+      <div class="footer-column">
+        <h3 class="footer-heading">Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="/listings"><i class="fas fa-home"></i>Home</a></li>
+          <li><a href="/rooms"><i class="fas fa-bed"></i>Rooms</a></li>
+          <li><a href="/buy"><i class="fas fa-pills"></i>Medicines</a></li>
+          <li><a href="/cart"><i class="fas fa-shopping-cart"></i>Shopping Cart</a></li>
+          <li><a href="/listings/new"><i class="fas fa-plus-circle"></i>Add Room</a></li>
+          <li><a href="/about"><i class="fas fa-info-circle"></i>About Us</a></li>
+          <li><a href="/contact"><i class="fas fa-phone"></i>Contact Us</a></li>
+        </ul>
       </div>
-  
-      <!-- Policy Links -->
-      <div class="f-info-links" style="font-size: 1rem;">
-        <a href="/privacy" style="margin-right: 15px; color: #0d6efd;">Privacy Policy</a>
-        <a href="/terms" style="color: #0d6efd;">Terms of Service</a>
+
+      <!-- Services -->
+      <div class="footer-column">
+        <h3 class="footer-heading">Our Services</h3>
+        <ul class="footer-links">
+          <li><a href="/services/emergency"><i class="fas fa-ambulance"></i>Emergency Care</a></li>
+          <li><a href="/services/diagnostics"><i class="fas fa-microscope"></i>Diagnostics</a></li>
+          <li><a href="/services/pharmacy"><i class="fas fa-prescription-bottle"></i>Pharmacy</a></li>
+          <li><a href="/services/consultation"><i class="fas fa-user-md"></i>Doctor Consultation</a></li>
+          <li><a href="/services/lab"><i class="fas fa-vial"></i>Lab Tests</a></li>
+          <li><a href="/services/surgery"><i class="fas fa-procedures"></i>Surgery</a></li>
+        </ul>
       </div>
-      
+
+      <!-- Contact Info -->
+      <div class="footer-column">
+        <h3 class="footer-heading">Contact Us</h3>
+        <ul class="footer-contact">
+          <li>
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <strong>Address</strong>
+              <span>Punsia Basti, Banka, Bihar, India</span>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-phone"></i>
+            <div>
+              <strong>Phone</strong>
+              <span>+91 1800-123-4567</span>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-envelope"></i>
+            <div>
+              <strong>Email</strong>
+              <span>info@hospitalcare.com</span>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-clock"></i>
+            <div>
+              <strong>Working Hours</strong>
+              <span>24/7 Emergency Services</span>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
-  </footer>
+
+    <!-- Footer Middle - Newsletter -->
+    <div class="footer-newsletter">
+      <div class="newsletter-content">
+        <div class="newsletter-text">
+          <i class="fas fa-envelope-open-text"></i>
+          <div>
+            <h3>Subscribe to Our Newsletter</h3>
+            <p>Get health tips, updates, and special offers directly in your inbox</p>
+          </div>
+        </div>
+        <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+          <input type="email" placeholder="Enter your email address" required id="newsletterEmail">
+          <button type="submit">
+            <i class="fas fa-paper-plane me-2"></i>Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <!-- Copyright -->
+        <div class="footer-copyright">
+          <p>&copy; <%= new Date().getFullYear() %> <strong>HospitalCare Systems Pvt. Ltd.</strong> All Rights Reserved.</p>
+          <p class="footer-tagline">Committed to Your Health & Wellness</p>
+        </div>
+
+        <!-- Social Links -->
+        <div class="footer-social">
+          <span class="social-text">Follow Us:</span>
+          <div class="social-icons">
+            <a href="https://www.instagram.com/___pritamkr__/" target="_blank" class="social-icon instagram" title="Instagram">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/pritam52/" target="_blank" class="social-icon linkedin" title="LinkedIn">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="https://github.com/pritam521410" target="_blank" class="social-icon github" title="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" class="social-icon twitter" title="Twitter">
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a href="https://facebook.com" target="_blank" class="social-icon facebook" title="Facebook">
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Legal Links -->
+        <div class="footer-legal">
+          <a href="/privacy">Privacy Policy</a>
+          <span class="separator">|</span>
+          <a href="/terms">Terms of Service</a>
+          <span class="separator">|</span>
+          <a href="/cookies">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()" id="backToTop" title="Back to Top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+  </div>
+</footer>
+
+<style>
+  /* Modern Footer Styles */
+  .modern-footer {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #1a202c 100%);
+    color: #e2e8f0;
+    margin-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .modern-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  }
+
+  .footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Footer Top */
+  .footer-top {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    padding: 60px 0 40px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-column {
+    animation: fadeInUp 0.8s ease;
+  }
+
+  /* Footer Brand */
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .footer-logo i {
+    font-size: 2.5rem;
+    color: #dc3545;
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+
+  .footer-brand-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .footer-description {
+    color: #cbd5e0;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+  }
+
+  .footer-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+  }
+
+  .footer-stat i {
+    color: #667eea;
+  }
+
+  /* Footer Headings */
+  .footer-heading {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: white;
+    position: relative;
+    padding-bottom: 12px;
+  }
+
+  .footer-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 3px;
+  }
+
+  /* Footer Links */
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links li {
+    margin-bottom: 12px;
+  }
+
+  .footer-links a {
+    color: #cbd5e0;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+  }
+
+  .footer-links a i {
+    width: 20px;
+    color: #667eea;
+    transition: transform 0.3s ease;
+  }
+
+  .footer-links a:hover {
+    color: #667eea;
+    transform: translateX(5px);
+  }
+
+  .footer-links a:hover i {
+    transform: scale(1.2);
+  }
+
+  /* Footer Contact */
+  .footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-contact li {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .footer-contact i {
+    width: 20px;
+    color: #667eea;
+    font-size: 1.2rem;
+    margin-top: 3px;
+  }
+
+  .footer-contact div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .footer-contact strong {
+    color: white;
+    font-size: 0.95rem;
+  }
+
+  .footer-contact span {
+    color: #cbd5e0;
+    font-size: 0.9rem;
+  }
+
+  /* Newsletter Section */
+  .footer-newsletter {
+    padding: 40px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .newsletter-content {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .newsletter-text {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex: 1;
+  }
+
+  .newsletter-text i {
+    font-size: 3rem;
+    color: #667eea;
+  }
+
+  .newsletter-text h3 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    color: white;
+  }
+
+  .newsletter-text p {
+    color: #cbd5e0;
+    margin: 0;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    min-width: 300px;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    padding: 15px 25px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .newsletter-form input::placeholder {
+    color: #a0aec0;
+  }
+
+  .newsletter-form input:focus {
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .newsletter-form button {
+    padding: 15px 35px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .newsletter-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  /* Footer Bottom */
+  .footer-bottom {
+    padding: 30px 0;
+  }
+
+  .footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .footer-copyright {
+    flex: 1;
+  }
+
+  .footer-copyright p {
+    margin: 0;
+    color: #cbd5e0;
+    font-size: 0.95rem;
+  }
+
+  .footer-tagline {
+    color: #a0aec0;
+    font-size: 0.85rem !important;
+    margin-top: 5px !important;
+    font-style: italic;
+  }
+
+  /* Social Links */
+  .footer-social {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .social-text {
+    color: #cbd5e0;
+    font-weight: 600;
+    margin-right: 5px;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 12px;
+  }
+
+  .social-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    border: 2px solid transparent;
+  }
+
+  .social-icon.instagram {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  }
+
+  .social-icon.linkedin {
+    background: #0077b5;
+  }
+
+  .social-icon.github {
+    background: #333;
+  }
+
+  .social-icon.twitter {
+    background: #1da1f2;
+  }
+
+  .social-icon.facebook {
+    background: #1877f2;
+  }
+
+  .social-icon:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Legal Links */
+  .footer-legal {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .footer-legal a {
+    color: #cbd5e0;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+  }
+
+  .footer-legal a:hover {
+    color: #667eea;
+  }
+
+  .separator {
+    color: #4a5568;
+  }
+
+  /* Back to Top Button */
+  .back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 999;
+  }
+
+  .back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .back-to-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .footer-top {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .newsletter-content {
+      padding: 30px;
+    }
+
+    .newsletter-text {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .footer-top {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-bottom-content {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .newsletter-form {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .newsletter-form button {
+      width: 100%;
+    }
+
+    .back-to-top {
+      bottom: 20px;
+      right: 20px;
+      width: 45px;
+      height: 45px;
+    }
+
+    .footer-social {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .footer-legal {
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  // Newsletter Subscription
+  function subscribeNewsletter(event) {
+    event.preventDefault();
+    const email = document.getElementById('newsletterEmail').value;
+    
+    // Show success message (you can integrate with your backend)
+    alert(`Thank you for subscribing! We'll send updates to ${email}`);
+    document.getElementById('newsletterEmail').value = '';
+  }
+
+  // Back to Top Button
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  // Show/Hide Back to Top Button
+  window.addEventListener('scroll', function() {
+    const backToTopBtn = document.getElementById('backToTop');
+    if (backToTopBtn) {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    }
+  });
+
+  // Animate footer elements on scroll
+  const observeFooter = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.footer-column').forEach(column => {
+    column.style.opacity = '0';
+    column.style.transform = 'translateY(30px)';
+    column.style.transition = 'all 0.6s ease';
+    observeFooter.observe(column);
+  });
+</script>
   
