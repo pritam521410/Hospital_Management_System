@@ -72,12 +72,13 @@ const store = MongoStore.create({
   touchAfter: 24 * 3600,
 });
 
-store.on("error" ,()=>{
-  console.log("ERROR in MONGO SESSION STORE",err);
+store.on("error", (err) => {
+  console.log("ERROR in MONGO SESSION STORE", err);
 });
 
 // Session setup with cookie
 const sessionOptions = {
+  store: store, // MongoDB store use kar rahe hain sessions ke liye
   secret: process.env.SECRET, // Session ko secure banane ke liye secret
   resave: false,
   saveUninitialized: true,
@@ -110,10 +111,6 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.redirect("/listings"); // Root page pe /listings ko redirect karte hain
 });
- 
- app.get("/", (req, res) => {
-   res.redirect("/listings");  // Root page pe /listings ko redirect karte hain
- });
 
 // Review validation middleware - agar review galat hai to error throw hoga
 const validateReview = (req, res, next) => {
