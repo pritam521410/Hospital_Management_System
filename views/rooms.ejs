@@ -9,11 +9,11 @@
 
   /* Hero Section */
   .rooms-hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     padding: 80px 0 60px 0;
     margin-bottom: 50px;
     border-radius: 0 0 50px 50px;
-    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 20px 60px rgba(168, 237, 234, 0.3);
     position: relative;
     overflow: hidden;
   }
@@ -38,19 +38,20 @@
     position: relative;
     z-index: 2;
     text-align: center;
-    color: white;
   }
 
   .hero-title {
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 20px;
-    text-shadow: 2px 4px 8px rgba(0,0,0,0.2);
+    color: #2d3748;
+    text-shadow: 2px 4px 8px rgba(255,255,255,0.5);
     animation: fadeInDown 0.8s ease;
   }
 
   .hero-subtitle {
     font-size: 1.3rem;
+    color: #4a5568;
     opacity: 0.95;
     animation: fadeInUp 0.8s ease;
   }
@@ -103,17 +104,17 @@
   }
 
   .filter-select:hover, .filter-input:hover {
-    border-color: #667eea;
+    border-color: #6dd5ed;
   }
 
   .filter-select:focus, .filter-input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #6dd5ed;
+    box-shadow: 0 0 0 3px rgba(109, 213, 237, 0.1);
   }
 
   .filter-btn {
     padding: 12px 30px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
     color: white;
     border: none;
     border-radius: 12px;
@@ -125,7 +126,7 @@
 
   .filter-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 25px rgba(109, 213, 237, 0.4);
   }
 
   /* Room Cards */
@@ -143,8 +144,8 @@
 
   .room-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
-    border-color: #667eea;
+    box-shadow: 0 20px 60px rgba(109, 213, 237, 0.3);
+    border-color: #6dd5ed;
   }
 
   .room-card-header {
@@ -168,7 +169,7 @@
     position: absolute;
     top: 15px;
     left: 15px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
     color: white;
     padding: 8px 20px;
     border-radius: 50px;
@@ -223,7 +224,7 @@
   }
 
   .hospital-name i {
-    color: #667eea;
+    color: #2193b0;
   }
 
   .hospital-location {
@@ -235,7 +236,7 @@
   }
 
   .hospital-location i {
-    color: #667eea;
+    color: #2193b0;
   }
 
   .room-details {
@@ -252,12 +253,12 @@
 
   .detail-row i {
     width: 25px;
-    color: #667eea;
+    color: #2193b0;
     font-size: 1.1rem;
   }
 
   .price-section {
-    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    background: linear-gradient(135deg, #6dd5ed15 0%, #2193b015 100%);
     padding: 15px;
     border-radius: 12px;
     margin: 20px 0;
@@ -273,7 +274,7 @@
   .price-value {
     font-size: 2rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -298,8 +299,8 @@
 
   .facility-tag {
     background: white;
-    border: 2px solid #667eea30;
-    color: #667eea;
+    border: 2px solid #6dd5ed30;
+    color: #2193b0;
     padding: 5px 12px;
     border-radius: 20px;
     font-size: 0.85rem;
@@ -309,7 +310,7 @@
   .book-btn {
     display: block;
     width: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
     color: white;
     text-align: center;
     padding: 15px;
@@ -325,7 +326,7 @@
   .book-btn:hover {
     color: white;
     transform: scale(1.05);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 25px rgba(109, 213, 237, 0.4);
   }
 
   /* No Rooms Message */
@@ -490,7 +491,7 @@
                 <% if (room.facilities && room.facilities.length > 0) { %>
                   <div class="facilities-section">
                     <div class="facilities-title">
-                      <i class="fas fa-check-circle me-2" style="color: #667eea;"></i>
+                      <i class="fas fa-check-circle me-2" style="color: #2193b0;"></i>
                       Facilities
                     </div>
                     <div class="facilities-list">

@@ -37,12 +37,38 @@ const listingController = require("./controllers/listingController");
 const wrapAsync = require("./utils/wrapAsync");
 
 // MongoDB se connect ho rahe hain
-const dbUrl = process.env.ATLASDB_URL;
+const dbUrl =
+  process.env.ATLASDB_URL ||
+  "mongodb://127.0.0.1:27017/HospitalManagementSystem";
+
+// Check for required environment variables
+if (!process.env.ATLASDB_URL) {
+  console.warn("⚠️  WARNING: ATLASDB_URL not found in environment variables!");
+  console.warn(
+    "⚠️  Using local MongoDB. Please set environment variables in production."
+  );
+}
+
+if (!process.env.SECRET) {
+  console.warn("⚠️  WARNING: SECRET not found in environment variables!");
+  console.warn(
+    "⚠️  Using default secret. Please set SECRET in production for security."
+  );
+}
+
 async function main() {
   await mongoose.connect(dbUrl);
-  console.log("Connected to DB");
+  console.log(
+    "✅ Connected to DB:",
+    dbUrl.includes("mongodb://127") ? "Local MongoDB" : "MongoDB Atlas"
+  );
 }
-main().catch((err) => console.log("DB connection error:", err));
+main().catch((err) => {
+  console.error("❌ DB connection error:", err.message);
+  console.error(
+    "Please check your MongoDB connection string and ensure MongoDB is running."
+  );
+});
 
 // EJS view engine aur views folder set kar rahe hain
 app.engine("ejs", ejsMate); // EJS-Mate template engine use kar rahe hain
@@ -58,7 +84,7 @@ app.use(express.static(path.join(__dirname, "/public"))); // Static files ko ser
 const store = MongoStore.create({
   mongoUrl: dbUrl,
   crypto: {
-    secret: process.env.SECRET,
+    secret: process.env.SECRET || "thisisasecretkey-pleasechangeinproduction",
   },
   touchAfter: 24 * 3600,
 });
@@ -70,7 +96,7 @@ store.on("error", (err) => {
 // Session setup with cookie
 const sessionOptions = {
   store: store, // MongoDB store use kar rahe hain sessions ke liye
-  secret: process.env.SECRET, // Session ko secure banane ke liye secret
+  secret: process.env.SECRET || "thisisasecretkey-pleasechangeinproduction", // Session ko secure banane ke liye secret
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -114,7 +140,9 @@ app.use("/api/payment", paymentAPIRoute); // Payment API route
 // Direct /rooms route
 app.get("/rooms", wrapAsync(listingController.rooms));
 
-// Server ko start kar rahe hain port 8080 pe
-app.listen(8080, () => {
-  console.log("App is listening on port 8080"); // Server start hone par console message
+// Server ko start kar rahe hain
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`🌐 Environment: ${process.env.NODE_ENV || "development"}`);
 });
