@@ -31,6 +31,7 @@ const pageRoutes = require("./routes/pageRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const policyRoutes = require("./routes/policyRoutes");
 const newsletterRoutes = require("./routes/newsletterRoutes");
+const medicineRoutes = require("./routes/medicineRoutes");
 
 // Controllers import for direct routes
 const listingController = require("./controllers/listingController");
@@ -135,6 +136,7 @@ app.use("/listings", listingRoutes); // Listing routes
 app.use("/listings/:id/reviews", reviewRoutes); // Review routes
 app.use("/bookings", bookingRoutes); // Booking routes
 app.use("/my-bookings", myBookingRoutes); // My bookings route
+app.use("/medicines", medicineRoutes); // Medicine routes
 app.use("/api/payment", paymentAPIRoute); // Payment API route
 
 // Direct /rooms route
