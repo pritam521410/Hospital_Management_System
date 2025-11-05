@@ -1,0 +1,194 @@
+<% layout("/layouts/boilerplate") -%>
+
+<div class="service-page">
+  <div class="service-hero">
+    <div class="container">
+      <div class="service-hero-content">
+        <i class="fas fa-ambulance service-icon"></i>
+        <h1>Emergency Care Services</h1>
+        <p class="lead">24/7 Emergency Medical Care Available</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container service-content">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="service-description">
+          <h2>Immediate Medical Attention When You Need It Most</h2>
+          <p>
+            Our Emergency Care department is equipped with state-of-the-art facilities and staffed by highly trained medical professionals who are available 24/7 to handle any medical emergency. We understand that emergencies can happen at any time, and we're here to provide immediate, life-saving care.
+          </p>
+
+          <h3 class="mt-4">Our Emergency Services Include:</h3>
+          <ul class="service-list">
+            <li><i class="fas fa-check-circle"></i> Trauma and Accident Care</li>
+            <li><i class="fas fa-check-circle"></i> Cardiac Emergency Care</li>
+            <li><i class="fas fa-check-circle"></i> Stroke Management</li>
+            <li><i class="fas fa-check-circle"></i> Critical Care & ICU</li>
+            <li><i class="fas fa-check-circle"></i> Pediatric Emergency Care</li>
+            <li><i class="fas fa-check-circle"></i> Burns and Injuries Treatment</li>
+            <li><i class="fas fa-check-circle"></i> Emergency Surgery</li>
+            <li><i class="fas fa-check-circle"></i> Poison Control</li>
+          </ul>
+
+          <div class="alert alert-danger mt-4">
+            <h4><i class="fas fa-exclamation-triangle"></i> Emergency Hotline</h4>
+            <p class="mb-0">For immediate emergency assistance, call: <strong>+91 1800-123-4567</strong></p>
+          </div>
+
+          <h3 class="mt-4">What to Expect</h3>
+          <p>
+            When you arrive at our Emergency Department, you'll be immediately assessed by our triage team who will determine the urgency of your condition. Patients with life-threatening conditions are treated immediately, while others are seen based on the severity of their condition.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="service-sidebar">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h4>Quick Facts</h4>
+              <ul class="list-unstyled">
+                <li><i class="fas fa-clock text-primary"></i> <strong>Available:</strong> 24/7/365</li>
+                <li><i class="fas fa-user-md text-primary"></i> <strong>Staff:</strong> 50+ Doctors</li>
+                <li><i class="fas fa-bed text-primary"></i> <strong>ICU Beds:</strong> 30+</li>
+                <li><i class="fas fa-heartbeat text-primary"></i> <strong>Response Time:</strong> &lt; 5 mins</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h4>Other Services</h4>
+              <ul class="list-unstyled service-links">
+                <li><a href="/services/diagnostics"><i class="fas fa-microscope"></i> Diagnostics</a></li>
+                <li><a href="/services/pharmacy"><i class="fas fa-prescription-bottle"></i> Pharmacy</a></li>
+                <li><a href="/services/consultation"><i class="fas fa-user-md"></i> Doctor Consultation</a></li>
+                <li><a href="/services/lab"><i class="fas fa-vial"></i> Lab Tests</a></li>
+                <li><a href="/services/surgery"><i class="fas fa-procedures"></i> Surgery</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .service-page {
+    min-height: calc(100vh - 200px);
+  }
+
+  .service-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .service-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+
+  .service-hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+
+  .service-hero .lead {
+    font-size: 1.3rem;
+    opacity: 0.95;
+  }
+
+  .service-content {
+    padding: 40px 20px;
+  }
+
+  .service-description h2 {
+    color: #2d3748;
+    margin-bottom: 20px;
+  }
+
+  .service-description h3 {
+    color: #4a5568;
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
+
+  .service-description p {
+    line-height: 1.8;
+    color: #4a5568;
+    font-size: 1.05rem;
+  }
+
+  .service-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .service-list li {
+    padding: 10px 0;
+    color: #4a5568;
+    font-size: 1.05rem;
+  }
+
+  .service-list li i {
+    color: #667eea;
+    margin-right: 10px;
+  }
+
+  .service-sidebar .card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .service-sidebar h4 {
+    color: #2d3748;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  .service-sidebar ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .service-sidebar ul li:last-child {
+    border-bottom: none;
+  }
+
+  .service-links a {
+    color: #4a5568;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+  }
+
+  .service-links a:hover {
+    color: #667eea;
+    transform: translateX(5px);
+  }
+
+  .service-links i {
+    color: #667eea;
+  }
+
+  @media (max-width: 768px) {
+    .service-hero h1 {
+      font-size: 2rem;
+    }
+    
+    .service-icon {
+      font-size: 3rem;
+    }
+  }
+</style>
+

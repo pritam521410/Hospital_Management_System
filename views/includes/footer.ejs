@@ -642,13 +642,40 @@
 
 <script>
   // Newsletter Subscription
-  function subscribeNewsletter(event) {
+  async function subscribeNewsletter(event) {
     event.preventDefault();
     const email = document.getElementById('newsletterEmail').value;
+    const submitBtn = event.target.querySelector('button[type="submit"]');
     
-    // Show success message (you can integrate with your backend)
-    alert(`Thank you for subscribing! We'll send updates to ${email}`);
-    document.getElementById('newsletterEmail').value = '';
+    // Disable button to prevent multiple submissions
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Subscribing...';
+    
+    try {
+      const response = await fetch('/newsletter/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        alert(data.message);
+        document.getElementById('newsletterEmail').value = '';
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Something went wrong. Please try again later.');
+    } finally {
+      // Re-enable button
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Subscribe';
+    }
   }
 
   // Back to Top Button
