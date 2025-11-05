@@ -1,4 +1,4 @@
-<%- layout('layouts/boilerplate') %>
+<% layout("/layouts/boilerplate") -%>
 
 <style>
   .medicines-hero {
@@ -30,6 +30,8 @@
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .medicine-card:hover {
@@ -48,13 +50,34 @@
 
   .medicine-body {
     padding: 25px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .medicine-name {
     font-size: 1.3rem;
     font-weight: 700;
     color: #2d3748;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
+  }
+
+  .medicine-info {
+    margin-bottom: 8px;
+    color: #4a5568;
+    font-size: 0.95rem;
+  }
+
+  .category-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border: 2px solid #667eea30;
+    color: #667eea;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 12px;
   }
 
   .price-tag {
@@ -65,92 +88,6 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin: 15px 0;
-  }
-
-  .button-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-  }
-
-  .cart-btn {
-    flex: 1;
-    padding: 12px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .cart-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-  }
-
-  .buy-btn {
-    flex: 1;
-    padding: 12px;
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .buy-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4);
-  }
-
-  .edit-btn {
-    flex: 1;
-    padding: 10px;
-    background: #ffc107;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-size: 0.9rem;
-  }
-
-  .edit-btn:hover {
-    color: white;
-    background: #ffb300;
-    transform: translateY(-2px);
-  }
-
-  .delete-btn {
-    flex: 1;
-    padding: 10px;
-    background: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-size: 0.9rem;
-  }
-
-  .delete-btn:hover {
-    background: #c82333;
-    transform: translateY(-2px);
   }
 
   .quantity-selector {
@@ -188,6 +125,123 @@
     color: #2d3748;
     min-width: 40px;
     text-align: center;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+  }
+
+  .cart-btn {
+    flex: 1;
+    padding: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .cart-btn:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  }
+
+  .buy-btn {
+    flex: 1;
+    padding: 12px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .buy-btn:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(67, 233, 123, 0.4);
+  }
+
+  .edit-btn {
+    flex: 1;
+    padding: 10px;
+    background: #ffc107;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+
+  .edit-btn:hover {
+    color: white;
+    background: #ffb300;
+    transform: translateY(-2px);
+  }
+
+  .delete-btn {
+    flex: 1;
+    padding: 10px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+
+  .delete-btn:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+  }
+
+  .add-medicine-btn {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    padding: 15px 35px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 5px 20px rgba(67, 233, 123, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .add-medicine-btn:hover {
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(67, 233, 123, 0.4);
   }
 
   .toast-notification {
@@ -246,103 +300,104 @@
   <div class="container mb-5">
     <!-- Add Medicine Button -->
     <% if (currentUser) { %>
-    <div class="text-end mb-4">
-      <a href="/medicines/new" class="btn btn-primary btn-lg">
-        <i class="fas fa-plus-circle me-2"></i>Add New Medicine
-      </a>
-    </div>
-    <% } %> <% if (allMedicines.length === 0) { %>
-    <div class="text-center py-5">
-      <i
-        class="fas fa-pills"
-        style="font-size: 5rem; color: #cbd5e0; margin-bottom: 20px"
-      ></i>
-      <h3>No Medicines Available</h3>
-      <p class="text-muted">Add medicines to get started!</p>
-      <% if (currentUser) { %>
-      <a href="/medicines/new" class="btn btn-primary mt-3">
-        <i class="fas fa-plus-circle me-2"></i>Add First Medicine
-      </a>
-      <% } %>
-    </div>
+      <div class="text-end mb-4">
+        <a href="/medicines/new" class="add-medicine-btn">
+          <i class="fas fa-plus-circle"></i>
+          Add New Medicine
+        </a>
+      </div>
+    <% } %>
+
+    <!-- No Medicines Message -->
+    <% if (allMedicines.length === 0) { %>
+      <div class="text-center py-5">
+        <i class="fas fa-pills" style="font-size: 5rem; color: #cbd5e0; margin-bottom: 20px;"></i>
+        <h3>No Medicines Available</h3>
+        <p class="text-muted">Start by adding medicines to the inventory!</p>
+        <% if (currentUser) { %>
+          <a href="/medicines/new" class="btn btn-primary btn-lg mt-3">
+            <i class="fas fa-plus-circle me-2"></i>Add First Medicine
+          </a>
+        <% } %>
+      </div>
     <% } else { %>
-    <div class="row g-4">
-      <% allMedicines.forEach(function(medicine) { %>
-      <div class="col-lg-4 col-md-6">
-        <div class="medicine-card">
-          <img
-            src="<%= medicine.image.url %>"
-            class="medicine-img"
-            alt="<%= medicine.name %>"
-          />
-          <div class="medicine-body">
-            <h3 class="medicine-name"><%= medicine.name %></h3>
-            <p><strong>Uses:</strong> <%= medicine.uses %></p>
-            <p><strong>Manufacturer:</strong> <%= medicine.manufacturer %></p>
-            <div class="price-tag">Rs <%= medicine.price %></div>
+      <!-- Medicines Grid -->
+      <div class="row g-4">
+        <% allMedicines.forEach(function(medicine) { %>
+        <div class="col-lg-4 col-md-6">
+          <div class="medicine-card">
+            <img
+              src="<%= medicine.image.url %>"
+              class="medicine-img"
+              alt="<%= medicine.name %>"
+            />
+            <div class="medicine-body">
+              <% if (medicine.category) { %>
+                <span class="category-badge"><%= medicine.category %></span>
+              <% } %>
+              
+              <h3 class="medicine-name"><%= medicine.name %></h3>
+              <p class="medicine-info"><strong>Uses:</strong> <%= medicine.uses %></p>
+              <p class="medicine-info"><strong>Manufacturer:</strong> <%= medicine.manufacturer %></p>
+              
+              <div class="price-tag">₹<%= medicine.price %></div>
 
-            <div class="quantity-selector">
-              <button
-                class="qty-btn"
-                onclick="decreaseQty('<%= medicine._id %>')"
-              >
-                <i class="fas fa-minus"></i>
-              </button>
-              <span class="qty-value" id="qty-<%= medicine._id %>">1</span>
-              <button
-                class="qty-btn"
-                onclick="increaseQty('<%= medicine._id %>')"
-              >
-                <i class="fas fa-plus"></i>
-              </button>
-            </div>
-
-            <!-- Add to Cart & Buy Now Buttons (Always Show) -->
-            <div class="button-group">
-              <button
-                class="cart-btn"
-                data-id="<%= medicine._id %>"
-                data-name="<%= medicine.name %>"
-                data-price="<%= medicine.price %>"
-                onclick="addToCart(this.dataset.id, this.dataset.name, this.dataset.price)"
-              >
-                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
-              </button>
-              <button
-                class="buy-btn"
-                data-id="<%= medicine._id %>"
-                data-name="<%= medicine.name %>"
-                data-price="<%= medicine.price %>"
-                onclick="buyNow(this.dataset.id, this.dataset.name, this.dataset.price)"
-              >
-                <i class="fas fa-bolt me-2"></i>Buy Now
-              </button>
-            </div>
-
-            <!-- Owner Controls (if owner) -->
-            <% if (currentUser && medicine.owner &&
-            medicine.owner.equals(currentUser._id)) { %>
-            <div class="button-group mt-2">
-              <a href="/medicines/<%= medicine._id %>/edit" class="edit-btn">
-                <i class="fas fa-edit me-2"></i>Edit
-              </a>
-              <form
-                method="POST"
-                action="/medicines/<%= medicine._id %>?_method=DELETE"
-                style="flex: 1; margin: 0"
-                onsubmit="return confirm('Are you sure you want to delete this medicine?')"
-              >
-                <button class="delete-btn" style="width: 100%" type="submit">
-                  <i class="fas fa-trash me-2"></i>Delete
+              <!-- Quantity Selector -->
+              <div class="quantity-selector">
+                <button class="qty-btn" onclick="decreaseQty('<%= medicine._id %>')">
+                  <i class="fas fa-minus"></i>
                 </button>
-              </form>
+                <span class="qty-value" id="qty-<%= medicine._id %>">1</span>
+                <button class="qty-btn" onclick="increaseQty('<%= medicine._id %>')">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="button-group">
+                <button
+                  class="cart-btn"
+                  data-id="<%= medicine._id %>"
+                  data-name="<%= medicine.name %>"
+                  data-price="<%= medicine.price %>"
+                  onclick="addToCart(this.dataset.id, this.dataset.name, this.dataset.price)"
+                >
+                  <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                </button>
+                <button
+                  class="buy-btn"
+                  data-id="<%= medicine._id %>"
+                  data-name="<%= medicine.name %>"
+                  data-price="<%= medicine.price %>"
+                  onclick="buyNow(this.dataset.id, this.dataset.name, this.dataset.price)"
+                >
+                  <i class="fas fa-bolt me-2"></i>Buy Now
+                </button>
+              </div>
+
+              <!-- Owner Controls -->
+              <% if (currentUser && medicine.owner && medicine.owner.equals(currentUser._id)) { %>
+                <div class="button-group mt-2">
+                  <a href="/medicines/<%= medicine._id %>/edit" class="edit-btn">
+                    <i class="fas fa-edit"></i>Edit
+                  </a>
+                  <form
+                    method="POST"
+                    action="/medicines/<%= medicine._id %>?_method=DELETE"
+                    style="flex: 1; margin: 0;"
+                    onsubmit="return confirm('Are you sure you want to delete this medicine?')"
+                  >
+                    <button class="delete-btn" style="width: 100%;" type="submit">
+                      <i class="fas fa-trash"></i>Delete
+                    </button>
+                  </form>
+                </div>
+              <% } %>
             </div>
-            <% } %>
           </div>
         </div>
+        <% }) %>
       </div>
-      <% }) %>
-    </div>
     <% } %>
   </div>
 
@@ -370,21 +425,21 @@
 
     function addToCart(id, name, price) {
       const quantity = quantities[id] || 1;
-
+      
       const existingIndex = cart.findIndex((item) => item.id === id);
-
+      
       if (existingIndex !== -1) {
         cart[existingIndex].quantity += quantity;
       } else {
         cart.push({ id: id, name: name, price: price, quantity: quantity });
       }
-
+      
       localStorage.setItem("medicineCart", JSON.stringify(cart));
       updateCartBadge();
-
+      
       document.getElementById("qty-" + id).textContent = "1";
       quantities[id] = 1;
-
+      
       showToast(name + " added to cart!");
     }
 

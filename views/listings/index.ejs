@@ -9,8 +9,8 @@
   /* Hero Section Styles */
   .hero-section {
     background: transparent;
-    padding: 80px 0;
-    margin-bottom: 60px;
+    padding: 50px 0 30px 0;
+    margin-bottom: 40px;
     border-radius: 0;
     box-shadow: none;
     position: relative;
@@ -53,7 +53,7 @@
     color: #2d3748;
     font-size: 1.4rem;
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     text-shadow: none;
     animation: fadeInDown 1s ease;
   }
@@ -61,7 +61,7 @@
   .hero-subtitle {
     color: #4a5568;
     font-size: 1rem;
-    margin-bottom: 25px;
+    margin-bottom: 0;
     animation: fadeInUp 1s ease;
   }
 
@@ -87,50 +87,9 @@
     }
   }
 
-  /* Search Box Styles */
-  .search-container {
-    max-width: 700px;
-    margin: 0 auto;
-    animation: fadeIn 1.2s ease;
-  }
-
-  .search-box {
-    background: white;
-    border-radius: 50px;
-    padding: 8px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-    display: flex;
-    align-items: center;
-    border: 1px solid #e2e8f0;
-  }
-
-  .search-box input {
-    border: none;
-    outline: none;
-    flex: 1;
-    padding: 15px 25px;
-    font-size: 1rem;
-    border-radius: 50px;
-  }
-
-  .search-box button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    padding: 15px 35px;
-    border-radius: 50px;
-    color: white;
-    font-weight: 600;
-    transition: all 0.3s ease;
-  }
-
-  .search-box button:hover {
-    transform: scale(1.02);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
-  }
-
   /* Stats Section */
   .stats-section {
-    margin: 30px auto 0;
+    margin: 25px auto 0;
     max-width: 650px;
     animation: fadeIn 1.5s ease;
   }
@@ -171,7 +130,7 @@
     font-size: 2.5rem;
     font-weight: 700;
     text-align: center;
-    margin: 60px 0 40px 0;
+    margin: 0 0 30px 0;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -306,7 +265,7 @@
 
   /* Features Section */
   .features-section {
-    margin: 30px 0 60px 0;
+    margin: 30px 0 50px 0;
   }
 
   .feature-card {
@@ -358,6 +317,77 @@
     color: #718096;
     line-height: 1.6;
     margin: 0;
+  }
+
+  /* Live Search Bar */
+  .search-bar-container {
+    max-width: 800px;
+    margin: 0 auto 35px;
+  }
+
+  .search-bar-wrapper {
+    position: relative;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    padding: 5px 5px 5px 20px;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+  }
+
+  .search-bar-wrapper:focus-within {
+    border-color: #667eea;
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2);
+  }
+
+  .search-icon {
+    color: #667eea;
+    font-size: 1.2rem;
+    margin-right: 15px;
+  }
+
+  .live-search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 15px 10px;
+    font-size: 1.05rem;
+    color: #2d3748;
+    background: transparent;
+  }
+
+  .live-search-input::placeholder {
+    color: #a0aec0;
+  }
+
+  .clear-search-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f7fafc;
+    border: none;
+    color: #718096;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin-right: 5px;
+  }
+
+  .clear-search-btn:hover {
+    background: #e2e8f0;
+    color: #2d3748;
+  }
+
+  .search-results-count {
+    text-align: center;
+    color: #667eea;
+    font-weight: 600;
+    margin: 20px 0;
+    font-size: 1.05rem;
   }
 
   /* Filters Section */
@@ -607,19 +637,6 @@
         Discover top-rated hospitals and medical facilities near you
       </p>
 
-      <div class="search-container">
-        <div class="search-box">
-          <input
-            type="text"
-            placeholder="Search hospitals, location, or specialization..."
-            id="searchInput"
-          />
-          <button onclick="searchHospitals()">
-            <i class="fas fa-search me-2"></i>Search
-          </button>
-        </div>
-      </div>
-
       <!-- Stats Section -->
       <div class="stats-section">
         <div class="row g-2">
@@ -706,6 +723,28 @@
 
 <!-- Main Content -->
 <div class="container">
+  <!-- Search Bar Above Heading -->
+  <div class="search-bar-container">
+    <div class="search-bar-wrapper">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        id="liveSearchInput"
+        class="live-search-input"
+        placeholder="Search hospitals by name, location, or city..."
+        oninput="liveSearch()"
+      />
+      <button
+        class="clear-search-btn"
+        id="clearSearchBtn"
+        onclick="clearSearch()"
+        style="display: none"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
   <h2 class="section-title">
     <i class="fas fa-building me-3"></i>
     Available Hospitals & Medical Facilities
@@ -749,9 +788,21 @@
     </div>
   </div>
 
+  <!-- Search Results Count -->
+  <div
+    id="searchResultsCount"
+    class="search-results-count"
+    style="display: none"
+  ></div>
+
   <div class="row g-4" id="hospitalsList">
     <% allListings.forEach(function(listing) { %>
-    <div class="col-lg-4 col-md-6 hospital-item fade-in">
+    <div
+      class="col-lg-4 col-md-6 hospital-item fade-in"
+      data-name="<%= listing.name.toLowerCase() %>"
+      data-city="<%= listing.city.toLowerCase() %>"
+      data-location="<%= listing.location.toLowerCase() %>"
+    >
       <a href="/listings/<%= listing._id %>" class="text-decoration-none">
         <div class="hospital-card">
           <div class="card-img-wrapper">
@@ -899,32 +950,65 @@
 </div>
 
 <script>
-  // Search Functionality
-  function searchHospitals() {
+  // Live Search Functionality
+  function liveSearch() {
     const searchInput = document
-      .getElementById("searchInput")
-      .value.toLowerCase();
+      .getElementById("liveSearchInput")
+      .value.toLowerCase()
+      .trim();
     const hospitalItems = document.querySelectorAll(".hospital-item");
+    const clearBtn = document.getElementById("clearSearchBtn");
+    const resultsCount = document.getElementById("searchResultsCount");
+    let visibleCount = 0;
+
+    // Show/hide clear button
+    clearBtn.style.display = searchInput ? "flex" : "none";
 
     hospitalItems.forEach((item) => {
+      const name = item.dataset.name || "";
+      const city = item.dataset.city || "";
+      const location = item.dataset.location || "";
       const text = item.textContent.toLowerCase();
-      if (text.includes(searchInput)) {
+
+      // Search in name, city, location, and all text
+      if (
+        searchInput === "" ||
+        name.includes(searchInput) ||
+        city.includes(searchInput) ||
+        location.includes(searchInput) ||
+        text.includes(searchInput)
+      ) {
         item.style.display = "block";
         item.classList.add("fade-in");
+        visibleCount++;
       } else {
         item.style.display = "none";
       }
     });
+
+    // Show search results count
+    if (searchInput) {
+      resultsCount.style.display = "block";
+      resultsCount.innerHTML = `<i class="fas fa-search me-2"></i>Found ${visibleCount} hospital${
+        visibleCount !== 1 ? "s" : ""
+      } matching "${searchInput}"`;
+
+      if (visibleCount === 0) {
+        resultsCount.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>No hospitals found matching "${searchInput}"`;
+        resultsCount.style.color = "#f5576c";
+      } else {
+        resultsCount.style.color = "#667eea";
+      }
+    } else {
+      resultsCount.style.display = "none";
+    }
   }
 
-  // Enter key support for search
-  document
-    .getElementById("searchInput")
-    .addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
-        searchHospitals();
-      }
-    });
+  // Clear search
+  function clearSearch() {
+    document.getElementById("liveSearchInput").value = "";
+    liveSearch();
+  }
 
   // Filter Functionality
   function applyFilters() {

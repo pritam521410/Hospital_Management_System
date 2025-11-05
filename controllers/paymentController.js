@@ -1,10 +1,12 @@
 const Razorpay = require("razorpay");
 const Listing = require("../models/listing");
+const Medicine = require("../models/medicine");
 const mongoose = require("mongoose");
 
-// Buy Page dikhana
-module.exports.renderBuyPage = (req, res) => {
-  res.render("buy");
+// Buy Page dikhana with medicines from database
+module.exports.renderBuyPage = async (req, res) => {
+  const allMedicines = await Medicine.find({});
+  res.render("buy", { allMedicines });
 };
 
 // Cart Page dikhana

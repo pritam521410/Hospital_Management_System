@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const wrapAsync = require("../utils/wrapAsync.js");
 const paymentController = require("../controllers/paymentController.js");
 
 // Buy Route
-router.get("/buy", paymentController.renderBuyPage);
+router.get("/buy", wrapAsync(paymentController.renderBuyPage));
 
 // Cart Route
 router.get("/cart", paymentController.renderCartPage);
