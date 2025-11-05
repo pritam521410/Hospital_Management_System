@@ -465,63 +465,106 @@
 
   /* Testimonials Section */
   .testimonials-section {
-    margin: 80px 0 60px 0;
-    padding: 60px 40px;
+    margin: 60px 0 40px 0;
+    padding: 40px 30px;
     background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-    border-radius: 30px;
+    border-radius: 25px;
+    position: relative;
+  }
+
+  .testimonials-slider-wrapper {
+    position: relative;
+    overflow: hidden;
+    margin-top: 30px;
+    width: 100%;
   }
 
   .testimonials-slider {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
+    display: flex;
+    transition: transform 0.6s ease-in-out;
   }
 
   .testimonial-card {
     background: white;
-    padding: 35px;
-    border-radius: 20px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     position: relative;
     border: 1px solid #f0f4ff;
+    flex: 0 0 100%;
+    width: 100%;
+    margin: 0 10px;
+  }
+
+  @media (max-width: 768px) {
+    .testimonial-card {
+      padding: 20px;
+    }
   }
 
   .testimonial-card::before {
     content: '"';
     position: absolute;
-    top: 20px;
-    left: 25px;
-    font-size: 5rem;
+    top: 15px;
+    left: 20px;
+    font-size: 3.5rem;
     color: #e0e7ff;
     font-family: Georgia, serif;
     line-height: 1;
   }
 
   .testimonial-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.08);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.12);
+  }
+
+  /* Carousel Navigation Dots */
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 25px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #cbd5e0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .dot.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    width: 25px;
+    border-radius: 5px;
+  }
+
+  .dot:hover {
+    background: #667eea;
+    transform: scale(1.2);
   }
 
   .testimonial-stars {
     display: flex;
-    gap: 5px;
-    margin-bottom: 20px;
+    gap: 4px;
+    margin-bottom: 15px;
     position: relative;
     z-index: 2;
   }
 
   .testimonial-stars i {
     color: #fbbf24;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
   }
 
   .testimonial-text {
     color: #4a5568;
-    line-height: 1.8;
-    font-size: 0.95rem;
-    margin-bottom: 25px;
+    line-height: 1.6;
+    font-size: 0.9rem;
+    margin-bottom: 18px;
     font-style: italic;
     position: relative;
     z-index: 2;
@@ -530,35 +573,35 @@
   .testimonial-author {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding-top: 20px;
+    gap: 12px;
+    padding-top: 15px;
     border-top: 2px solid #f7fafc;
   }
 
   .author-avatar {
-    width: 50px;
-    height: 50px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     color: #667eea;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     flex-shrink: 0;
     border: 2px solid #f0f4ff;
   }
 
   .author-info h4 {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #2d3748;
   }
 
   .author-info span {
     color: #718096;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   /* Responsive */
@@ -608,12 +651,20 @@
       width: 100%;
     }
 
-    .testimonials-slider {
-      grid-template-columns: 1fr;
+    .testimonials-section {
+      padding: 30px 15px;
     }
 
-    .testimonials-section {
-      padding: 40px 20px;
+    .testimonial-card {
+      padding: 20px;
+    }
+
+    .testimonial-text {
+      font-size: 0.85rem;
+    }
+
+    .author-info h4 {
+      font-size: 0.95rem;
     }
   }
 
@@ -875,323 +926,402 @@
   <!-- Testimonials Section -->
   <div class="testimonials-section">
     <h2 class="section-title">What Our Patients Say</h2>
-    <div class="testimonials-slider">
-      <div class="testimonial-card">
-        <div class="testimonial-stars">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-        </div>
-        <p class="testimonial-text">
-          "Excellent service and very caring staff. The room booking process was
-          seamless and the facilities were top-notch. Highly recommended!"
-        </p>
-        <div class="testimonial-author">
-          <div class="author-avatar">
-            <i class="fas fa-user"></i>
+    <div class="testimonials-slider-wrapper">
+      <div class="testimonials-slider" id="testimonialsSlider">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
           </div>
-          <div class="author-info">
-            <h4>Rajesh Kumar</h4>
-            <span>Patient - General Ward</span>
+          <p class="testimonial-text">
+            "Excellent service and very caring staff. The room booking process
+            was seamless and the facilities were top-notch. Highly recommended!"
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="author-info">
+              <h4>Rajesh Kumar</h4>
+              <span>Patient - General Ward</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="testimonial-card">
-        <div class="testimonial-stars">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-        </div>
-        <p class="testimonial-text">
-          "The best healthcare management system I've used. Easy to navigate,
-          transparent pricing, and excellent customer support available 24/7."
-        </p>
-        <div class="testimonial-author">
-          <div class="author-avatar">
-            <i class="fas fa-user"></i>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
           </div>
-          <div class="author-info">
-            <h4>Priya Sharma</h4>
-            <span>Patient - Private Room</span>
+          <p class="testimonial-text">
+            "The best healthcare management system I've used. Easy to navigate,
+            transparent pricing, and excellent customer support available 24/7."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="author-info">
+              <h4>Priya Sharma</h4>
+              <span>Patient - Private Room</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="testimonial-card">
-        <div class="testimonial-stars">
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star-half-alt"></i>
-        </div>
-        <p class="testimonial-text">
-          "Great platform for finding quality healthcare facilities. The online
-          booking saved me so much time and hassle. Very satisfied with the
-          service."
-        </p>
-        <div class="testimonial-author">
-          <div class="author-avatar">
-            <i class="fas fa-user"></i>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
           </div>
-          <div class="author-info">
-            <h4>Amit Singh</h4>
-            <span>Patient - ICU</span>
+          <p class="testimonial-text">
+            "Great platform for finding quality healthcare facilities. The
+            online booking saved me so much time and hassle. Very satisfied with
+            the service."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="author-info">
+              <h4>Amit Singh</h4>
+              <span>Patient - ICU</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<script>
-  // Live Search Functionality
-  function liveSearch() {
-    const searchInput = document
-      .getElementById("liveSearchInput")
-      .value.toLowerCase()
-      .trim();
-    const hospitalItems = document.querySelectorAll(".hospital-item");
-    const clearBtn = document.getElementById("clearSearchBtn");
-    const resultsCount = document.getElementById("searchResultsCount");
-    let visibleCount = 0;
+  <script>
+    // Live Search Functionality
+    function liveSearch() {
+      const searchInput = document
+        .getElementById("liveSearchInput")
+        .value.toLowerCase()
+        .trim();
+      const hospitalItems = document.querySelectorAll(".hospital-item");
+      const clearBtn = document.getElementById("clearSearchBtn");
+      const resultsCount = document.getElementById("searchResultsCount");
+      let visibleCount = 0;
 
-    // Show/hide clear button
-    clearBtn.style.display = searchInput ? "flex" : "none";
+      // Show/hide clear button
+      clearBtn.style.display = searchInput ? "flex" : "none";
 
-    hospitalItems.forEach((item) => {
-      const name = item.dataset.name || "";
-      const city = item.dataset.city || "";
-      const location = item.dataset.location || "";
-      const text = item.textContent.toLowerCase();
+      hospitalItems.forEach((item) => {
+        const name = item.dataset.name || "";
+        const city = item.dataset.city || "";
+        const location = item.dataset.location || "";
+        const text = item.textContent.toLowerCase();
 
-      // Search in name, city, location, and all text
-      if (
-        searchInput === "" ||
-        name.includes(searchInput) ||
-        city.includes(searchInput) ||
-        location.includes(searchInput) ||
-        text.includes(searchInput)
-      ) {
-        item.style.display = "block";
-        item.classList.add("fade-in");
-        visibleCount++;
-      } else {
-        item.style.display = "none";
-      }
-    });
-
-    // Show search results count
-    if (searchInput) {
-      resultsCount.style.display = "block";
-      resultsCount.innerHTML = `<i class="fas fa-search me-2"></i>Found ${visibleCount} hospital${
-        visibleCount !== 1 ? "s" : ""
-      } matching "${searchInput}"`;
-
-      if (visibleCount === 0) {
-        resultsCount.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>No hospitals found matching "${searchInput}"`;
-        resultsCount.style.color = "#f5576c";
-      } else {
-        resultsCount.style.color = "#667eea";
-      }
-    } else {
-      resultsCount.style.display = "none";
-    }
-  }
-
-  // Clear search
-  function clearSearch() {
-    document.getElementById("liveSearchInput").value = "";
-    liveSearch();
-  }
-
-  // Filter Functionality
-  function applyFilters() {
-    const cityFilter = document
-      .getElementById("cityFilter")
-      .value.toLowerCase();
-    const priceFilter = document.getElementById("priceFilter").value;
-    const sortFilter = document.getElementById("sortFilter").value;
-    const hospitalItems = Array.from(
-      document.querySelectorAll(".hospital-item")
-    );
-
-    // Filter by city
-    hospitalItems.forEach((item) => {
-      const text = item.textContent.toLowerCase();
-      let showItem = true;
-
-      if (cityFilter && !text.includes(cityFilter)) {
-        showItem = false;
-      }
-
-      // Filter by price (simplified - checks if price range text is in card)
-      if (priceFilter && showItem) {
-        const priceText = item.textContent;
-        if (priceFilter === "0-500") {
-          showItem = priceText.match(/₹[0-4]\d{2}/) !== null;
-        } else if (priceFilter === "500-1000") {
-          showItem = priceText.match(/₹[5-9]\d{2}/) !== null;
-        } else if (priceFilter === "1000-2000") {
-          showItem = priceText.match(/₹1\d{3}/) !== null;
-        } else if (priceFilter === "2000+") {
-          showItem = priceText.match(/₹[2-9]\d{3}/) !== null;
+        // Search in name, city, location, and all text
+        if (
+          searchInput === "" ||
+          name.includes(searchInput) ||
+          city.includes(searchInput) ||
+          location.includes(searchInput) ||
+          text.includes(searchInput)
+        ) {
+          item.style.display = "block";
+          item.classList.add("fade-in");
+          visibleCount++;
+        } else {
+          item.style.display = "none";
         }
+      });
+
+      // Show search results count
+      if (searchInput) {
+        resultsCount.style.display = "block";
+        resultsCount.innerHTML = `<i class="fas fa-search me-2"></i>Found ${visibleCount} hospital${
+          visibleCount !== 1 ? "s" : ""
+        } matching "${searchInput}"`;
+
+        if (visibleCount === 0) {
+          resultsCount.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>No hospitals found matching "${searchInput}"`;
+          resultsCount.style.color = "#f5576c";
+        } else {
+          resultsCount.style.color = "#667eea";
+        }
+      } else {
+        resultsCount.style.display = "none";
       }
+    }
 
-      item.style.display = showItem ? "block" : "none";
-    });
+    // Clear search
+    function clearSearch() {
+      document.getElementById("liveSearchInput").value = "";
+      liveSearch();
+    }
 
-    // Sort functionality
-    if (sortFilter) {
-      const hospitalsList = document.getElementById("hospitalsList");
-      const visibleItems = hospitalItems.filter(
-        (item) => item.style.display !== "none"
+    // Filter Functionality
+    function applyFilters() {
+      const cityFilter = document
+        .getElementById("cityFilter")
+        .value.toLowerCase();
+      const priceFilter = document.getElementById("priceFilter").value;
+      const sortFilter = document.getElementById("sortFilter").value;
+      const hospitalItems = Array.from(
+        document.querySelectorAll(".hospital-item")
       );
 
-      if (sortFilter === "name") {
-        visibleItems.sort((a, b) => {
-          const nameA = a
-            .querySelector(".card-title")
-            .textContent.toLowerCase();
-          const nameB = b
-            .querySelector(".card-title")
-            .textContent.toLowerCase();
-          return nameA.localeCompare(nameB);
-        });
-      } else if (sortFilter === "price-low" || sortFilter === "price-high") {
-        visibleItems.sort((a, b) => {
-          const priceA = parseInt(a.textContent.match(/₹(\d+)/)?.[1] || "0");
-          const priceB = parseInt(b.textContent.match(/₹(\d+)/)?.[1] || "0");
-          return sortFilter === "price-low" ? priceA - priceB : priceB - priceA;
-        });
-      }
-
-      // Re-append sorted items
-      visibleItems.forEach((item) => hospitalsList.appendChild(item));
-    }
-
-    // Show animation for visible items
-    setTimeout(() => {
+      // Filter by city
       hospitalItems.forEach((item) => {
-        if (item.style.display !== "none") {
-          item.classList.add("fade-in");
+        const text = item.textContent.toLowerCase();
+        let showItem = true;
+
+        if (cityFilter && !text.includes(cityFilter)) {
+          showItem = false;
         }
-      });
-    }, 100);
-  }
 
-  // Reset Filters
-  function resetFilters() {
-    document.getElementById("cityFilter").value = "";
-    document.getElementById("priceFilter").value = "";
-    document.getElementById("sortFilter").value = "";
-    document.getElementById("searchInput").value = "";
-
-    const hospitalItems = document.querySelectorAll(".hospital-item");
-    hospitalItems.forEach((item) => {
-      item.style.display = "block";
-      item.classList.add("fade-in");
-    });
-  }
-
-  // Smooth scroll animations
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -100px 0px",
-  };
-
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = "1";
-        entry.target.style.transform = "translateY(0)";
-      }
-    });
-  }, observerOptions);
-
-  document.querySelectorAll(".hospital-item").forEach((item) => {
-    item.style.opacity = "0";
-    item.style.transform = "translateY(50px)";
-    item.style.transition = "all 0.6s ease";
-    observer.observe(item);
-  });
-
-  // Animate feature cards
-  document.querySelectorAll(".feature-card").forEach((card, index) => {
-    card.style.opacity = "0";
-    card.style.transform = "translateY(30px)";
-    card.style.transition = "all 0.6s ease";
-    card.style.transitionDelay = `${index * 0.1}s`;
-    observer.observe(card);
-  });
-
-  // Animate testimonial cards
-  document.querySelectorAll(".testimonial-card").forEach((card, index) => {
-    card.style.opacity = "0";
-    card.style.transform = "translateY(30px)";
-    card.style.transition = "all 0.6s ease";
-    card.style.transitionDelay = `${index * 0.15}s`;
-    observer.observe(card);
-  });
-
-  // Animate stat cards
-  document.querySelectorAll(".stat-card").forEach((card, index) => {
-    card.style.opacity = "0";
-    card.style.transform = "scale(0.9)";
-    card.style.transition = "all 0.5s ease";
-    card.style.transitionDelay = `${index * 0.1}s`;
-    observer.observe(card);
-  });
-
-  // Counter animation for stats
-  function animateCounter(element, target, duration = 2000) {
-    let start = 0;
-    const increment = target / (duration / 16);
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) {
-        element.textContent = target + "+";
-        clearInterval(timer);
-      } else {
-        element.textContent = Math.floor(start) + "+";
-      }
-    }, 16);
-  }
-
-  // Observe stat numbers for counter animation
-  const statObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (
-          entry.isIntersecting &&
-          !entry.target.classList.contains("counted")
-        ) {
-          entry.target.classList.add("counted");
-          const text = entry.target.textContent;
-          const number = parseInt(text.match(/\d+/)?.[0] || 0);
-          if (number > 0) {
-            entry.target.textContent = "0+";
-            animateCounter(entry.target, number);
+        // Filter by price (simplified - checks if price range text is in card)
+        if (priceFilter && showItem) {
+          const priceText = item.textContent;
+          if (priceFilter === "0-500") {
+            showItem = priceText.match(/₹[0-4]\d{2}/) !== null;
+          } else if (priceFilter === "500-1000") {
+            showItem = priceText.match(/₹[5-9]\d{2}/) !== null;
+          } else if (priceFilter === "1000-2000") {
+            showItem = priceText.match(/₹1\d{3}/) !== null;
+          } else if (priceFilter === "2000+") {
+            showItem = priceText.match(/₹[2-9]\d{3}/) !== null;
           }
         }
+
+        item.style.display = showItem ? "block" : "none";
       });
-    },
-    { threshold: 0.5 }
-  );
 
-  document.querySelectorAll(".stat-number").forEach((stat) => {
-    statObserver.observe(stat);
-  });
+      // Sort functionality
+      if (sortFilter) {
+        const hospitalsList = document.getElementById("hospitalsList");
+        const visibleItems = hospitalItems.filter(
+          (item) => item.style.display !== "none"
+        );
 
-  // Show success message for newsletter
-  const newsletterIndicator = document.createElement("div");
-  newsletterIndicator.style.cssText = `
+        if (sortFilter === "name") {
+          visibleItems.sort((a, b) => {
+            const nameA = a
+              .querySelector(".card-title")
+              .textContent.toLowerCase();
+            const nameB = b
+              .querySelector(".card-title")
+              .textContent.toLowerCase();
+            return nameA.localeCompare(nameB);
+          });
+        } else if (sortFilter === "price-low" || sortFilter === "price-high") {
+          visibleItems.sort((a, b) => {
+            const priceA = parseInt(a.textContent.match(/₹(\d+)/)?.[1] || "0");
+            const priceB = parseInt(b.textContent.match(/₹(\d+)/)?.[1] || "0");
+            return sortFilter === "price-low"
+              ? priceA - priceB
+              : priceB - priceA;
+          });
+        }
+
+        // Re-append sorted items
+        visibleItems.forEach((item) => hospitalsList.appendChild(item));
+      }
+
+      // Show animation for visible items
+      setTimeout(() => {
+        hospitalItems.forEach((item) => {
+          if (item.style.display !== "none") {
+            item.classList.add("fade-in");
+          }
+        });
+      }, 100);
+    }
+
+    // Reset Filters
+    function resetFilters() {
+      document.getElementById("cityFilter").value = "";
+      document.getElementById("priceFilter").value = "";
+      document.getElementById("sortFilter").value = "";
+      document.getElementById("searchInput").value = "";
+
+      const hospitalItems = document.querySelectorAll(".hospital-item");
+      hospitalItems.forEach((item) => {
+        item.style.display = "block";
+        item.classList.add("fade-in");
+      });
+    }
+
+    // Smooth scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -100px 0px",
+    };
+
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "translateY(0)";
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll(".hospital-item").forEach((item) => {
+      item.style.opacity = "0";
+      item.style.transform = "translateY(50px)";
+      item.style.transition = "all 0.6s ease";
+      observer.observe(item);
+    });
+
+    // Animate feature cards
+    document.querySelectorAll(".feature-card").forEach((card, index) => {
+      card.style.opacity = "0";
+      card.style.transform = "translateY(30px)";
+      card.style.transition = "all 0.6s ease";
+      card.style.transitionDelay = `${index * 0.1}s`;
+      observer.observe(card);
+    });
+
+    // Testimonials Auto-Slide Carousel
+    let currentSlide = 0;
+    let autoSlideInterval;
+    const slider = document.getElementById("testimonialsSlider");
+    const testimonialCards = document.querySelectorAll(".testimonial-card");
+    const totalSlides = testimonialCards.length;
+    const dotsContainer = document.getElementById("carouselDots");
+
+    // Create dots
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement("div");
+      dot.classList.add("dot");
+      if (i === 0) dot.classList.add("active");
+      dot.addEventListener("click", () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+
+    const dots = document.querySelectorAll(".dot");
+
+    function updateSlider() {
+      if (!testimonialCards || testimonialCards.length === 0) return;
+
+      const wrapper = document.querySelector(".testimonials-slider-wrapper");
+      const wrapperWidth = wrapper.offsetWidth;
+      const cardWidth = testimonialCards[0].offsetWidth;
+      const gap = 20; // Gap between cards
+      const slideWidth = cardWidth + gap;
+
+      slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+
+      // Update dots
+      dots.forEach((dot, index) => {
+        if (index === currentSlide) {
+          dot.classList.add("active");
+        } else {
+          dot.classList.remove("active");
+        }
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlider();
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlider();
+    }
+
+    function startAutoSlide() {
+      autoSlideInterval = setInterval(nextSlide, 4000); // Slide every 4 seconds
+    }
+
+    function stopAutoSlide() {
+      clearInterval(autoSlideInterval);
+    }
+
+    // Start auto-sliding after page loads
+    setTimeout(() => {
+      updateSlider();
+      startAutoSlide();
+    }, 500);
+
+    // Pause on hover
+    const testimonialsSection = document.querySelector(".testimonials-section");
+    if (testimonialsSection) {
+      testimonialsSection.addEventListener("mouseenter", stopAutoSlide);
+      testimonialsSection.addEventListener("mouseleave", startAutoSlide);
+    }
+
+    // Update slider on window resize
+    window.addEventListener("resize", () => {
+      updateSlider();
+    });
+
+    // Animate testimonial cards
+    document.querySelectorAll(".testimonial-card").forEach((card, index) => {
+      card.style.opacity = "0";
+      card.style.transform = "translateY(30px)";
+      card.style.transition = "all 0.6s ease";
+      card.style.transitionDelay = `${index * 0.15}s`;
+      observer.observe(card);
+    });
+
+    // Animate stat cards
+    document.querySelectorAll(".stat-card").forEach((card, index) => {
+      card.style.opacity = "0";
+      card.style.transform = "scale(0.9)";
+      card.style.transition = "all 0.5s ease";
+      card.style.transitionDelay = `${index * 0.1}s`;
+      observer.observe(card);
+    });
+
+    // Counter animation for stats
+    function animateCounter(element, target, duration = 2000) {
+      let start = 0;
+      const increment = target / (duration / 16);
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= target) {
+          element.textContent = target + "+";
+          clearInterval(timer);
+        } else {
+          element.textContent = Math.floor(start) + "+";
+        }
+      }, 16);
+    }
+
+    // Observe stat numbers for counter animation
+    const statObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (
+            entry.isIntersecting &&
+            !entry.target.classList.contains("counted")
+          ) {
+            entry.target.classList.add("counted");
+            const text = entry.target.textContent;
+            const number = parseInt(text.match(/\d+/)?.[0] || 0);
+            if (number > 0) {
+              entry.target.textContent = "0+";
+              animateCounter(entry.target, number);
+            }
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    document.querySelectorAll(".stat-number").forEach((stat) => {
+      statObserver.observe(stat);
+    });
+
+    // Show success message for newsletter
+    const newsletterIndicator = document.createElement("div");
+    newsletterIndicator.style.cssText = `
        position: fixed;
        top: 100px;
        right: 30px;
@@ -1206,17 +1336,18 @@
        transition: all 0.5s ease;
        z-index: 9999;
      `;
-  document.body.appendChild(newsletterIndicator);
+    document.body.appendChild(newsletterIndicator);
 
-  // Show notification function
-  window.showNotification = function (message) {
-    newsletterIndicator.textContent = message;
-    newsletterIndicator.style.opacity = "1";
-    newsletterIndicator.style.transform = "translateX(0)";
+    // Show notification function
+    window.showNotification = function (message) {
+      newsletterIndicator.textContent = message;
+      newsletterIndicator.style.opacity = "1";
+      newsletterIndicator.style.transform = "translateX(0)";
 
-    setTimeout(() => {
-      newsletterIndicator.style.opacity = "0";
-      newsletterIndicator.style.transform = "translateX(400px)";
-    }, 3000);
-  };
-</script>
+      setTimeout(() => {
+        newsletterIndicator.style.opacity = "0";
+        newsletterIndicator.style.transform = "translateX(400px)";
+      }, 3000);
+    };
+  </script>
+</div>

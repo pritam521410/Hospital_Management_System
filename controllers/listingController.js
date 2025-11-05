@@ -13,22 +13,31 @@ module.exports.rooms = async (req, res) => {
 
   // Extract all rooms with hospital information
   const allRooms = [];
+  const seenRooms = new Set(); // Track unique rooms
+  
   allListings.forEach((listing) => {
     if (listing.roomTypes && listing.roomTypes.length > 0) {
       listing.roomTypes.forEach((room) => {
-        allRooms.push({
-          roomType: room.type,
-          pricePerDay: room.pricePerDay,
-          isAvailable: room.isAvailable,
-          facilities: room.facilities,
-          bedCount: room.bedCount,
-          hospitalName: listing.name,
-          hospitalLocation: listing.location,
-          hospitalCity: listing.city,
-          hospitalImage: listing.image,
-          hospitalContact: listing.contactNumber,
-          hospitalId: listing._id,
-        });
+        // Create unique identifier - includes hospital name, room type, and price
+        const roomIdentifier = `${listing.name}-${room.type}-${room.pricePerDay}-${listing.city}`;
+        
+        // Check if this exact room combination is already added
+        if (!seenRooms.has(roomIdentifier)) {
+          seenRooms.add(roomIdentifier);
+          allRooms.push({
+            roomType: room.type,
+            pricePerDay: room.pricePerDay,
+            isAvailable: room.isAvailable,
+            facilities: room.facilities,
+            bedCount: room.bedCount,
+            hospitalName: listing.name,
+            hospitalLocation: listing.location,
+            hospitalCity: listing.city,
+            hospitalImage: listing.image,
+            hospitalContact: listing.contactNumber,
+            hospitalId: listing._id,
+          });
+        }
       });
     }
   });
